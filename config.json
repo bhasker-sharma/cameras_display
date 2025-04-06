@@ -1,1 +1,15 @@
-{"camera_count": 48}
+{
+    "camera_count": 30,
+    "cameras": {
+        "9": {
+            "name": "bhasker",
+            "rtsp_link": "bhgsj",
+            "enabled": true
+        },
+        "1": {
+            "name": "m",
+            "rtsp_link": "m",
+            "enabled": false
+        }
+    }
+}

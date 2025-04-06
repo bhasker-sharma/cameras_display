@@ -2,9 +2,10 @@ import sys
 import json
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout,QHBoxLayout, QPushButton, QLabel,
-    QGridLayout, QDialog, QSpinBox, QFormLayout, QMenuBar, QAction
+    QGridLayout, QDialog, QSpinBox, QFormLayout, QMenuBar, QAction,QMessageBox,QComboBox,QLineEdit,QCheckBox
 )
 from PyQt5.QtCore import Qt
+import cv2
 
 
 # Base application functionality class
@@ -25,6 +26,79 @@ class Baseapp():
         with open(self.config_file, "w") as file:
             json.dump(self.config, file)
 
+# Camera configuration dialog
+class ConfigDialog(QDialog):
+    def __init__(self, base_app):
+        super().__init__()
+        self.base_app = base_app
+        self.setWindowTitle("Configure Camera")
+        self.setLayout(QFormLayout())
+
+        # Dropdown to select camera number
+        self.camera_number_dropdown = QComboBox()
+        camera_count = self.base_app.config.get("camera_count", 24)
+        self.camera_number_dropdown.addItems([str(i + 1) for i in range(camera_count)])
+        self.layout().addRow("Camera Number:", self.camera_number_dropdown)
+
+        # Input field for camera name
+        self.camera_name_input = QLineEdit()
+        self.layout().addRow("Camera Name:", self.camera_name_input)
+
+        # Input field for RTSP link
+        self.rtsp_link_input = QLineEdit()
+        self.layout().addRow("RTSP Link:", self.rtsp_link_input)
+
+        # Checkbox to enable/disable the camera
+        self.enable_checkbox = QCheckBox("Enable Camera")
+        self.layout().addWidget(self.enable_checkbox)
+
+        # Test connection button
+        test_button = QPushButton("Test Connection")
+        test_button.clicked.connect(self.test_connection)
+        self.layout().addWidget(test_button)
+
+        # OK button to save configuration
+        ok_button = QPushButton("OK")
+        ok_button.clicked.connect(self.save_configuration)
+        self.layout().addWidget(ok_button)
+
+    def test_connection(self):
+        # Test the RTSP connection
+        rtsp_link = self.rtsp_link_input.text()
+        if not rtsp_link:
+            QMessageBox.warning(self, "Error", "Please enter an RTSP link.")
+            return
+
+        cap = cv2.VideoCapture(rtsp_link)
+        if cap.isOpened():
+            QMessageBox.information(self, "Success", "Connection successful!")
+        else:
+            QMessageBox.critical(self, "Error", "Failed to connect to the camera.")
+        cap.release()
+
+    def save_configuration(self):
+        # Save the camera configuration to the JSON file
+        camera_number = int(self.camera_number_dropdown.currentText())
+        camera_name = self.camera_name_input.text()
+        rtsp_link = self.rtsp_link_input.text()
+        enabled = self.enable_checkbox.isChecked()
+
+        if not camera_name or not rtsp_link:
+            QMessageBox.warning(self, "Error", "Please fill in all fields.")
+            return
+
+        # Update the configuration in the JSON file
+        if "cameras" not in self.base_app.config:
+            self.base_app.config["cameras"] = {}
+
+        self.base_app.config["cameras"][camera_number] = {
+            "name": camera_name,
+            "rtsp_link": rtsp_link,
+            "enabled": enabled
+        }
+        self.base_app.save_config()
+        QMessageBox.information(self, "Success", "Camera configuration saved successfully!")
+        self.accept()
 
 # Configuration dialog to set the number of cameras
 class SystemConfigDialog(QDialog):
@@ -179,6 +253,7 @@ class MainWindow(QMainWindow):
         logs_button = QPushButton("Logs")
         system_config_button = QPushButton("System Config")
         system_config_button.clicked.connect(self.open_system_config_dialog)
+        config_button.clicked.connect(self.open_config_dialog)
 
         for button in [config_button, recordings_button, logs_button, system_config_button]:
             button.setStyleSheet("background-color: #3c3c3c; color: white; border: none; padding: 5px 10px;")
@@ -194,6 +269,10 @@ class MainWindow(QMainWindow):
 
     def open_system_config_dialog(self):
         dialog = SystemConfigDialog(self.base_app, self.camera_window)
+        dialog.exec_()
+
+    def open_config_dialog(self):
+        dialog = ConfigDialog(self.base_app)
         dialog.exec_()
 
 
