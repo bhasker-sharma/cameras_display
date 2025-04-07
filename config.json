@@ -1,15 +1,1 @@
-{
-    "camera_count": 30,
-    "cameras": {
-        "9": {
-            "name": "bhasker",
-            "rtsp_link": "bhgsj",
-            "enabled": true
-        },
-        "1": {
-            "name": "m",
-            "rtsp_link": "m",
-            "enabled": false
-        }
-    }
-}
+{"camera_count": 15, "cameras": {"9": {"name": "bhasker", "rtsp_link": "bhgsj", "enabled": true}, "1": {"name": "bhasker", "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1", "enabled": true}, "2": {"name": "Camera 2", "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1", "enabled": true}, "8": {"name": "Camera 8", "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1", "enabled": true}, "5": {"name": "Camera 5", "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1", "enabled": true}, "1": {"name": "bhasker", "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1", "enabled": true}}}

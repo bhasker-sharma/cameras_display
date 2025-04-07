@@ -1,15 +1,57 @@
-# frontend is not working well
-
 import sys
 import json
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout,QHBoxLayout, QPushButton, QLabel,
     QGridLayout, QDialog, QSpinBox, QFormLayout, QMenuBar, QAction,QMessageBox,QComboBox,QLineEdit,QCheckBox
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
+from PyQt5.QtGui import QImage, QPixmap,QFont
 import cv2
 
 
+class CameraStreamThread(QThread):
+    change_pixmap_signal = pyqtSignal(QImage)
+
+    def __init__(self, rtsp_url):
+        super().__init__()
+        self.rtsp_url = rtsp_url
+        self._run_flag = True
+
+    def run(self):
+        cap = cv2.VideoCapture(self.rtsp_url)
+        while self._run_flag:
+            ret, frame = cap.read()
+            if ret:
+                rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = rgb_image.shape
+                bytes_per_line = ch * w
+                qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+                scaled_img = qt_image.scaled(320, 240)  # Resize to fit cell
+                self.change_pixmap_signal.emit(scaled_img)
+        cap.release()
+
+    def stop(self):
+        self._run_flag = False
+        self.wait()
+
+
+class CameraStreamWidget(QLabel):
+    def __init__(self, rtsp_url):
+        super().__init__()
+        self.setFixedSize(320, 240)
+        self.setStyleSheet("border: 1px solid white; background-color: black;")
+        self.setAlignment(Qt.AlignCenter)
+
+        self.thread = CameraStreamThread(rtsp_url)
+        self.thread.change_pixmap_signal.connect(self.setImage)
+        self.thread.start()
+
+    def setImage(self, image):
+        self.setPixmap(QPixmap.fromImage(image))
+
+    def closeEvent(self, event):
+        self.thread.stop()
+        event.accept()
 
 # Base application functionality class
 class Baseapp():
@@ -27,7 +69,7 @@ class Baseapp():
     
     def save_config(self):
         with open(self.config_file, "w") as file:
-            json.dump(self.config, file,indent=4)
+            json.dump(self.config, file)
 
 # Camera configuration dialog
 class ConfigDialog(QDialog):
@@ -180,10 +222,7 @@ class CameraWindow(QWidget):
     def create_camera_grid(self, start_index, rows, cols):
         camera_count = self.base_app.config.get("camera_count", 24)
         for i in range(start_index, min(start_index + rows * cols, camera_count)):
-            # Fetch camera name from the JSON configuration
-            camera_data = self.base_app.config.get("cameras", {}).get(i + 1, {})
-            cam_name = camera_data.get("name", f"Camera {i + 1}")
-            cam_label = CameraLabel(i + 1, cam_name, self)
+            cam_label = CameraLabel(i + 1, self)
             self.layout.addWidget(cam_label, (i - start_index) // cols, (i - start_index) % cols)
 
     def create_second_window(self, start_index, rows, cols):
@@ -195,14 +234,10 @@ class CameraWindow(QWidget):
 
         camera_count = self.base_app.config.get("camera_count", 24)
         for i in range(start_index, min(start_index + rows * cols, camera_count)):
-            # Fetch camera name from the JSON configuration
-            camera_data = self.base_app.config.get("cameras", {}).get(i + 1, {})
-            cam_name = camera_data.get("name", f"Camera {i + 1}")
-            cam_label = CameraLabel(i + 1, cam_name, self)
+            cam_label = CameraLabel(i + 1, self)
             layout.addWidget(cam_label, (i - start_index) // cols, (i - start_index) % cols)
 
         self.second_window.show()
-
 
     def show_full_screen_camera(self, cam_number):
         if self.full_screen_label is None:
@@ -219,29 +254,45 @@ class CameraWindow(QWidget):
 
 
 # Camera label class
-class CameraLabel(QLabel):
-    def __init__(self, cam_number,cam_name ,parent_window):
-        super().__init__(f"Camera {cam_number}")
+class CameraLabel(QWidget):
+    def __init__(self, cam_number, parent_window):
+        super().__init__()
         self.cam_number = cam_number
-        self.cam_name = cam_name
         self.parent_window = parent_window
 
-        layout = QVBoxLayout()
-        self.setLayout(layout)
+        self.setStyleSheet("background-color: black; border: 1px solid white;")
+        self.setMinimumSize(320, 240)
 
-        # Camera number label
-        number_label = QLabel(f"Camera {cam_number}")
-        number_label.setStyleSheet("border: 1px solid white; padding: 10px; background-color: #3c3c3c; color: white;")
-        number_label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(number_label)
+        # Use absolute layout to overlay widgets
+        self.setLayout(QVBoxLayout())
+        self.layout().setContentsMargins(0, 0, 0, 0)
+        self.layout().setSpacing(0)
 
-        # Camera name label
-        name_label = QLabel(cam_name)
-        name_label.setStyleSheet("color: white; font-size: 12px;margin-top: 5px;")
-        name_label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(name_label)
+        # Get camera config
+        config = self.parent_window.base_app.config.get("cameras", {}).get(cam_number, {})
+        camera_name = config.get("name", f"Camera {cam_number}")
+        rtsp_link = config.get("rtsp_link")
+        enabled = config.get("enabled", False)
 
-        self.setLayout(layout)
+        # Streaming widget or placeholder
+        if enabled and rtsp_link:
+            self.stream_widget = CameraStreamWidget(rtsp_url=rtsp_link)
+            self.layout().addWidget(self.stream_widget)
+        else:
+            placeholder = QLabel("Not Configured")
+            placeholder.setAlignment(Qt.AlignCenter)
+            placeholder.setStyleSheet("color: gray; background-color: black;")
+            self.layout().addWidget(placeholder)
+
+        # Overlay name label
+        self.name_label = QLabel(camera_name, self)
+        self.name_label.setStyleSheet(
+            "color: white; background-color: rgba(0, 0, 0, 120); padding: 2px;"
+        )
+        self.name_label.setFont(QFont("Arial", 10, QFont.Bold))
+        self.name_label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
+        self.name_label.setFixedHeight(20)
+        self.name_label.move(5, 5)  # Slight padding from top-left
 
     def mouseDoubleClickEvent(self, event):
         self.parent_window.show_full_screen_camera(self.cam_number)
