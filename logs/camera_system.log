@@ -458,3 +458,66 @@
 2025-04-08 15:08:27,346 - CameraStream - INFO - Connecting to camera: bhgsj
 2025-04-08 15:08:27,443 - CameraStream - ERROR - Max retries (5) reached, stopping stream
 2025-04-08 15:08:28,993 - ConfigDialog - INFO - No existing configuration for camera 3
+2025-04-09 15:58:23,403 - root - INFO - Logging initialized at level: debug, log file: logs\camera_system.log
+2025-04-09 15:58:23,416 - MainWindow - INFO - Initializing main window
+2025-04-09 15:58:23,417 - BaseApp - INFO - Loaded configuration from config.json
+2025-04-09 15:58:23,418 - BaseApp - INFO - Saved configuration to config.json
+2025-04-09 15:58:23,419 - CameraWindow - INFO - Updating camera grid
+2025-04-09 15:58:23,419 - CameraWindow - INFO - Creating camera grid: start=0, rows=4, cols=6
+2025-04-09 15:58:23,424 - CameraStream - INFO - Connecting to camera: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,424 - CameraStream - INFO - Started camera stream with URL: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,426 - CameraStream - INFO - Connecting to camera: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,427 - CameraStream - INFO - Started camera stream with URL: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,428 - CameraStream - INFO - Connecting to camera: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,428 - CameraStream - INFO - Started camera stream with URL: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,438 - CameraStream - INFO - Connecting to camera: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,439 - CameraStream - INFO - Started camera stream with URL: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,443 - CameraStream - INFO - Connecting to camera: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,443 - CameraStream - INFO - Started camera stream with URL: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,445 - CameraStream - INFO - Connecting to camera: bhgsj
+2025-04-09 15:58:23,445 - CameraStream - INFO - Started camera stream with URL: bhgsj
+2025-04-09 15:58:23,448 - CameraWindow - INFO - Creating second window: start=24, rows=4, cols=6
+2025-04-09 15:58:23,450 - CameraStream - INFO - Connecting to camera: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:23,450 - CameraStream - INFO - Started camera stream with URL: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 15:58:24,232 - MainWindow - INFO - Main window initialized
+2025-04-09 15:58:25,725 - CameraStream - INFO - Camera connected successfully
+2025-04-09 15:58:25,725 - CameraWidget_2 - INFO - Camera 2 connected
+2025-04-09 15:58:27,989 - CameraStream - INFO - Camera connected successfully
+2025-04-09 15:58:27,990 - CameraWidget_5 - INFO - Camera 5 connected
+2025-04-09 15:58:29,999 - CameraStream - INFO - Camera connected successfully
+2025-04-09 15:58:29,999 - CameraWidget_3 - INFO - Camera 3 connected
+2025-04-09 15:58:30,132 - CameraStream - INFO - Retrying connection in 2 seconds (attempt 1/5)
+2025-04-09 15:58:32,137 - CameraStream - INFO - Connecting to camera: bhgsj
+2025-04-09 15:58:32,352 - CameraStream - INFO - Camera connected successfully
+2025-04-09 15:58:32,353 - CameraWidget_1 - INFO - Camera 1 connected
+2025-04-09 15:58:34,671 - CameraStream - INFO - Camera connected successfully
+2025-04-09 15:58:34,672 - CameraWidget_8 - INFO - Camera 8 connected
+2025-04-09 15:58:34,804 - CameraStream - INFO - Retrying connection in 2 seconds (attempt 2/5)
+2025-04-09 15:58:36,833 - CameraStream - INFO - Connecting to camera: bhgsj
+2025-04-09 15:58:36,994 - CameraStream - INFO - Camera connected successfully
+2025-04-09 15:58:37,073 - CameraWidget_36 - INFO - Camera 36 connected
+2025-04-09 15:58:37,089 - CameraStream - INFO - Retrying connection in 2 seconds (attempt 3/5)
+2025-04-09 15:58:39,110 - CameraStream - INFO - Connecting to camera: bhgsj
+2025-04-09 15:58:39,189 - CameraStream - INFO - Retrying connection in 2 seconds (attempt 4/5)
+2025-04-09 15:58:41,196 - CameraStream - INFO - Connecting to camera: bhgsj
+2025-04-09 15:58:41,326 - CameraStream - INFO - Retrying connection in 2 seconds (attempt 5/5)
+2025-04-09 15:58:43,341 - CameraStream - INFO - Connecting to camera: bhgsj
+2025-04-09 15:58:44,045 - CameraStream - ERROR - Max retries (5) reached, stopping stream
+2025-04-09 16:00:14,822 - CameraStream - ERROR - Camera disconnected: Failed to read frame from camera
+2025-04-09 16:00:14,816 - CameraStream - ERROR - Camera disconnected: Failed to read frame from camera
+2025-04-09 16:00:14,855 - CameraStream - ERROR - Error in stream thread: <method 'read' of 'cv2.VideoCapture' objects> returned a result with an exception set
+2025-04-09 16:00:15,030 - CameraStream - INFO - Retrying connection in 2 seconds (attempt 1/5)
+2025-04-09 16:00:15,040 - CameraStream - INFO - Retrying connection in 2 seconds (attempt 1/5)
+2025-04-09 16:00:16,879 - CameraStream - ERROR - Error in stream thread: <method 'read' of 'cv2.VideoCapture' objects> returned a result with an exception set
+2025-04-09 16:00:17,031 - CameraStream - INFO - Connecting to camera: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 16:00:17,044 - CameraStream - INFO - Connecting to camera: rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1
+2025-04-09 16:00:18,413 - CameraStream - ERROR - Error in stream thread: <method 'read' of 'cv2.VideoCapture' objects> returned a result with an exception set
+2025-04-09 16:00:20,281 - CameraStream - INFO - Camera connected successfully
+2025-04-09 16:00:26,475 - CameraStream - ERROR - Error in stream thread: OpenCV(4.11.0) D:\a\opencv-python\opencv-python\opencv\modules\core\src\alloc.cpp:73: error: (-4:Insufficient memory) Failed to allocate 6220800 bytes in function 'cv::OutOfMemoryError'
+
+2025-04-09 16:00:26,475 - CameraStream - ERROR - Error in stream thread: OpenCV(4.11.0) D:\a\opencv-python\opencv-python\opencv\modules\core\src\alloc.cpp:73: error: (-4:Insufficient memory) Failed to allocate 6220800 bytes in function 'cv::OutOfMemoryError'
+
+2025-04-09 16:00:26,494 - CameraStream - ERROR - Error in stream thread: <method 'read' of 'cv2.VideoCapture' objects> returned a result with an exception set
+2025-04-09 16:00:30,573 - CameraStream - ERROR - Camera disconnected: Failed to read frame from camera
+2025-04-09 16:00:32,598 - CameraStream - ERROR - Camera disconnected: Failed to read frame from camera
+2025-04-09 16:00:33,600 - CameraStream - ERROR - Camera disconnected: Failed to read frame from camera

@@ -50,7 +50,7 @@ class CameraStream(QObject):
         self.is_running = False
         self.connected = False
         self.thread = None
-        self.frame_interval = 0.1 #10fps per second
+        self.frame_interval = 0.001 #10fps per second
         self.logger.info(f"CameraStream initialized for {self.rtsp_link}")
 
     def start(self):
@@ -420,9 +420,16 @@ class CameraWindow(QWidget):
         self.base_app = base_app
         self.logger = Logger().logger
         self.setWindowTitle("Camera Window")
+
         self.layout = QGridLayout()
         self.layout.setSpacing(2) # Add fixed spacing between camera cells
         self.layout.setContentsMargins(2, 2, 2, 2)# Add margins around the grid
+
+        # Set stretch factors to maintain grid proportions
+        for i in range(10):  # Reasonable number of columns
+            self.layout.setColumnStretch(i, 1)
+            self.layout.setRowStretch(i, 1)
+
         self.setLayout(self.layout)
         self.second_window = None
         self.full_screen_label = None  # To track the full-screen camera
@@ -474,29 +481,61 @@ class CameraWindow(QWidget):
         self.second_window = QWidget()
         self.second_window.setWindowTitle("Additional Cameras")
         layout = QGridLayout()
+        layout.setSpacing(2)  # Match main window spacing
+        layout.setContentsMargins(2, 2, 2, 2)  # Match main window margins
         self.second_window.setLayout(layout)
-        self.second_window.setStyleSheet("background-color: #2b2b2b; color: white;")  # Dark theme
+        
+        # Apply same dark theme as main window
+        self.second_window.setStyleSheet("""
+            QWidget {
+                background-color: #2b2b2b;
+                color: white;
+            }
+        """)
 
         camera_count = self.base_app.config.get("camera_count", 24)
         for i in range(start_index, min(start_index + rows * cols, camera_count)):
+            self.logger.debug(f"Creating CameraLabel for second window camera {i + 1}")
             cam_label = CameraLabel(i + 1, self)
-            layout.addWidget(cam_label, (i - start_index) // cols, (i - start_index) % cols)
+            row = (i - start_index) // cols
+            col = (i - start_index) % cols
+            layout.addWidget(cam_label, row, col)
 
+        # Set a minimum size for the second window
+        self.second_window.setMinimumSize(800, 600)
         self.second_window.show()
 
-    def show_full_screen_camera(self, cam_number):
+    def show_full_screen_camera(self, cam_number, original_label):
         if self.full_screen_label is None:
-            self.full_screen_label = QLabel(f"Camera {cam_number} - Full Screen")
-            self.full_screen_label.setStyleSheet("background-color: black; color: white; font-size: 24px;")
-            self.full_screen_label.setAlignment(Qt.AlignCenter)
+            # Create new CameraLabel for fullscreen
+            self.full_screen_label = CameraLabel(cam_number, self)
             self.full_screen_label.setWindowFlags(Qt.Window)
-            self.full_screen_label.showFullScreen()
+            
+            # Copy stream from original label
+            if original_label.stream:
+                self.full_screen_label.stream = original_label.stream
+                self.full_screen_label.stream.frame_ready.connect(self.full_screen_label.update_frame)
+                self.full_screen_label.stream.connection_changed.connect(self.full_screen_label.update_status)
+            
+            # Set fullscreen properties
+            self.full_screen_label.setWindowState(Qt.WindowFullScreen)
+            self.full_screen_label.video_label.setFixedSize(self.screen().size())
+            self.full_screen_label.show()
+            
+            # Connect double click to exit
             self.full_screen_label.mouseDoubleClickEvent = self.exit_full_screen
+            self.logger.debug(f"Showing camera {cam_number} in full screen")
 
     def exit_full_screen(self, event):
         if self.full_screen_label:
+            # Disconnect stream before closing
+            if self.full_screen_label.stream:
+                self.full_screen_label.stream.frame_ready.disconnect(self.full_screen_label.update_frame)
+                self.full_screen_label.stream.connection_changed.disconnect(self.full_screen_label.update_status)
+                self.full_screen_label.stream = None
             self.full_screen_label.close()
             self.full_screen_label = None
+            self.logger.debug("Exited full screen mode")
 
 
 # Camera label class
@@ -581,6 +620,12 @@ class CameraLabel(QWidget):
             q_img = QImage(frame.data, width, height, bytes_per_line, QImage.Format_RGB888).rgbSwapped()
             pixmap = QPixmap.fromImage(q_img)
 
+            # Scale pixmap based on label size
+            target_size = self.video_label.size()
+            if isinstance(self.parent(), QWidget) and self.parent().windowState() & Qt.WindowFullScreen:
+                # Use larger resolution for fullscreen
+                target_size = self.parent().size()
+
             scaled_pixmap = pixmap.scaled(self.video_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.video_label.setPixmap(scaled_pixmap)
             self.logger.debug(f"Frame updated successfully for camera {self.cam_number}")
@@ -596,7 +641,7 @@ class CameraLabel(QWidget):
             self.status_strip.setStyleSheet("background-color: red;")
 
     def mouseDoubleClickEvent(self, event):
-        self.parent_window.show_full_screen_camera(self.cam_number)
+        self.parent_window.show_full_screen_camera(self.cam_number,self)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -617,6 +662,33 @@ class MainWindow(QMainWindow):
         self.logger = Logger().logger
         self.logger.debug("Initializing MainWindow")
         self.setWindowTitle("Camera Display")
+        # Set dark theme for entire window
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: #2b2b2b;
+            }
+            QWidget {
+                background-color: #2b2b2b;
+                color: white;
+            }
+            QPushButton {
+                background-color: #3c3c3c;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+            }
+            QPushButton:hover {
+                background-color: #4c4c4c;
+            }
+            QMenuBar {
+                background-color: #2b2b2b;
+                color: white;
+            }
+            QMenuBar::item {
+                background-color: #2b2b2b;
+                color: white;
+            }
+        """)
         self.base_app = Baseapp()
 
         # Create the camera window
