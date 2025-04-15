@@ -1,39 +1,44 @@
 {
-    "camera_count": 48,
+    "camera_count": 24,
     "cameras": {
-        "9": {
-            "name": "bhasker",
-            "rtsp_link": "bhgsj",
-            "enabled": true
-        },
         "1": {
-            "name": "bhasker",
-            "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1",
+            "name": "camera 1",
+            "rtsp_link": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
             "enabled": true
         },
         "2": {
             "name": "camera 2",
-            "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1",
+            "rtsp_link": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
             "enabled": true
         },
-        "8": {
-            "name": "Camera 8",
-            "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1",
+        "10": {
+            "name": "Camera 10",
+            "rtsp_link": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
+            "enabled": true
+        },
+        "30": {
+            "name": "Camera 30",
+            "rtsp_link": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
+            "enabled": true
+        },
+        "4": {
+            "name": "Camera 4",
+            "rtsp_link": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
             "enabled": true
         },
         "5": {
             "name": "Camera 5",
-            "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1",
+            "rtsp_link": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
+            "enabled": false
+        },
+        "15": {
+            "name": "Camera 15",
+            "rtsp_link": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
             "enabled": true
         },
-        "3": {
-            "name": "camera 3",
-            "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1",
-            "enabled": true
-        },
-        "36": {
-            "name": "camera 36",
-            "rtsp_link": "rtsp://admin:123456@192.168.1.188:554/ch01.264?dev=1",
+        "16": {
+            "name": "Camera 16",
+            "rtsp_link": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
             "enabled": true
         }
     }
