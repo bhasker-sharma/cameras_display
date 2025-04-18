@@ -47,14 +47,15 @@ class SystemConfigManager:
 
 # ------------- Camera Cell Widget
 class CameraCellWidget(QWidget):
-    double_clicked = pyqtSignal(int)#emits the camera number
+    double_clicked = pyqtSignal(int)
 
     def __init__(self, cam_number):
         super().__init__()
         self.cam_number = cam_number
         uic.loadUi("camera_cell.ui", self)
+
         log.debug(f"Creating camera cell for Camera {cam_number}")
-        
+
         name_label = self.findChild(QtWidgets.QLabel, "nameLabel")
         if name_label:
             name_label.setText(f"Camera: {cam_number}")
@@ -70,9 +71,10 @@ class CameraCellWidget(QWidget):
                 background-color: rgba(0, 0, 0, 200);
             """)
         else:
-            log.warning("CameraCellWidget: 'vedioLabel' not found")
+            log.warning("CameraCellWidget: 'videoLabel' not found")
 
     def mouseDoubleClickEvent(self, event):
+        log.debug(f"double-clicked on camera {self.cam_number}")
         self.double_clicked.emit(self.cam_number)
 
 # ------------- System Config Dialog
@@ -108,8 +110,8 @@ class MainWindow(QMainWindow):
         self.config_manager = SystemConfigManager()
         self.additional_window = None
         self.additional_window_geometry = None
-        self.fullscreen_mode = False
         self.fullscreen_widget = None
+        self.fullscreen_mode = False
 
         cam_count = self.config_manager.get_camera_count()
 
@@ -127,6 +129,7 @@ class MainWindow(QMainWindow):
         self.update_camera_cells(cam_count)
 
     def open_system_config(self):
+        log.debug("Opening System Config Dialog")
         dialog = SystemConfigDialog(self.config_manager)
         if dialog.exec_() == QDialog.Accepted:
             selected_count = dialog.get_selected_camera_count()
@@ -142,14 +145,14 @@ class MainWindow(QMainWindow):
             if child.widget():
                 child.widget().deleteLater()
 
-        # Close second window if it exists
+        # Close additional window
         if self.additional_window:
             self.additional_window_geometry = self.additional_window.geometry()
             self.additional_window.close()
             self.additional_window = None
             log.info("Second window closed.")
 
-        # Decide grid split
+        # Grid config
         if cam_count <= 16:
             cols = 4
             main_cams = cam_count
@@ -163,6 +166,7 @@ class MainWindow(QMainWindow):
             main_cams = cam_count // 2
             second_cams = cam_count - main_cams
 
+        # Load cameras into grid
         for i in range(main_cams):
             row = i // cols
             col = i % cols
@@ -170,11 +174,13 @@ class MainWindow(QMainWindow):
             cam_widget.double_clicked.connect(self.handle_camera_double_click)
             self.grid_layout.addWidget(cam_widget, row, col)
 
+        # Create second screen if needed
         if second_cams > 0:
             self.create_additional_window(main_cams + 1, cam_count, cols)
 
     def create_additional_window(self, start_cam, end_cam, cols):
         log.info(f"Creating second window for cameras {start_cam} to {end_cam}.")
+
         self.additional_window = QMainWindow()
         self.additional_window.setWindowTitle("Additional Cameras")
         self.additional_window.setStyleSheet(self.styleSheet())
@@ -209,8 +215,6 @@ class MainWindow(QMainWindow):
 
         if self.additional_window:
             self.additional_window.hide()
-        self.central_grid.hide()
-        self.system_config_btn.hide()
 
         self.fullscreen_widget = CameraCellWidget(cam_number)
         self.fullscreen_widget.double_clicked.connect(self.handle_camera_double_click)
@@ -223,13 +227,29 @@ class MainWindow(QMainWindow):
         log.info("Exiting fullscreen mode.")
 
         self.showNormal()
-        self.setCentralWidget(self.central_grid)
-        self.central_grid.show()
-        self.system_config_btn.show()
 
         if self.fullscreen_widget:
             self.fullscreen_widget.deleteLater()
             self.fullscreen_widget = None
+
+        # Reload original UI safely
+        uic.loadUi("main_window.ui", self)
+        log.debug("UI reloaded after exiting fullscreen.")
+
+        # Reconnect UI elements
+        self.system_config_btn = self.findChild(QtWidgets.QPushButton, "systemConfigBtn")
+        self.central_grid = self.findChild(QWidget, "centralGridWidget")
+
+        if self.central_grid.layout() is None:
+            self.grid_layout = QGridLayout()
+            self.central_grid.setLayout(self.grid_layout)
+        else:
+            self.grid_layout = self.central_grid.layout()
+
+        self.system_config_btn.clicked.connect(self.open_system_config)
+
+        cam_count = self.config_manager.get_camera_count()
+        self.update_camera_cells(cam_count)
 
         if self.additional_window:
             self.additional_window.show()

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>423</width>
+    <height>339</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog {
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    color: #f0f0f0;
+}
+
+QLabel {
+    font-size: 13px;
+    color: #dddddd;
+}
+
+QLineEdit {
+    background-color: #3c3c3c;
+    color: white;
+    border: 1px solid #555;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+QComboBox {
+    background-color: #3c3c3c;
+    color: white;
+    border: 1px solid #555;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+QCheckBox {
+    spacing: 5px;
+    color: #cccccc;
+}
+
+QPushButton {
+    background-color: #4a90e2;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+}
+
+QPushButton:hover {
+    background-color: #66aaff;
+}
+
+QGroupBox {
+    border: 1px solid #666;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+QGroupBox:title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    padding: 0 5px;
+}
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>38</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Select Camera:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="cameraSelectorComboBox"/>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="cameraGroupBox">
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
+     </property>
+     <property name="title">
+      <string>Camera Configuration</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="cameranameLabel">
+        <property name="text">
+         <string>Camera name: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="cameraNameLineEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="rtspLabel">
+        <property name="text">
+         <string>RTSP URl: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="rtspUrlLineEdit"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="enableCameraCheckBox">
+        <property name="text">
+         <string>Enable Camera</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="testConnectionButton">
+     <property name="text">
+      <string>Test Connection</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
