@@ -190,18 +190,30 @@ class CameraDisplayWindow(ClosableMainWindow):
 
         self.focused = True
         self.focused_cam_id = cam_id
+        was_maximized = self.isMaximized()
+
         self.clear_layout(self.camera_section)
 
         zoomed_widget = self.clone_camera_widget(self.all_camera_widgets[cam_id])
         zoomed_widget.doubleClicked.connect(self.focus_camera)
         self.camera_section.addWidget(zoomed_widget)
-        self.adjustSize()
+
+        if not was_maximized:
+            self.adjustSize()
+        else:
+            self.showMaximized()  # 🛠️ Fix for Windows
 
     def restore_camera_grid(self):
+        was_maximized = self.isMaximized()
+
         self.clear_layout(self.camera_section)
         self.camera_grid = self.create_camera_grid(self.camera_ids)
         self.camera_section.addLayout(self.camera_grid)
-        self.adjustSize()
+
+        if not was_maximized:
+            self.adjustSize()
+        else:
+            self.showMaximized()  # 🛠️ Ensure full-screen stays
 
     def clear_layout(self, layout):
         while layout.count():
