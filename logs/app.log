@@ -1205,3 +1205,233 @@
 [2025-04-19 18:19:34] [DEBUG] [AppLogger]: Creating camera cell for Camera 46
 [2025-04-19 18:19:34] [DEBUG] [AppLogger]: Creating camera cell for Camera 47
 [2025-04-19 18:19:34] [DEBUG] [AppLogger]: Creating camera cell for Camera 48
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-20 11:56:52] [INFO] [AppLogger]: Application started.
+[2025-04-20 11:56:52] [INFO] [AppLogger]: MainWindow initialized.
+[2025-04-20 11:56:52] [INFO] [AppLogger]: Configuration loaded: {'camera_count': 48}
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Updating camera grid to 48 cameras.
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 1
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 2
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 3
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 4
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 5
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 6
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 7
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 8
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 9
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 10
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 11
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 12
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 13
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 14
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 15
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 16
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 17
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 18
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 19
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 20
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 21
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 22
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 23
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 24
+[2025-04-20 11:56:52] [INFO] [AppLogger]: Creating second window for cameras 25 to 48.
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 25
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 26
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 27
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 28
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 29
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 30
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 31
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 32
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 33
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 34
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 35
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 36
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 37
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 38
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 39
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 40
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 41
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 42
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 43
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 44
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 45
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 46
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 47
+[2025-04-20 11:56:52] [DEBUG] [AppLogger]: Creating camera cell for Camera 48
+[2025-04-20 11:57:09] [DEBUG] [AppLogger]: double-clicked on camera 2
+[2025-04-20 11:57:09] [INFO] [AppLogger]: Showing camera 2 in fullscreen mode.
+[2025-04-20 11:57:09] [DEBUG] [AppLogger]: Creating camera cell for Camera 2
+[2025-04-20 11:57:11] [DEBUG] [AppLogger]: double-clicked on camera 2
+[2025-04-20 11:57:11] [INFO] [AppLogger]: Exiting fullscreen mode.
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-20 11:59:24] [INFO] [AppLogger]: Application started.
+[2025-04-20 11:59:24] [INFO] [AppLogger]: MainWindow initialized.
+[2025-04-20 11:59:24] [INFO] [AppLogger]: Configuration loaded: {'camera_count': 48}
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Updating camera grid to 48 cameras.
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Creating camera cell for Camera 1
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Creating camera cell for Camera 2
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Creating camera cell for Camera 3
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Creating camera cell for Camera 4
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Creating camera cell for Camera 5
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Creating camera cell for Camera 6
+[2025-04-20 11:59:24] [DEBUG] [AppLogger]: Creating camera cell for Camera 7
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 8
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 9
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 10
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 11
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 12
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 13
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 14
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 15
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 16
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 17
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 18
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 19
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 20
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 21
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 22
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 23
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 24
+[2025-04-20 11:59:25] [INFO] [AppLogger]: Creating second window for cameras 25 to 48.
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 25
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 26
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 27
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 28
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 29
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 30
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 31
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 32
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 33
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 34
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 35
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 36
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 37
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 38
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 39
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 40
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 41
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 42
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 43
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 44
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 45
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 46
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 47
+[2025-04-20 11:59:25] [DEBUG] [AppLogger]: Creating camera cell for Camera 48
+[2025-04-20 11:59:27] [DEBUG] [AppLogger]: double-clicked on camera 11
+[2025-04-20 11:59:27] [INFO] [AppLogger]: Showing camera 11 in fullscreen mode.
+[2025-04-20 11:59:27] [DEBUG] [AppLogger]: Creating camera cell for Camera 11
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: double-clicked on camera 11
+[2025-04-20 11:59:28] [INFO] [AppLogger]: Exiting fullscreen mode.
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: UI reloaded after exiting fullscreen.
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Updating camera grid to 48 cameras.
+[2025-04-20 11:59:28] [INFO] [AppLogger]: Second window closed.
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 1
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 2
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 3
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 4
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 5
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 6
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 7
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 8
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 9
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 10
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 11
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 12
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 13
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 14
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 15
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 16
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 17
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 18
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 19
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 20
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 21
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 22
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 23
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 24
+[2025-04-20 11:59:28] [INFO] [AppLogger]: Creating second window for cameras 25 to 48.
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 25
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 26
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 27
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 28
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 29
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 30
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 31
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 32
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 33
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 34
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 35
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 36
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 37
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 38
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 39
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 40
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 41
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 42
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 43
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 44
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 45
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 46
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 47
+[2025-04-20 11:59:28] [DEBUG] [AppLogger]: Creating camera cell for Camera 48
+[2025-04-20 11:59:46] [DEBUG] [AppLogger]: double-clicked on camera 27
+[2025-04-20 11:59:46] [INFO] [AppLogger]: Showing camera 27 in fullscreen mode.
+[2025-04-20 11:59:46] [DEBUG] [AppLogger]: Creating camera cell for Camera 27
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: double-clicked on camera 27
+[2025-04-20 12:00:05] [INFO] [AppLogger]: Exiting fullscreen mode.
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: UI reloaded after exiting fullscreen.
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Updating camera grid to 48 cameras.
+[2025-04-20 12:00:05] [INFO] [AppLogger]: Second window closed.
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 1
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 2
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 3
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 4
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 5
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 6
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 7
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 8
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 9
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 10
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 11
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 12
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 13
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 14
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 15
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 16
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 17
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 18
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 19
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 20
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 21
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 22
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 23
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 24
+[2025-04-20 12:00:05] [INFO] [AppLogger]: Creating second window for cameras 25 to 48.
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 25
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 26
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 27
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 28
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 29
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 30
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 31
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 32
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 33
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 34
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 35
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 36
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 37
+[2025-04-20 12:00:05] [DEBUG] [AppLogger]: Creating camera cell for Camera 38
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 39
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 40
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 41
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 42
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 43
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 44
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 45
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 46
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 47
+[2025-04-20 12:00:06] [DEBUG] [AppLogger]: Creating camera cell for Camera 48
+[2025-04-20 12:13:22] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-20 12:13:22] [INFO] [AppLogger]: Application started.
+[2025-04-20 12:13:22] [INFO] [AppLogger]: Configuration loaded: {'camera_count': 48}

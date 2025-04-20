@@ -1,16 +1,19 @@
 import sys
 import os
 import json
-from PyQt5.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QLabel, QPushButton,
-    QVBoxLayout, QHBoxLayout, QGridLayout, QDialog, QComboBox, QDialogButtonBox,QSizePolicy
-)
-from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtGui import QPixmap, QIcon
 from math import ceil, sqrt
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QMainWindow, QVBoxLayout, QHBoxLayout,
+    QLabel, QPushButton, QDialog, QComboBox, QDialogButtonBox,QSizePolicy,
+    QGridLayout, QMessageBox
+)
+from PyQt5.QtCore import Qt, pyqtSignal, QTimer, QPropertyAnimation
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtWidgets import QGraphicsOpacityEffect
 
 CAMERA_OPTIONS = [4, 8, 12, 16, 20, 24, 32, 40, 48]
 
+# ============================== Config Manager ==============================
 
 class SystemConfigManager:
     def __init__(self, path="config.json"):
@@ -37,27 +40,57 @@ class SystemConfigManager:
         self.config["camera_count"] = count
         self.save_config()
 
+# ============================== Camera Count Dialog ==============================
 
 class CameraCountDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("System Configuration")
-        self.setFixedSize(300, 100)
-        self.setStyleSheet("background-color: #2c2c2c; color: white;")
+        self.setWindowTitle("🛠️ Initial System Configuration")
+        self.setFixedSize(360, 160)
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #1e1e1e;
+                border: 2px solid #444;
+                border-radius: 10px;
+            }
+            QLabel {
+                color: #ffffff;
+                font-size: 14px;
+                padding-bottom: 4px;
+            }
+            QComboBox {
+                background-color: #2e2e2e;
+                color: white;
+                font-size: 14px;
+                padding: 4px;
+                border-radius: 6px;
+                border: 1px solid #666;
+            }
+            QDialogButtonBox QPushButton {
+                background-color: #444;
+                color: white;
+                padding: 6px 16px;
+                border-radius: 4px;
+            }
+            QDialogButtonBox QPushButton:hover {
+                background-color: #555;
+            }
+        """)
 
         layout = QVBoxLayout()
+        title = QLabel("Select number of cameras to display:")
+        title.setStyleSheet("font-weight: bold; font-size: 16px; color: #FFD700;")
+        layout.addWidget(title)
+
         self.combo = QComboBox()
         self.combo.addItems([str(c) for c in CAMERA_OPTIONS])
-        self.combo.setStyleSheet("background-color: #444; padding: 4px;")
+        layout.addWidget(self.combo)
 
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         buttons.button(QDialogButtonBox.Ok).setText("Confirm")
         buttons.button(QDialogButtonBox.Cancel).setText("Cancel")
-        buttons.setStyleSheet("padding: 6px;")
-
-        layout.addWidget(QLabel("Select number of cameras:"))
-        layout.addWidget(self.combo)
         layout.addWidget(buttons)
+
         self.setLayout(layout)
 
         buttons.accepted.connect(self.accept)
@@ -66,6 +99,7 @@ class CameraCountDialog(QDialog):
     def get_camera_count(self):
         return int(self.combo.currentText())
 
+# ============================== Camera Widget ==============================
 
 class CameraWidget(QWidget):
     doubleClicked = pyqtSignal(int)
@@ -106,6 +140,7 @@ class CameraWidget(QWidget):
     def mouseDoubleClickEvent(self, event):
         self.doubleClicked.emit(self.cam_id)
 
+# ============================== Base Window ==============================
 
 class ClosableMainWindow(QMainWindow):
     window_closed = pyqtSignal()
@@ -114,6 +149,7 @@ class ClosableMainWindow(QMainWindow):
         self.window_closed.emit()
         super().closeEvent(event)
 
+# ============================== Main Window ==============================
 
 class MainWindow(ClosableMainWindow):
     def __init__(self, camera_ids, config_manager, controller=None):
@@ -225,8 +261,9 @@ class MainWindow(ClosableMainWindow):
             self.controller.reset()
 
     def show_recordings(self):
-        print("📼 Open recordings panel (to be implemented)")
+        print("🎬 Show recordings (not implemented yet)")
 
+# ============================== Secondary Window ==============================
 
 class CameraDisplayWindow(ClosableMainWindow):
     def __init__(self, camera_ids):
@@ -271,7 +308,6 @@ class CameraDisplayWindow(ClosableMainWindow):
         self.focused = True
         self.focused_cam_id = cam_id
         was_maximized = self.isMaximized()
-
         self.clear_layout(self.camera_section)
 
         zoomed_widget = CameraWidget(cam_id)
@@ -297,12 +333,14 @@ class CameraDisplayWindow(ClosableMainWindow):
             elif item.layout():
                 self.clear_layout(item.layout())
 
+# ============================== Utility ==============================
 
 def calculate_grid_layout(n):
     cols = ceil(sqrt(n))
     rows = ceil(n / cols)
     return rows, cols
 
+# ============================== App Controller ==============================
 
 class AppController:
     def __init__(self):
@@ -316,15 +354,14 @@ class AppController:
                 self.config.set_camera_count(self.camera_count)
             else:
                 sys.exit()
+        else:
+            self.show_startup_info("✅ System configuration already defined")
 
         self.windows = []
-        self.main_window = None
-        self.display_window = None
         self.build_windows()
 
     def build_windows(self):
         all_ids = list(range(1, self.camera_count + 1))
-
         if self.camera_count <= 24:
             self.main_window = MainWindow(all_ids, self.config, controller=self)
             self.windows = [self.main_window]
@@ -336,13 +373,18 @@ class AppController:
             self.main_window = MainWindow(main_ids, self.config, controller=self)
             self.display_window = CameraDisplayWindow(second_ids)
 
-            self.windows = [self.main_window, self.display_window]
-
             self.main_window.window_closed.connect(self.close_all)
             self.display_window.window_closed.connect(self.close_all)
 
-        for win in self.windows:
-            win.showMaximized()
+            # Show secondary first
+            self.display_window.showMaximized()
+            
+            # Then show and raise main window
+            self.main_window.showMaximized()
+            self.main_window.raise_()
+            self.main_window.activateWindow()
+
+            self.windows = [self.main_window, self.display_window]
 
     def reset(self):
         self.config.set_camera_count(0)
@@ -353,10 +395,40 @@ class AppController:
         for win in self.windows:
             win.close()
 
+    def show_startup_info(self, message):
+        toast = QLabel(message)
+        toast.setStyleSheet("""
+            QLabel {
+                background-color: rgba(60, 60, 60, 220);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 6px;
+                font-size: 14px;
+            }
+        """)
+        toast.setWindowFlags(Qt.FramelessWindowHint | Qt.ToolTip)
+        toast.setAlignment(Qt.AlignCenter)
+
+        screen_center = QApplication.primaryScreen().geometry().center()
+        toast.resize(toast.sizeHint())
+        toast.move(screen_center.x() - toast.width() // 2, screen_center.y() - 100)
+        toast.setGraphicsEffect(QGraphicsOpacityEffect(opacity=0))
+        toast.show()
+
+        effect = toast.graphicsEffect()
+        anim = QPropertyAnimation(effect, b"opacity")
+        anim.setDuration(2000)
+        anim.setStartValue(0.0)
+        anim.setKeyValueAt(0.5, 1.0)
+        anim.setEndValue(0.0)
+        anim.finished.connect(toast.close)
+        anim.start()
+
+
+# ============================== Main ==============================
 
 def run_app():
     app = QApplication(sys.argv)
-
     app.setStyleSheet("""
         QWidget {
             background-color: #2c2c2c;
@@ -367,7 +439,6 @@ def run_app():
             color: #f0f0f0;
         }
     """)
-
     controller = AppController()
     sys.exit(app.exec_())
 

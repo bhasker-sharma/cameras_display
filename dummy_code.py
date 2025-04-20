@@ -279,4 +279,4 @@ def run_app(camera_count):
 
 # 🎬 Run with example count
 if __name__ == '__main__':
-    run_app(camera_count=35)  # Try 15 or 35 to test both modes
+    run_app(camera_count=24)  # Try 15 or 35 to test both modes
