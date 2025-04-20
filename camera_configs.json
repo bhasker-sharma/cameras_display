@@ -1,0 +1,12 @@
+{
+    "4": {
+        "name": "bh",
+        "rtsp": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov\n",
+        "enabled": true
+    },
+    "1": {
+        "name": "bh",
+        "rtsp": "jhfuvj",
+        "enabled": true
+    }
+}

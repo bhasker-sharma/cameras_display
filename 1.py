@@ -1,17 +1,21 @@
 import sys
 import os
+import time
 import json
 from math import ceil, sqrt
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QMainWindow, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QDialog, QComboBox, QDialogButtonBox,QSizePolicy,
-    QGridLayout, QMessageBox
+    QGridLayout, QMessageBox,QCheckBox, QLineEdit
 )
-from PyQt5.QtCore import Qt, pyqtSignal, QTimer, QPropertyAnimation
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import Qt, pyqtSignal, QTimer, QPropertyAnimation,QThread, pyqtSignal
+from PyQt5.QtGui import QPixmap, QIcon,QImage
 from PyQt5.QtWidgets import QGraphicsOpacityEffect
+import cv2
+import threading
 
 CAMERA_OPTIONS = [4, 8, 12, 16, 20, 24, 32, 40, 48]
+
 
 # ============================== Config Manager ==============================
 
@@ -40,7 +44,31 @@ class SystemConfigManager:
         self.config["camera_count"] = count
         self.save_config()
 
+# ============================== Camera Stream Class ==============================
+class StreamThread(QThread):
+    frame_received = pyqtSignal(QImage)
 
+    def __init__(self, rtsp_url):
+        super().__init__()
+        self.rtsp_url = rtsp_url
+        self.running = True
+
+    def run(self):
+        cap = cv2.VideoCapture(self.rtsp_url)
+        while self.running:
+            ret, frame = cap.read()
+            if ret:
+                rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = rgb.shape
+                bytes_per_line = ch * w
+                image = QImage(rgb.data, w, h, bytes_per_line, QImage.Format_RGB888)
+                self.frame_received.emit(image)
+        cap.release()
+
+    def stop(self):
+        self.running = False
+        self.quit()
+        self.wait()
 # ============================== System config Dialog ==============================
 
 class SystemConfigPopup(QDialog):
@@ -106,6 +134,140 @@ class SystemConfigPopup(QDialog):
         if selected > 0:
             self.config_manager.set_camera_count(selected)
             self.accept()
+
+
+# ============================== Camera Config Dialog ==============================
+
+class CameraConfigDialog(QDialog):
+    def __init__(self, camera_count):
+        super().__init__()
+        self.setWindowTitle("Camera Configuration")
+        self.setFixedSize(420, 300)
+        self.config_path = "camera_configs.json"
+        self.camera_count = camera_count
+        self.camera_configs = self.load_configs()
+
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #1e1e1e;
+                border-radius: 10px;
+            }
+            QLabel, QCheckBox {
+                color: white;
+                font-size: 13px;
+            }
+            QLineEdit, QComboBox {
+                background-color: #2e2e2e;
+                color: white;
+                border-radius: 5px;
+                padding: 4px;
+                border: 1px solid #555;
+            }
+            QPushButton {
+                background-color: #444;
+                color: white;
+                padding: 5px 14px;
+                border-radius: 4px;
+            }
+            QPushButton:hover {
+                background-color: #666;
+            }
+        """)
+
+        layout = QVBoxLayout()
+
+        self.cam_select = QComboBox()
+        self.cam_select.addItems([f"{i}" for i in range(1, camera_count + 1)])
+        self.cam_select.currentIndexChanged.connect(self.load_fields)
+        layout.addWidget(QLabel("Select Camera Number:"))
+        layout.addWidget(self.cam_select)
+
+        self.name_input = QLineEdit()
+        layout.addWidget(QLabel("Camera Name:"))
+        layout.addWidget(self.name_input)
+
+        self.rtsp_input = QLineEdit()
+        layout.addWidget(QLabel("RTSP Link:"))
+        layout.addWidget(self.rtsp_input)
+
+        self.enable_checkbox = QCheckBox("Enable this camera")
+        layout.addWidget(self.enable_checkbox)
+
+        self.test_btn = QPushButton("Test Connection")
+        self.test_btn.clicked.connect(self.test_connection)
+        layout.addWidget(self.test_btn)
+
+        self.result_label = QLabel("")
+        layout.addWidget(self.result_label)
+
+        btn_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        btn_box.accepted.connect(self.save_config)
+        btn_box.rejected.connect(self.reject)
+        layout.addWidget(btn_box)
+
+        self.setLayout(layout)
+        self.load_fields()  # Load initial selection
+
+    def load_configs(self):
+        if os.path.exists(self.config_path):
+            try:
+                with open(self.config_path, "r") as f:
+                    return json.load(f)
+            except:
+                return {}
+        return {}
+
+    def load_fields(self):
+        cam_id = self.cam_select.currentText()
+        if cam_id in self.camera_configs:
+            data = self.camera_configs[cam_id]
+            self.name_input.setText(data.get("name", ""))
+            self.rtsp_input.setText(data.get("rtsp", ""))
+            self.enable_checkbox.setChecked(data.get("enabled", False))
+        else:
+            self.name_input.clear()
+            self.rtsp_input.clear()
+            self.enable_checkbox.setChecked(False)
+
+    def save_config(self):
+        cam_id = self.cam_select.currentText()
+        self.camera_configs[cam_id] = {
+            "name": self.name_input.text(),
+            "rtsp": self.rtsp_input.text(),
+            "enabled": self.enable_checkbox.isChecked()
+        }
+        with open(self.config_path, "w") as f:
+            json.dump(self.camera_configs, f, indent=4)
+        self.accept()
+
+    def test_connection(self):
+        rtsp = self.rtsp_input.text().strip()
+        if not rtsp:
+            self.result_label.setText("❌ Please enter an RTSP URL.")
+            return
+
+        self.result_label.setText("⏳ Testing connection...")
+
+        self.test_result = None  # Store result safely
+
+        def worker():
+            cap = cv2.VideoCapture(rtsp)
+            success, _ = cap.read()
+            cap.release()
+            self.test_result = success
+
+        thread = threading.Thread(target=worker)
+        thread.start()
+
+        # Wait up to 2 seconds for the test to complete
+        thread.join(timeout=2)
+
+        if thread.is_alive():
+            self.result_label.setText("❌ Connection timeout after 2s.")
+        elif self.test_result:
+            self.result_label.setText("✅ Connection test passed!")
+        else:
+            self.result_label.setText("❌ Connection failed.")
 # ============================== Camera Count Dialog ==============================
 
 class CameraCountDialog(QDialog):
@@ -170,7 +332,7 @@ class CameraCountDialog(QDialog):
 class CameraWidget(QWidget):
     doubleClicked = pyqtSignal(int)
 
-    def __init__(self, cam_id):
+    def __init__(self, cam_id, config=None):
         super().__init__()
         self.cam_id = cam_id
         self.setMinimumSize(200, 200)
@@ -182,13 +344,9 @@ class CameraWidget(QWidget):
 
         self.placeholder = QLabel()
         self.placeholder.setAlignment(Qt.AlignCenter)
-        pixmap = QPixmap("assets/logo.png")
-        if not pixmap.isNull():
-            self.placeholder.setPixmap(pixmap.scaled(140, 140, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        else:
-            self.placeholder.setText("Camera Feed")
+        layout.addWidget(self.placeholder)
 
-        self.label = QLabel(f"Camera {cam_id}")
+        self.label = QLabel()
         self.label.setFixedHeight(24)
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setStyleSheet("""
@@ -198,10 +356,49 @@ class CameraWidget(QWidget):
             font-weight: bold;
             border-top: 1px solid #333;
         """)
-
-        layout.addWidget(self.placeholder)
         layout.addWidget(self.label)
+
         self.setLayout(layout)
+
+        self.stream_thread = None
+        self.load_config(config)
+
+    def load_config(self, config):
+        cam_key = str(self.cam_id)
+        if config and cam_key in config:
+            conf = config[cam_key]
+            self.label.setText(conf.get("name") or f"Camera {self.cam_id}")
+            if conf.get("enabled") and conf.get("rtsp"):
+                self.start_stream(conf["rtsp"])
+            else:
+                self.show_logo()
+        else:
+            self.label.setText(f"Camera {self.cam_id}")
+            self.show_logo()
+
+    def show_logo(self):
+        pixmap = QPixmap("assets/logo.png")
+        if not pixmap.isNull():
+            self.placeholder.setPixmap(pixmap.scaled(140, 140, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        else:
+            self.placeholder.setText("Camera Feed")
+
+    def start_stream(self, rtsp_url):
+        self.stream_thread = StreamThread(rtsp_url)
+        self.stream_thread.frame_received.connect(self.update_frame)
+        self.stream_thread.start()
+
+    def update_frame(self, frame):
+        self.placeholder.setPixmap(QPixmap.fromImage(frame).scaled(self.placeholder.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+    def stop_stream(self):
+        if self.stream_thread:
+            self.stream_thread.stop()
+            self.stream_thread = None
+
+    def closeEvent(self, event):
+        self.stop_stream()
+        super().closeEvent(event)
 
     def mouseDoubleClickEvent(self, event):
         self.doubleClicked.emit(self.cam_id)
@@ -240,11 +437,13 @@ class MainWindow(ClosableMainWindow):
         self.top_bar.addWidget(company_label)
         self.top_bar.addStretch()
 
+        # 🆕 Buttons
         self.config_btn = self.make_button("Configure Cameras", self.open_config)
+        self.cam_config_btn = self.make_button("Camera Config", self.open_camera_config)
         self.reset_btn = self.make_button("Reset", self.reset_config)
         self.rec_btn = self.make_button("Recordings", self.show_recordings)
 
-        for btn in [self.config_btn, self.reset_btn, self.rec_btn]:
+        for btn in [self.config_btn, self.cam_config_btn, self.reset_btn, self.rec_btn]:
             self.top_bar.addWidget(btn)
 
         self.camera_section = QVBoxLayout()
@@ -278,13 +477,24 @@ class MainWindow(ClosableMainWindow):
     def create_camera_grid(self, camera_ids):
         grid = QGridLayout()
         rows, cols = calculate_grid_layout(len(camera_ids))
+
+        # 🔁 Load camera config file
+        config = {}
+        if os.path.exists("camera_configs.json"):
+            try:
+                with open("camera_configs.json", "r") as f:
+                    config = json.load(f)
+            except:
+                config = {}
+
         for idx, cam_id in enumerate(camera_ids):
             r, c = divmod(idx, cols)
-            cam_widget = CameraWidget(cam_id)
+            cam_widget = CameraWidget(cam_id, config=config)
             cam_widget.doubleClicked.connect(self.focus_camera)
             self.all_camera_widgets[cam_id] = cam_widget
             grid.addWidget(cam_widget, r, c)
         return grid
+
 
     def clear_layout(self, layout):
         while layout.count():
@@ -323,12 +533,19 @@ class MainWindow(ClosableMainWindow):
             if self.controller:
                 self.controller.reset()
 
+    def open_camera_config(self):
+        popup = CameraConfigDialog(
+            camera_count=self.config_manager.get_camera_count()
+        )
+        popup.exec_()
+
     def reset_config(self):
         if self.controller:
             self.controller.reset()
 
     def show_recordings(self):
         print("🎬 Show recordings (not implemented yet)")
+
 
 # ============================== Secondary Window ==============================
 
