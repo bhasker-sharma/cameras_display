@@ -40,6 +40,72 @@ class SystemConfigManager:
         self.config["camera_count"] = count
         self.save_config()
 
+
+# ============================== System config Dialog ==============================
+
+class SystemConfigPopup(QDialog):
+    def __init__(self, current_count, config_manager):
+        super().__init__()
+        self.setWindowTitle("System Configuration")
+        self.setFixedSize(360, 160)
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #1e1e1e;
+                border: 2px solid #444;
+                border-radius: 10px;
+            }
+            QLabel {
+                color: #ffffff;
+                font-size: 14px;
+                padding-bottom: 4px;
+            }
+            QComboBox {
+                background-color: #2e2e2e;
+                color: white;
+                font-size: 14px;
+                padding: 4px;
+                border-radius: 6px;
+                border: 1px solid #666;
+            }
+            QDialogButtonBox QPushButton {
+                background-color: #444;
+                color: white;
+                padding: 6px 16px;
+                border-radius: 4px;
+            }
+            QDialogButtonBox QPushButton:hover {
+                background-color: #555;
+            }
+        """)
+
+        self.config_manager = config_manager
+
+        layout = QVBoxLayout()
+        title = QLabel("Update number of cameras:")
+        title.setStyleSheet("font-weight: bold; font-size: 16px; color: #FFD700;")
+        layout.addWidget(title)
+
+        self.combo = QComboBox()
+        self.combo.addItems([str(c) for c in CAMERA_OPTIONS])
+        if current_count in CAMERA_OPTIONS:
+            self.combo.setCurrentText(str(current_count))
+        layout.addWidget(self.combo)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons.button(QDialogButtonBox.Ok).setText("Save")
+        buttons.button(QDialogButtonBox.Cancel).setText("Cancel")
+        layout.addWidget(buttons)
+
+        self.setLayout(layout)
+
+        buttons.accepted.connect(self.save_and_close)
+        buttons.rejected.connect(self.reject)
+
+    def save_and_close(self):
+        selected = int(self.combo.currentText())
+        if selected > 0:
+            self.config_manager.set_camera_count(selected)
+            self.accept()
 # ============================== Camera Count Dialog ==============================
 
 class CameraCountDialog(QDialog):
@@ -249,10 +315,11 @@ class MainWindow(ClosableMainWindow):
         self.camera_section.addLayout(self.camera_grid)
 
     def open_config(self):
-        dialog = CameraCountDialog()
-        if dialog.exec_() == QDialog.Accepted:
-            count = dialog.get_camera_count()
-            self.config_manager.set_camera_count(count)
+        popup = SystemConfigPopup(
+            current_count=self.config_manager.get_camera_count(),
+            config_manager=self.config_manager
+        )
+        if popup.exec_() == QDialog.Accepted:
             if self.controller:
                 self.controller.reset()
 
@@ -348,10 +415,10 @@ class AppController:
         self.camera_count = self.config.get_camera_count()
 
         if not self.camera_count or self.camera_count == 0:
-            dialog = CameraCountDialog()
+            dialog = SystemConfigPopup(0, self.config)
+            dialog.setWindowTitle("🛠️ Initial System Configuration")
             if dialog.exec_() == QDialog.Accepted:
-                self.camera_count = dialog.get_camera_count()
-                self.config.set_camera_count(self.camera_count)
+                self.camera_count = self.config.get_camera_count()
             else:
                 sys.exit()
         else:
@@ -387,9 +454,9 @@ class AppController:
             self.windows = [self.main_window, self.display_window]
 
     def reset(self):
-        self.config.set_camera_count(0)
+        self.camera_count = self.config.get_camera_count()
         self.close_all()
-        run_app()
+        self.build_windows()
 
     def close_all(self):
         for win in self.windows:
