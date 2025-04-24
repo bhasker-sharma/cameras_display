@@ -1,36 +1,50 @@
 import sys
 import os
 import json
-from math import ceil, sqrt
 from PyQt5.QtWidgets import (
-    QApplication, QWidget, QMainWindow, QVBoxLayout, QHBoxLayout,
-    QLabel, QPushButton, QDialog, QComboBox, QDialogButtonBox,QSizePolicy,
-    QGridLayout, QMessageBox
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel,
+    QPushButton, QDialog, QComboBox, QDialogButtonBox, QGridLayout, QSizePolicy
 )
-from PyQt5.QtCore import Qt, pyqtSignal, QTimer, QPropertyAnimation
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtWidgets import QGraphicsOpacityEffect
+from centralisedlogging import log
 
-CAMERA_OPTIONS = [4, 8, 12, 16, 20, 24, 32, 40, 48]
 
-# ============================== Config Manager ==============================
+CONFIG_FILE = "camera_config.json"
 
-class SystemConfigManager:
-    def __init__(self, path="config.json"):
-        self.path = path
-        self.config = {"camera_count": 0}
-        self.load_config()
+# Grid format: {camera_count: [(window_id, rows, cols), ...]}
+GRID_LAYOUTS = {
+    4: [(0, 2, 2)],
+    8: [(0, 2, 4)],
+    12: [(0, 3, 4)],
+    16: [(0, 4, 4)],
+    20: [(0,5,4)],
+    24: [(0, 4, 6)],
+    32: [(0,4,4),(1,4,4)],
+    40: [(0,5,4),(1,5,4)],
+    48: [(0, 4, 6), (1, 4, 6)],  # 24 + 24
+}
+
+VALID_CAMERA_COUNTS = list(GRID_LAYOUTS.keys())
+
+
+# ========================== Config Manager ==========================
+class ConfigManager:
+    def __init__(self, config_path=CONFIG_FILE):
+        self.config_path = config_path
+        self.config = self.load_config()
 
     def load_config(self):
-        if os.path.exists(self.path):
+        if os.path.exists(self.config_path):
             try:
-                with open(self.path, "r") as f:
-                    self.config = json.load(f)
-            except:
-                self.config = {"camera_count": 0}
+                with open(self.config_path, 'r') as f:
+                    return json.load(f)
+            except Exception:
+                pass
+        return {"camera_count": 0}
 
     def save_config(self):
-        with open(self.path, "w") as f:
+        with open(self.config_path, 'w') as f:
             json.dump(self.config, f, indent=4)
 
     def get_camera_count(self):
@@ -41,474 +55,235 @@ class SystemConfigManager:
         self.save_config()
 
 
-# ============================== System config Dialog ==============================
-
-class SystemConfigPopup(QDialog):
-    def __init__(self, current_count, config_manager):
-        super().__init__()
-        self.setWindowTitle("System Configuration")
-        self.setFixedSize(360, 160)
-        self.setStyleSheet("""
-            QDialog {
-                background-color: #1e1e1e;
-                border: 2px solid #444;
-                border-radius: 10px;
-            }
-            QLabel {
-                color: #ffffff;
-                font-size: 14px;
-                padding-bottom: 4px;
-            }
-            QComboBox {
-                background-color: #2e2e2e;
-                color: white;
-                font-size: 14px;
-                padding: 4px;
-                border-radius: 6px;
-                border: 1px solid #666;
-            }
-            QDialogButtonBox QPushButton {
-                background-color: #444;
-                color: white;
-                padding: 6px 16px;
-                border-radius: 4px;
-            }
-            QDialogButtonBox QPushButton:hover {
-                background-color: #555;
-            }
-        """)
-
-        self.config_manager = config_manager
-
-        layout = QVBoxLayout()
-        title = QLabel("Update number of cameras:")
-        title.setStyleSheet("font-weight: bold; font-size: 16px; color: #FFD700;")
-        layout.addWidget(title)
-
-        self.combo = QComboBox()
-        self.combo.addItems([str(c) for c in CAMERA_OPTIONS])
-        if current_count in CAMERA_OPTIONS:
-            self.combo.setCurrentText(str(current_count))
-        layout.addWidget(self.combo)
-
-        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttons.button(QDialogButtonBox.Ok).setText("Save")
-        buttons.button(QDialogButtonBox.Cancel).setText("Cancel")
-        layout.addWidget(buttons)
-
-        self.setLayout(layout)
-
-        buttons.accepted.connect(self.save_and_close)
-        buttons.rejected.connect(self.reject)
-
-    def save_and_close(self):
-        selected = int(self.combo.currentText())
-        if selected > 0:
-            self.config_manager.set_camera_count(selected)
-            self.accept()
-# ============================== Camera Count Dialog ==============================
-
+# ========================== Camera Count Dialog ==========================
 class CameraCountDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("🛠️ Initial System Configuration")
-        self.setFixedSize(360, 160)
-        self.setStyleSheet("""
-            QDialog {
-                background-color: #1e1e1e;
-                border: 2px solid #444;
-                border-radius: 10px;
-            }
-            QLabel {
-                color: #ffffff;
-                font-size: 14px;
-                padding-bottom: 4px;
-            }
-            QComboBox {
-                background-color: #2e2e2e;
-                color: white;
-                font-size: 14px;
-                padding: 4px;
-                border-radius: 6px;
-                border: 1px solid #666;
-            }
-            QDialogButtonBox QPushButton {
-                background-color: #444;
-                color: white;
-                padding: 6px 16px;
-                border-radius: 4px;
-            }
-            QDialogButtonBox QPushButton:hover {
-                background-color: #555;
-            }
-        """)
-
+        self.setWindowTitle("Select Number of Cameras")
+        self.setFixedSize(300, 150)
         layout = QVBoxLayout()
-        title = QLabel("Select number of cameras to display:")
-        title.setStyleSheet("font-weight: bold; font-size: 16px; color: #FFD700;")
-        layout.addWidget(title)
+        layout.addWidget(QLabel("Choose number of cameras to display:"))
 
         self.combo = QComboBox()
-        self.combo.addItems([str(c) for c in CAMERA_OPTIONS])
+        self.combo.addItems([str(c) for c in VALID_CAMERA_COUNTS])
         layout.addWidget(self.combo)
 
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttons.button(QDialogButtonBox.Ok).setText("Confirm")
-        buttons.button(QDialogButtonBox.Cancel).setText("Cancel")
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
 
         self.setLayout(layout)
 
-        buttons.accepted.connect(self.accept)
-        buttons.rejected.connect(self.reject)
-
-    def get_camera_count(self):
+    def get_selected_count(self):
         return int(self.combo.currentText())
 
-# ============================== Camera Widget ==============================
 
+# ========================== Camera Widget ==========================
 class CameraWidget(QWidget):
-    doubleClicked = pyqtSignal(int)
+    doubleClicked =  pyqtSignal(int)
 
-    def __init__(self, cam_id):
+    def __init__(self, cam_id, name="Camera", logo_path="assets/logo.png"):
         super().__init__()
         self.cam_id = cam_id
-        self.setMinimumSize(200, 200)
-        self.setStyleSheet("border: 1px solid #555; border-radius: 6px; background-color: #2c2c2c;")
+        self.name = f"{name} {cam_id}"
+        self.logo_path = logo_path
+
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setStyleSheet("border: 1px solid #444; background-color: #2c2c2c; border-radius: 5px;")
 
         layout = QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
 
-        self.placeholder = QLabel()
-        self.placeholder.setAlignment(Qt.AlignCenter)
-        pixmap = QPixmap("assets/logo.png")
-        if not pixmap.isNull():
-            self.placeholder.setPixmap(pixmap.scaled(140, 140, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        else:
-            self.placeholder.setText("Camera Feed")
+        # Top label
+        self.title = QLabel(self.name)
+        self.title.setAlignment(Qt.AlignCenter)
+        self.title.setStyleSheet("color: white; background-color: #444; font-weight: bold; padding: 4px;")
+        layout.addWidget(self.title)
 
-        self.label = QLabel(f"Camera {cam_id}")
-        self.label.setFixedHeight(24)
-        self.label.setAlignment(Qt.AlignCenter)
-        self.label.setStyleSheet("""
-            background-color: #444;
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            border-top: 1px solid #333;
-        """)
+        # Placeholder/logo
+        self.content = QLabel()
+        self.content.setAlignment(Qt.AlignCenter)
+        self.content.setStyleSheet("background-color: #1a1a1a;")
+        layout.addWidget(self.content, stretch=1)
 
-        layout.addWidget(self.placeholder)
-        layout.addWidget(self.label)
         self.setLayout(layout)
+        self.show_placeholder()
 
     def mouseDoubleClickEvent(self, event):
         self.doubleClicked.emit(self.cam_id)
+    
+    def show_placeholder(self):
+        if os.path.exists(self.logo_path):
+            pixmap = QPixmap(self.logo_path)
+            if not pixmap.isNull():
+                self.content.setPixmap(pixmap.scaled(
+                    160, 120, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                return
+        self.content.setText("No Stream")
 
-# ============================== Base Window ==============================
 
-class ClosableMainWindow(QMainWindow):
-    window_closed = pyqtSignal()
-
-    def closeEvent(self, event):
-        self.window_closed.emit()
-        super().closeEvent(event)
-
-# ============================== Main Window ==============================
-
-class MainWindow(ClosableMainWindow):
-    def __init__(self, camera_ids, config_manager, controller=None):
+# ========================== Camera Window (Shared by Main + Additional) ==========================
+class CameraWindow(QMainWindow):
+    def __init__(self, title, camera_ids, rows, cols, config_manager, controller=None):
         super().__init__()
-        self.setWindowTitle("Toshniwal Camera Viewer")
-        self.setWindowIcon(QIcon("assets/logo.png"))
+        self.setWindowTitle(title)
+        self.setWindowIcon(QIcon("assets/logo.png") if os.path.exists("assets/logo.png") else QIcon())
+        self.grid_layout = None
+        self.focused = False
+        self.focused_cam_id = None
         self.camera_ids = camera_ids
+        self.rows = rows
+        self.cols = cols
         self.config_manager = config_manager
         self.controller = controller
 
-        self.focused = False
-        self.focused_cam_id = None
-        self.all_camera_widgets = {}
+        self.central_widget = QWidget()
+        layout = QVBoxLayout()
+        self.central_widget.setLayout(layout)
+        self.setCentralWidget(self.central_widget)
 
-        central_widget = QWidget()
-        self.main_layout = QVBoxLayout()
+        # Optional navbar for main window
+        if controller:
+            nav = QHBoxLayout()
+            title_label = QLabel("Camera Viewer")
+            title_label.setStyleSheet("color: #f0f0f0; font-size: 18px; font-weight: bold;")
+            title_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
-        self.top_bar = QHBoxLayout()
-        company_label = QLabel("Toshniwal Industries Pvt. Ltd.")
-        company_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #eeeeee;")
-        company_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.top_bar.addWidget(company_label)
-        self.top_bar.addStretch()
+            change_btn = QPushButton("Change Camera Count")
+            change_btn.clicked.connect(self.controller.change_camera_count)
+            change_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #555;
+                    color: white;
+                    padding: 6px 14px;
+                    border-radius: 4px;
+                }
+                QPushButton:hover {
+                    background-color: #777;
+                }
+            """)
+            nav.addWidget(title_label)
+            nav.addStretch()
+            nav.addWidget(change_btn)
+            layout.addLayout(nav)
 
-        self.config_btn = self.make_button("Configure Cameras", self.open_config)
-        self.reset_btn = self.make_button("Reset", self.reset_config)
-        self.rec_btn = self.make_button("Recordings", self.show_recordings)
+        self.grid_widget = QWidget()
+        self.grid_layout = QGridLayout()
+        self.grid_widget.setLayout(self.grid_layout)
+        layout.addWidget(self.grid_widget)  # Add grid widget to main layout
 
-        for btn in [self.config_btn, self.reset_btn, self.rec_btn]:
-            self.top_bar.addWidget(btn)
+        self.camera_widgets = {}
 
-        self.camera_section = QVBoxLayout()
-        self.camera_grid = self.create_camera_grid(camera_ids)
-        self.camera_section.addLayout(self.camera_grid)
-
-        self.main_layout.addLayout(self.top_bar)
-        self.main_layout.addLayout(self.camera_section)
-
-        central_widget.setLayout(self.main_layout)
-        self.setCentralWidget(central_widget)
-        self.showMaximized()
-
-    def make_button(self, text, handler):
-        btn = QPushButton(text)
-        btn.setFixedHeight(28)
-        btn.clicked.connect(handler)
-        btn.setStyleSheet("""
-            QPushButton {
-                background-color: #444;
-                color: white;
-                padding: 4px 10px;
-                border-radius: 4px;
-            }
-            QPushButton:hover {
-                background-color: #666;
-            }
-        """)
-        return btn
-
-    def create_camera_grid(self, camera_ids):
-        grid = QGridLayout()
-        rows, cols = calculate_grid_layout(len(camera_ids))
         for idx, cam_id in enumerate(camera_ids):
             r, c = divmod(idx, cols)
-            cam_widget = CameraWidget(cam_id)
-            cam_widget.doubleClicked.connect(self.focus_camera)
-            self.all_camera_widgets[cam_id] = cam_widget
-            grid.addWidget(cam_widget, r, c)
-        return grid
+            widget = CameraWidget(cam_id)
+            widget.doubleClicked.connect(self.toggle_focus_view)
+            self.camera_widgets[cam_id] = widget
+            self.grid_layout.addWidget(widget, r, c)
+            self.grid_layout.setRowStretch(r, 1)
+            self.grid_layout.setColumnStretch(c, 1)
+
+        self.showMaximized()  # or showFullScreen()
+
+    def toggle_focus_view(self, cam_id):
+        if not self.focused:
+            log.info(f"[{self.windowTitle()}] Expanding Camera {cam_id} to full view.")
+            self.focused = True
+            self.focused_cam_id = cam_id
+
+            self.grid_widget.hide()  # Just hide the grid
+
+            # Create isolated camera view
+            self.focused_widget = CameraWidget(cam_id)
+            self.focused_widget.doubleClicked.connect(self.toggle_focus_view)
+            self.centralWidget().layout().addWidget(self.focused_widget)
+
+        else:
+            log.info(f"[{self.windowTitle()}] Restoring grid view from Camera {self.focused_cam_id}.")
+            self.focused = False
+            self.focused_cam_id = None
+
+            if hasattr(self, "focused_widget"):
+                self.centralWidget().layout().removeWidget(self.focused_widget)
+                self.focused_widget.deleteLater()
+
+            self.grid_widget.show()  # Show the original grid
+
+
 
     def clear_layout(self, layout):
         while layout.count():
             item = layout.takeAt(0)
             if item.widget():
-                item.widget().deleteLater()
+                item.widget().setParent(None)
             elif item.layout():
                 self.clear_layout(item.layout())
 
-    def focus_camera(self, cam_id):
-        if self.focused and self.focused_cam_id == cam_id:
-            self.restore_camera_grid()
-            self.focused = False
-            self.focused_cam_id = None
-            return
-
-        self.focused = True
-        self.focused_cam_id = cam_id
-        self.clear_layout(self.camera_section)
-
-        zoomed_widget = CameraWidget(cam_id)
-        zoomed_widget.doubleClicked.connect(self.focus_camera)
-        self.camera_section.addWidget(zoomed_widget)
-
-    def restore_camera_grid(self):
-        self.clear_layout(self.camera_section)
-        self.camera_grid = self.create_camera_grid(self.camera_ids)
-        self.camera_section.addLayout(self.camera_grid)
-
-    def open_config(self):
-        popup = SystemConfigPopup(
-            current_count=self.config_manager.get_camera_count(),
-            config_manager=self.config_manager
-        )
-        if popup.exec_() == QDialog.Accepted:
-            if self.controller:
-                self.controller.reset()
-
-    def reset_config(self):
-        if self.controller:
-            self.controller.reset()
-
-    def show_recordings(self):
-        print("🎬 Show recordings (not implemented yet)")
-
-# ============================== Secondary Window ==============================
-
-class CameraDisplayWindow(ClosableMainWindow):
-    def __init__(self, camera_ids):
-        super().__init__()
-        self.setWindowTitle("Secondary Camera Window")
-        self.setWindowIcon(QIcon("assets/logo.png"))
-        self.camera_ids = camera_ids
-        self.focused = False
-        self.focused_cam_id = None
-        self.all_camera_widgets = {}
-
-        central_widget = QWidget()
-        self.main_layout = QVBoxLayout()
-        self.camera_section = QVBoxLayout()
-
-        self.camera_grid = self.create_camera_grid(camera_ids)
-        self.camera_section.addLayout(self.camera_grid)
-
-        self.main_layout.addLayout(self.camera_section)
-        central_widget.setLayout(self.main_layout)
-        self.setCentralWidget(central_widget)
-        self.adjustSize()
-
-    def create_camera_grid(self, camera_ids):
-        grid = QGridLayout()
-        rows, cols = calculate_grid_layout(len(camera_ids))
-        for idx, cam_id in enumerate(camera_ids):
-            r, c = divmod(idx, cols)
-            cam_widget = CameraWidget(cam_id)
-            cam_widget.doubleClicked.connect(self.focus_camera)
-            self.all_camera_widgets[cam_id] = cam_widget
-            grid.addWidget(cam_widget, r, c)
-        return grid
-
-    def focus_camera(self, cam_id):
-        if self.focused and self.focused_cam_id == cam_id:
-            self.restore_camera_grid()
-            self.focused = False
-            self.focused_cam_id = None
-            return
-
-        self.focused = True
-        self.focused_cam_id = cam_id
-        was_maximized = self.isMaximized()
-        self.clear_layout(self.camera_section)
-
-        zoomed_widget = CameraWidget(cam_id)
-        zoomed_widget.doubleClicked.connect(self.focus_camera)
-        self.camera_section.addWidget(zoomed_widget)
-
-        if was_maximized:
-            self.showMaximized()
-
-    def restore_camera_grid(self):
-        was_maximized = self.isMaximized()
-        self.clear_layout(self.camera_section)
-        self.camera_grid = self.create_camera_grid(self.camera_ids)
-        self.camera_section.addLayout(self.camera_grid)
-        if was_maximized:
-            self.showMaximized()
-
-    def clear_layout(self, layout):
-        while layout.count():
-            item = layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
-            elif item.layout():
-                self.clear_layout(item.layout())
-
-# ============================== Utility ==============================
-
-def calculate_grid_layout(n):
-    cols = ceil(sqrt(n))
-    rows = ceil(n / cols)
-    return rows, cols
-
-# ============================== App Controller ==============================
-
+# ========================== App Controller ==========================
 class AppController:
     def __init__(self):
-        self.config = SystemConfigManager()
+        self.config = ConfigManager()
         self.camera_count = self.config.get_camera_count()
 
-        if not self.camera_count or self.camera_count == 0:
-            dialog = SystemConfigPopup(0, self.config)
-            dialog.setWindowTitle("🛠️ Initial System Configuration")
-            if dialog.exec_() == QDialog.Accepted:
-                self.camera_count = self.config.get_camera_count()
-            else:
-                sys.exit()
-        else:
-            self.show_startup_info("✅ System configuration already defined")
+        if self.camera_count not in GRID_LAYOUTS:
+            self.ask_for_camera_count()
 
         self.windows = []
-        self.build_windows()
+        self.launch_windows()
 
-    def build_windows(self):
-        all_ids = list(range(1, self.camera_count + 1))
-        if self.camera_count <= 24:
-            self.main_window = MainWindow(all_ids, self.config, controller=self)
-            self.windows = [self.main_window]
+    def ask_for_camera_count(self):
+        dialog = CameraCountDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            self.camera_count = dialog.get_selected_count()
+            self.config.set_camera_count(self.camera_count)
         else:
-            half = self.camera_count // 2
-            main_ids = all_ids[:half]
-            second_ids = all_ids[half:]
+            sys.exit()
 
-            self.main_window = MainWindow(main_ids, self.config, controller=self)
-            self.display_window = CameraDisplayWindow(second_ids)
+    def launch_windows(self):
+        layouts = GRID_LAYOUTS[self.camera_count]
+        all_camera_ids = list(range(1, self.camera_count + 1))
+        current_index = 0 
 
-            self.main_window.window_closed.connect(self.close_all)
-            self.display_window.window_closed.connect(self.close_all)
+        for window_id, rows, cols in layouts:
+            cam_per_window =  rows * cols       
+            cam_ids = all_camera_ids[current_index:current_index + cam_per_window]
 
-            # Show secondary first
-            self.display_window.showMaximized()
-            
-            # Then show and raise main window
-            self.main_window.showMaximized()
-            self.main_window.raise_()
-            self.main_window.activateWindow()
+            is_main = (window_id == 0)
+            window = CameraWindow(
+                title="Camera Viewer" if is_main else "Additional Window",
+                camera_ids=cam_ids,
+                rows=rows,
+                cols=cols,
+                config_manager=self.config,
+                controller=self if is_main else None
+            )
+            self.windows.append(window)
+            current_index += cam_per_window
 
-            self.windows = [self.main_window, self.display_window]
+    def change_camera_count(self):
+        dialog = CameraCountDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            self.camera_count = dialog.get_selected_count()
+            self.config.set_camera_count(self.camera_count)
 
-    def reset(self):
-        self.camera_count = self.config.get_camera_count()
-        self.close_all()
-        self.build_windows()
-
-    def close_all(self):
-        for win in self.windows:
-            win.close()
-
-    def show_startup_info(self, message):
-        toast = QLabel(message)
-        toast.setStyleSheet("""
-            QLabel {
-                background-color: rgba(60, 60, 60, 220);
-                color: white;
-                padding: 12px 24px;
-                border-radius: 6px;
-                font-size: 14px;
-            }
-        """)
-        toast.setWindowFlags(Qt.FramelessWindowHint | Qt.ToolTip)
-        toast.setAlignment(Qt.AlignCenter)
-
-        screen_center = QApplication.primaryScreen().geometry().center()
-        toast.resize(toast.sizeHint())
-        toast.move(screen_center.x() - toast.width() // 2, screen_center.y() - 100)
-        toast.setGraphicsEffect(QGraphicsOpacityEffect(opacity=0))
-        toast.show()
-
-        effect = toast.graphicsEffect()
-        anim = QPropertyAnimation(effect, b"opacity")
-        anim.setDuration(2000)
-        anim.setStartValue(0.0)
-        anim.setKeyValueAt(0.5, 1.0)
-        anim.setEndValue(0.0)
-        anim.finished.connect(toast.close)
-        anim.start()
+            # Close all existing windows and restart
+            for win in self.windows:
+                win.close()
+            self.windows = []
+            self.launch_windows()
 
 
-# ============================== Main ==============================
-
-def run_app():
+# ========================== Main Entry ==========================
+def main():
     app = QApplication(sys.argv)
     app.setStyleSheet("""
-        QWidget {
-            background-color: #2c2c2c;
-            color: #e0e0e0;
-            font-family: Arial;
-        }
-        QLabel {
-            color: #f0f0f0;
-        }
+        QWidget { background-color: #232323; color: #e0e0e0; font-family: Arial; font-size: 13px; }
+        QLabel { color: #f0f0f0; }
     """)
     controller = AppController()
     sys.exit(app.exec_())
 
 
-if __name__ == '__main__':
-    run_app()
+if __name__ == "__main__":
+    main()
