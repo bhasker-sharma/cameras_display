@@ -1,13 +1,13 @@
 {
     "1": {
         "name": "bhasker",
-        "rtsp": "rtsp://root:root@192.168.0.1:54/axis-media/media.amp",
+        "rtsp": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp",
         "enabled": true
     },
     "3": {
         "name": "bhasker",
         "rtsp": "ff",
-        "enabled": true
+        "enabled": false
     },
     "4": {
         "name": "bh",

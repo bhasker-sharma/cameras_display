@@ -1,0 +1,160 @@
+[2025-04-26 12:10:23] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 12:10:36] [INFO] [AppLogger]: Refreshing camera configurations...
+[2025-04-26 12:12:40] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 12:12:42] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 12:12:43] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 12:12:44] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 12:12:48] [INFO] [AppLogger]: Refreshing camera configurations...
+[2025-04-26 12:13:34] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 12:13:52] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 12:14:10] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 12:14:12] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 12:15:03] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 12:15:05] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 12:31:16] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 12:35:38] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 13:58:26] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 13:58:41] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 13:58:43] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 13:58:44] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 13:58:45] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 13:58:47] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 13:58:48] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 13:58:50] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 13:58:55] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 14:58:21] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 14:58:30] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 14:58:32] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 15:13:52] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 15:15:17] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 17:46:06] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 17:46:33] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 17:46:37] [INFO] [AppLogger]: Refreshing camera configurations...
+[2025-04-26 18:10:55] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-26 18:11:03] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 18:11:03] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:11:04] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 18:11:04] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:11:05] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:11:06] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 18:11:06] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:11:09] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 18:11:09] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:11:09] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:11:29] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-26 18:11:29] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:11:29] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:17:52] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-26 18:18:03] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 18:18:03] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:18:07] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 18:18:07] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:18:07] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:22:25] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-26 18:22:25] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:22:25] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:23:46] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-26 18:24:35] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:24:35] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:24:35] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:24:35] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-04-26 18:24:37] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:24:37] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:24:37] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:24:37] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-04-26 18:24:40] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-04-26 18:24:40] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:24:43] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-04-26 18:24:43] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:24:43] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:24:50] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 10 to full view.
+[2025-04-26 18:24:51] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 10.
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Changing camera count from 24 to 4
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-26 18:26:45] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-26 18:26:53] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 2 to full view.
+[2025-04-26 18:26:54] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 2.
+[2025-04-26 18:27:11] [WARNING] [AppLogger]: Camera 1: Failed to read frame, reconnecting...
+[2025-04-26 18:27:18] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-26 18:27:18] [INFO] [AppLogger]: Stopping stream for Camera 1
