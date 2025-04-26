@@ -3,13 +3,13 @@ import os
 import json
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel,
-    QPushButton, QDialog, QComboBox, QDialogButtonBox, QGridLayout, QSizePolicy
+    QPushButton, QDialog, QComboBox, QDialogButtonBox, QGridLayout, QSizePolicy,QLineEdit
 )
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QPixmap, QIcon
 from centralisedlogging import log
 
-
+CAMERA_STREAM_FILE = "camera_streams.json"
 CONFIG_FILE = "camera_config.json"
 
 # Grid format: {camera_count: [(window_id, rows, cols), ...]}
@@ -22,11 +22,111 @@ GRID_LAYOUTS = {
     24: [(0, 4, 6)],
     32: [(0,4,4),(1,4,4)],
     40: [(0,5,4),(1,5,4)],
+    44: [(0,5,4),(1,4,6)],
     48: [(0, 4, 6), (1, 4, 6)],  # 24 + 24
 }
 
 VALID_CAMERA_COUNTS = list(GRID_LAYOUTS.keys())
 
+# ========================== Camera Stream ==========================
+class CameraStreamConfigManager:
+    def __init__(self, config_path=CAMERA_STREAM_FILE):
+        self.config_path = config_path
+        self.config = self.load_config()
+
+    def load_config(self):
+        if os.path.exists(self.config_path):
+            try:
+                with open(self.config_path, 'r') as f:
+                    return json.load(f)
+            except Exception:
+                pass
+        return {}
+
+    def save_config(self):
+        with open(self.config_path, 'w') as f:
+            json.dump(self.config, f, indent=4)
+
+    def get_camera_config(self, cam_id):
+        return self.config.get(str(cam_id), {})
+
+    def set_camera_config(self, cam_id, data):
+        self.config[str(cam_id)] = data
+        self.save_config()
+
+# ========================== Camera config dialog ==========================
+class CameraConfigDialog(QDialog):
+    def __init__(self, camera_count, config_manager):
+        super().__init__()
+        self.setWindowTitle("Configure Camera")
+        self.setFixedSize(400, 300)
+        self.config_manager = config_manager
+
+        layout = QVBoxLayout()
+
+        # Camera Number
+        form_layout = QGridLayout()
+        form_layout.addWidget(QLabel("Camera Number:"), 0, 0)
+        self.camera_num_combo = QComboBox()
+        self.camera_num_combo.addItems([str(i) for i in range(1, camera_count + 1)])
+        self.camera_num_combo.currentIndexChanged.connect(self.load_existing_config)
+        form_layout.addWidget(self.camera_num_combo, 0, 1)
+
+        # Camera Name
+        form_layout.addWidget(QLabel("Camera Name:"), 1, 0)
+        self.name_edit = QLineEdit()
+        form_layout.addWidget(self.name_edit, 1, 1)
+
+        # RTSP URL
+        form_layout.addWidget(QLabel("RTSP URL:"), 2, 0)
+        self.rtsp_input = QLineEdit()
+        form_layout.addWidget(self.rtsp_input, 2, 1)
+
+        # Enable Camera
+        form_layout.addWidget(QLabel("Enable Camera:"), 3, 0)
+        self.enable_checkbox = QPushButton("Enabled")
+        self.enable_checkbox.setCheckable(True)
+        self.enable_checkbox.setChecked(True)
+        self.enable_checkbox.setStyleSheet("""
+            QPushButton {
+                background-color: #555;
+                color: white;
+                padding: 6px 12px;
+                border-radius: 4px;
+            }
+            QPushButton:checked {
+                background-color: #007BFF;
+            }
+        """)
+        form_layout.addWidget(self.enable_checkbox, 3, 1)
+
+        layout.addLayout(form_layout)
+
+        # Buttons
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons.accepted.connect(self.save_config)
+        buttons.rejected.connect(self.reject)
+        layout.addWidget(buttons)
+
+        self.setLayout(layout)
+        self.load_existing_config()
+
+    def load_existing_config(self):
+        cam_id = int(self.camera_num_combo.currentText())
+        data = self.config_manager.get_camera_config(cam_id)
+        self.name_edit.setText(data.get("name", f"Camera {cam_id}"))
+        self.rtsp_input.setText(data.get("rtsp", ""))
+        self.enable_checkbox.setChecked(data.get("enabled", True))
+
+    def save_config(self):
+        cam_id = int(self.camera_num_combo.currentText())
+        data = {
+            "name": self.name_edit.text(),
+            "rtsp": self.rtsp_input.text(),
+            "enabled": self.enable_checkbox.isChecked()
+        }
+        self.config_manager.set_camera_config(cam_id, data)
+        self.accept()
 
 # ========================== Config Manager ==========================
 class ConfigManager:
@@ -86,7 +186,7 @@ class CameraWidget(QWidget):
     def __init__(self, cam_id, name="Camera", logo_path="assets/logo.png"):
         super().__init__()
         self.cam_id = cam_id
-        self.name = f"{name} {cam_id}"
+        self.name = name if name else f"Camera {cam_id}"
         self.logo_path = logo_path
 
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -146,9 +246,9 @@ class CameraWindow(QMainWindow):
         # Optional navbar for main window
         if controller:
             nav = QHBoxLayout()
-            title_label = QLabel("Camera Viewer")
-            title_label.setStyleSheet("color: #f0f0f0; font-size: 18px; font-weight: bold;")
-            title_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+            # title_label = QLabel("Camera Viewer")
+            # title_label.setStyleSheet("color: #f0f0f0; font-size: 18px; font-weight: bold;")
+            # title_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
             change_btn = QPushButton("Change Camera Count")
             change_btn.clicked.connect(self.controller.change_camera_count)
@@ -163,9 +263,30 @@ class CameraWindow(QMainWindow):
                     background-color: #777;
                 }
             """)
-            nav.addWidget(title_label)
+
+            config_btn = QPushButton("Configure Camera")
+            config_btn.clicked.connect(self.controller.open_camera_config)
+            config_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #555;
+                    color: white;
+                    padding: 6px 14px;
+                    border-radius: 4px;
+                }
+                QPushButton:hover {
+                    background-color: #777;
+                }
+            """)
+
+            refresh_btn = QPushButton("Refresh System")
+            refresh_btn.clicked.connect(self.controller.refresh_configurations)
+            refresh_btn.setStyleSheet(change_btn.styleSheet())
+
+            nav.addWidget(refresh_btn)
+            # nav.addWidget(title_label)
             nav.addStretch()
             nav.addWidget(change_btn)
+            nav.addWidget(config_btn)
             layout.addLayout(nav)
 
         self.grid_widget = QWidget()
@@ -177,7 +298,12 @@ class CameraWindow(QMainWindow):
 
         for idx, cam_id in enumerate(camera_ids):
             r, c = divmod(idx, cols)
-            widget = CameraWidget(cam_id)
+
+            # Fetch name from stream config if available
+            stream_config = self.controller.stream_config.get_camera_config(cam_id) if self.controller else {}
+            cam_name = stream_config.get("name", f"Camera {cam_id}")
+            
+            widget = CameraWidget(cam_id,name=cam_name)
             widget.doubleClicked.connect(self.toggle_focus_view)
             self.camera_widgets[cam_id] = widget
             self.grid_layout.addWidget(widget, r, c)
@@ -194,8 +320,12 @@ class CameraWindow(QMainWindow):
 
             self.grid_widget.hide()  # Just hide the grid
 
+            # 🔥 Load the correct camera name from config
+            stream_config = self.controller.stream_config.get_camera_config(cam_id) if self.controller else {}
+            cam_name = stream_config.get("name", f"Camera {cam_id}")
+
             # Create isolated camera view
-            self.focused_widget = CameraWidget(cam_id)
+            self.focused_widget = CameraWidget(cam_id , name = cam_name)
             self.focused_widget.doubleClicked.connect(self.toggle_focus_view)
             self.centralWidget().layout().addWidget(self.focused_widget)
 
@@ -210,7 +340,11 @@ class CameraWindow(QMainWindow):
 
             self.grid_widget.show()  # Show the original grid
 
-
+    def refresh_widgets(self):
+        for cam_id, widget in self.camera_widgets.items():
+            stream_config = self.controller.stream_config.get_camera_config(cam_id) if self.controller else {}
+            cam_name = stream_config.get("name", f"Camera {cam_id}")
+            widget.title.setText(cam_name)
 
     def clear_layout(self, layout):
         while layout.count():
@@ -224,8 +358,9 @@ class CameraWindow(QMainWindow):
 class AppController:
     def __init__(self):
         self.config = ConfigManager()
-        self.camera_count = self.config.get_camera_count()
+        self.stream_config = CameraStreamConfigManager()
 
+        self.camera_count = self.config.get_camera_count()
         if self.camera_count not in GRID_LAYOUTS:
             self.ask_for_camera_count()
 
@@ -240,6 +375,17 @@ class AppController:
         else:
             sys.exit()
 
+    def open_camera_config(self):
+        dialog = CameraConfigDialog(self.camera_count, self.stream_config)
+        dialog.exec_()
+
+    def refresh_configurations(self):
+        log.info("Refreshing camera configurations...")
+        self.stream_config.config = self.stream_config.load_config()
+
+        for window in self.windows:
+            window.refresh_widgets()
+    
     def launch_windows(self):
         layouts = GRID_LAYOUTS[self.camera_count]
         all_camera_ids = list(range(1, self.camera_count + 1))
