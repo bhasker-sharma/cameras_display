@@ -327,7 +327,8 @@ class CameraWidget(QWidget):
         # Placeholder/logo/video content
         self.content = QLabel()
         self.content.setAlignment(Qt.AlignCenter)
-        self.content.setStyleSheet("background-color: #1a1a1a;")
+        self.content.setStyleSheet("background-color: #1a1a1a; padding: 0px; margin: 0px;")
+        self.content.setContentsMargins(0, 0, 0, 0)
         self.content.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)  # Prevent resizing
         layout.addWidget(self.content, stretch=1)
 
@@ -363,9 +364,21 @@ class CameraWidget(QWidget):
         scaled_pixmap = pixmap.scaled(
             content_size.width(), 
             content_size.height(),
-            Qt.KeepAspectRatio, 
+            Qt.KeepAspectRatioByExpanding, 
             Qt.SmoothTransformation)
-        
+
+        # If the scaled image is larger than the widget, crop it to fit
+        if scaled_pixmap.width() > content_size.width() or scaled_pixmap.height() > content_size.height():
+            # Calculate coordinates to crop from center
+            x = (scaled_pixmap.width() - content_size.width()) // 2
+            y = (scaled_pixmap.height() - content_size.height()) // 2
+            # Crop the pixmap to the content size
+            scaled_pixmap = scaled_pixmap.copy(
+                x, y, 
+                min(content_size.width(), scaled_pixmap.width()),
+                min(content_size.height(), scaled_pixmap.height())
+            )
+                    
         # Set the pixmap without forcing resizing
         self.content.setPixmap(scaled_pixmap)
     
