@@ -55,7 +55,7 @@ class CameraStreamWorker(QThread):
         self.cam_id = cam_id
         self.rtsp_url = rtsp_url
         self.running = False
-        self.mutex = QMutex()
+        self.mutex = QMutex( )
         self.condition = QWaitCondition()
         self.reconnect_attempts = 0
         self.max_reconnect_attempts = 5
@@ -440,17 +440,21 @@ class CameraWidget(QWidget):
 
 # ========================== Camera Window (Shared by Main + Additional) ==========================
 class CameraWindow(QMainWindow):
-    def __init__(self, title, camera_ids, rows, cols, config_manager, controller=None):
+    def __init__(self, title, camera_ids, rows, cols, stream_config, controller=None):
         super().__init__()
         self.setWindowTitle(title)
         self.setWindowIcon(QIcon("assets/logo.png") if os.path.exists("assets/logo.png") else QIcon())
+    
+        self.stream_config = stream_config
+        self.controller = controller
+
         self.grid_layout = None
         self.focused = False
         self.focused_cam_id = None
         self.camera_ids = camera_ids
         self.rows = rows
         self.cols = cols
-        self.config_manager = config_manager
+        self.config_manager = stream_config
         self.controller = controller
 
         self.central_widget = QWidget()
@@ -571,7 +575,7 @@ class CameraWindow(QMainWindow):
             self.grid_widget.hide()  # Just hide the grid
 
             # 🔥 Load the correct camera name from config
-            stream_config = self.controller.stream_config.get_camera_config(cam_id) if self.controller else {}
+            stream_config = self.stream_config.get_camera_config(cam_id) 
             cam_name = stream_config.get("name", f"Camera {cam_id}")
             rtsp_url = stream_config.get("rtsp", "")
             is_enabled = stream_config.get("enabled", True)
@@ -643,7 +647,7 @@ class CameraWindow(QMainWindow):
         super().closeEvent(event)
 
 # ========================== Camera Controller ==========================
-class CameraController:
+class AppController:
     def __init__(self):
         self.config_mgr = ConfigManager()
         self.stream_config = CameraStreamConfigManager()
@@ -676,7 +680,11 @@ class CameraController:
 
             is_main = window_id == 0
             title = "Camera Viewer" if is_main else f"Camera Viewer (Window {window_id + 1})"
-            window = CameraWindow(title, window_cam_ids, rows, cols, self.stream_config, self if is_main else None)
+            window = CameraWindow(
+                title, window_cam_ids, rows, cols,
+                self.stream_config,  # 🔥 Always pass stream config
+                self if is_main else None  # Controller only if main window
+            )
             self.windows[window_id] = window
 
     def change_camera_count(self):
@@ -763,7 +771,7 @@ def main():
     """)
     
     # Create app controller
-    controller = CameraController()
+    controller = AppController()
     
     # Run the app
     sys.exit(app.exec_())

@@ -1,160 +1,845 @@
-[2025-04-26 12:10:23] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 12:10:36] [INFO] [AppLogger]: Refreshing camera configurations...
-[2025-04-26 12:12:40] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 12:12:42] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 12:12:43] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 12:12:44] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 12:12:48] [INFO] [AppLogger]: Refreshing camera configurations...
-[2025-04-26 12:13:34] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 12:13:52] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 12:14:10] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 12:14:12] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 12:15:03] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 12:15:05] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 12:31:16] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 12:35:38] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 13:58:26] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 13:58:41] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 13:58:43] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 13:58:44] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 13:58:45] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 13:58:47] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 13:58:48] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 13:58:50] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 13:58:55] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 14:58:21] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 14:58:30] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 14:58:32] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 15:13:52] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 15:15:17] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 17:46:06] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 17:46:33] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 17:46:37] [INFO] [AppLogger]: Refreshing camera configurations...
-[2025-04-26 18:10:55] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Initializing streams for 24 cameras
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
-[2025-04-26 18:10:56] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
-[2025-04-26 18:11:03] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 18:11:03] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:11:04] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 18:11:04] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:11:05] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:11:06] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 18:11:06] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:11:09] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 18:11:09] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:11:09] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:11:29] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
-[2025-04-26 18:11:29] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:11:29] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:17:52] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Initializing streams for 24 cameras
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
-[2025-04-26 18:17:53] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
-[2025-04-26 18:18:03] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 18:18:03] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:18:07] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 18:18:07] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:18:07] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:22:25] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
-[2025-04-26 18:22:25] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:22:25] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:23:46] [DEBUG] [AppLogger]: Logger initialized.
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Initializing streams for 24 cameras
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
-[2025-04-26 18:23:46] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
-[2025-04-26 18:24:35] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:24:35] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:24:35] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:24:35] [INFO] [AppLogger]: Camera configurations refreshed
-[2025-04-26 18:24:37] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:24:37] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:24:37] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:24:37] [INFO] [AppLogger]: Camera configurations refreshed
-[2025-04-26 18:24:40] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
-[2025-04-26 18:24:40] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:24:43] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
-[2025-04-26 18:24:43] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:24:43] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:24:50] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 10 to full view.
-[2025-04-26 18:24:51] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 10.
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Changing camera count from 24 to 4
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Stopping stream for Camera 1
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Camera 1 worker stopped
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Initializing streams for 4 cameras
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
-[2025-04-26 18:26:45] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
-[2025-04-26 18:26:53] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 2 to full view.
-[2025-04-26 18:26:54] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 2.
-[2025-04-26 18:27:11] [WARNING] [AppLogger]: Camera 1: Failed to read frame, reconnecting...
-[2025-04-26 18:27:18] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
-[2025-04-26 18:27:18] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-29 12:46:44] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Changing camera count from 0 to 4
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 12:46:48] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 12:47:43] [INFO] [AppLogger]: Camera configuration updated
+[2025-04-29 12:47:43] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-29 12:47:43] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-04-29 13:02:19] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-29 13:02:19] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-29 13:02:19] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-04-29 16:41:55] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 16:41:57] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-29 16:41:57] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-04-29 16:41:57] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:41:57] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:41:57] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:42:04] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-29 16:42:04] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-04-29 16:42:44] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 16:42:44] [ERROR] [AppLogger]: Failed to load config: camera_config.json
+[2025-04-29 16:42:44] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-29 16:42:54] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-29 16:42:54] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:42:54] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:42:54] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:42:54] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:42:58] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-29 16:43:17] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 16:43:17] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-29 16:43:17] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-29 16:43:17] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:43:17] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:43:17] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:43:17] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Changing camera count from 4 to 24
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 16:43:24] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-29 16:43:31] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-29 16:45:28] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 16:45:28] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 16:45:29] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-29 16:45:32] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-29 16:55:23] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 16:55:23] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 16:55:24] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-29 16:55:27] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-29 16:55:58] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 16:55:58] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Changing camera count from 0 to 4
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:56:02] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:56:04] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-29 16:56:43] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 16:56:43] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Changing camera count from 0 to 32
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Initializing streams for 16 cameras
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Initializing streams for 16 cameras
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 25 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 26 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 27 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 28 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 29 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 30 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 31 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 32 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Cleaning up streams for 16 cameras
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Cleaning up streams for 16 cameras
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Initializing streams for 16 cameras
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Initializing streams for 16 cameras
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 25 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 26 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 27 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 28 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 29 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 30 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 31 disabled or no RTSP URL specified
+[2025-04-29 16:57:04] [INFO] [AppLogger]: Camera 32 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Changing camera count from 32 to 48
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Cleaning up streams for 16 cameras
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Cleaning up streams for 16 cameras
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 25 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 26 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 27 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 28 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 29 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 30 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 31 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 32 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 33 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 34 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 35 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 36 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 37 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 38 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 39 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 40 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 41 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 42 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 43 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 44 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 45 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 46 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 47 disabled or no RTSP URL specified
+[2025-04-29 16:58:05] [INFO] [AppLogger]: Camera 48 disabled or no RTSP URL specified
+[2025-04-29 16:59:00] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-29 16:59:01] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-29 16:59:37] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 16:59:37] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Initializing streams for 48 cameras
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 25 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 26 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 27 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 28 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 29 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 30 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 31 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 32 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 33 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 34 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 35 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 36 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 37 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 38 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 39 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 40 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 41 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 42 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 43 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 44 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 45 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 46 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 47 disabled or no RTSP URL specified
+[2025-04-29 16:59:37] [INFO] [AppLogger]: Camera 48 disabled or no RTSP URL specified
+[2025-04-29 16:59:42] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 23 to full view.
+[2025-04-29 16:59:43] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 23.
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Changing camera count from 48 to 24
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Cleaning up streams for 48 cameras
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 17:00:12] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-29 17:00:20] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-29 17:50:52] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-29 17:50:52] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-29 17:50:53] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-30 11:50:41] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-30 11:50:41] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-30 11:50:42] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-30 11:50:50] [INFO] [AppLogger]: Changing camera count from 24 to 4
+[2025-04-30 11:50:50] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-30 11:50:50] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-30 11:50:50] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 11:50:50] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 11:50:50] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 11:50:51] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 11:50:52] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-30 11:52:12] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-30 11:52:12] [ERROR] [AppLogger]: Failed to load config: camera_config.json
+[2025-04-30 11:52:12] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Changing camera count from 0 to 4
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 11:52:17] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 11:52:22] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-30 13:17:23] [DEBUG] [AppLogger]: Logger initialized.
+[2025-04-30 13:17:23] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Changing camera count from 0 to 24
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 13:17:44] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-30 13:17:45] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-30 13:17:59] [INFO] [AppLogger]: Changing camera count from 24 to 4
+[2025-04-30 13:17:59] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-30 13:17:59] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-04-30 13:17:59] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 13:17:59] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 13:17:59] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 13:17:59] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Changing camera count from 4 to 20
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Initializing streams for 20 cameras
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-30 13:18:06] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-30 13:18:07] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-30 13:18:07] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-30 13:18:07] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-30 13:18:07] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Changing camera count from 20 to 48
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Cleaning up streams for 20 cameras
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-04-30 13:18:14] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 25 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 26 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 27 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 28 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 29 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 30 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 31 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 32 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 33 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 34 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 35 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 36 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 37 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 38 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 39 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 40 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 41 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 42 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 43 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 44 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 45 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 46 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 47 disabled or no RTSP URL specified
+[2025-04-30 13:18:15] [INFO] [AppLogger]: Camera 48 disabled or no RTSP URL specified
+[2025-04-30 13:18:40] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-04-30 13:25:13] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-05-05 14:10:30] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-05 14:10:30] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 25 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 26 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 27 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 28 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 29 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 30 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 31 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 32 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 33 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 34 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 35 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 36 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 37 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 38 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 39 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 40 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 41 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 42 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 43 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 44 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 45 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 46 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 47 disabled or no RTSP URL specified
+[2025-05-05 14:10:32] [INFO] [AppLogger]: Camera 48 disabled or no RTSP URL specified
+[2025-05-05 14:10:36] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-05-05 14:10:37] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-05-05 14:20:21] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-05 14:20:21] [ERROR] [AppLogger]: Failed to load camera stream config: camera_streams.json
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-05-05 14:20:21] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 25 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 26 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 27 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 28 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 29 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 30 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 31 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 32 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 33 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 34 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 35 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 36 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 37 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 38 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 39 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 40 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 41 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 42 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 43 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 44 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 45 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 46 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 47 disabled or no RTSP URL specified
+[2025-05-05 14:20:22] [INFO] [AppLogger]: Camera 48 disabled or no RTSP URL specified
+[2025-05-05 14:20:26] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-05-05 14:20:32] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-05 14:20:32] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-05 14:21:12] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-05 14:21:12] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 14:21:12] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-05 14:21:21] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-05 14:21:21] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 14:23:40] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 1 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 25 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 26 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 27 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 28 disabled or no RTSP URL specified
+[2025-05-05 14:23:40] [INFO] [AppLogger]: Camera 29 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 30 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 31 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 32 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 33 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 34 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 35 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 36 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 37 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 38 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 39 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 40 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 41 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 42 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 43 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 44 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 45 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 46 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 47 disabled or no RTSP URL specified
+[2025-05-05 14:23:41] [INFO] [AppLogger]: Camera 48 disabled or no RTSP URL specified
+[2025-05-05 14:23:43] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-05-05 14:23:47] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-05 14:25:12] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-05 14:25:12] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 14:25:12] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-05 14:26:28] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-05-05 14:26:28] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 14:26:35] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-05-05 14:26:35] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 14:26:35] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Changing camera count from 48 to 4
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-05-05 15:36:08] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Changing camera count from 4 to 24
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Cleaning up streams for 4 cameras
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-05-05 15:36:29] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-05-05 15:36:37] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-05-05 15:36:37] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:36:50] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-05-05 15:36:50] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:36:50] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:37:01] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-05-05 15:37:01] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:39:34] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-05-05 15:39:34] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:39:34] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:52:46] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 2 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 3 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 4 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 5 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 6 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 7 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 8 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 9 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 10 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 11 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 12 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 13 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 14 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 15 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 16 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 17 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 18 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 19 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 20 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 21 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 22 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 23 disabled or no RTSP URL specified
+[2025-05-05 15:52:48] [INFO] [AppLogger]: Camera 24 disabled or no RTSP URL specified
+[2025-05-05 15:53:13] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 6 to full view.
+[2025-05-05 15:53:13] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 6.
+[2025-05-05 15:53:15] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-05-05 15:53:15] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:53:19] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-05-05 15:53:19] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:53:19] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:53:20] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-05-05 15:53:20] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:53:23] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-05-05 15:53:23] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:53:23] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:54:05] [INFO] [AppLogger]: [Camera Viewer] Expanding Camera 1 to full view.
+[2025-05-05 15:54:05] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:54:41] [INFO] [AppLogger]: [Camera Viewer] Restoring grid view from Camera 1.
+[2025-05-05 15:54:41] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:54:42] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:54:50] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:54:50] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:54:50] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:54:50] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-05 15:54:53] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:54:53] [INFO] [AppLogger]: Camera 1 worker stopped
+[2025-05-05 15:54:53] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp
+[2025-05-05 15:54:53] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-05 15:54:55] [INFO] [AppLogger]: Cleaning up streams for 24 cameras
+[2025-05-05 15:54:55] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-05 15:54:55] [INFO] [AppLogger]: Camera 1 worker stopped
