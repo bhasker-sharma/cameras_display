@@ -367,7 +367,7 @@ class CameraWidget(QWidget):
             Qt.KeepAspectRatioByExpanding, 
             Qt.SmoothTransformation)
 
-        # If the scaled image is larger than the widget, crop it to fit
+        # # If the scaled image is larger than the widget, crop it to fit
         if scaled_pixmap.width() > content_size.width() or scaled_pixmap.height() > content_size.height():
             # Calculate coordinates to crop from center
             x = (scaled_pixmap.width() - content_size.width()) // 2
@@ -457,8 +457,8 @@ class CameraWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle(title)
         self.setWindowIcon(QIcon("assets/logo.png") if os.path.exists("assets/logo.png") else QIcon())
-    
         self.stream_config = stream_config
+
         self.controller = controller
 
         self.grid_layout = None
@@ -468,6 +468,7 @@ class CameraWindow(QMainWindow):
         self.rows = rows
         self.cols = cols
         self.config_manager = stream_config
+        self.stream_config = stream_config
         self.controller = controller
 
         self.central_widget = QWidget()
@@ -620,14 +621,13 @@ class CameraWindow(QMainWindow):
         """Refresh camera widget names and streams"""
         for cam_id, widget in self.camera_widgets.items():
             # Get updated config
-            stream_config = self.controller.stream_config.get_camera_config(cam_id) if self.controller else {}
+            stream_config = self.stream_config.get_camera_config(cam_id)
             cam_name = stream_config.get("name", f"Camera {cam_id}")
             rtsp_url = stream_config.get("rtsp", "")
             is_enabled = stream_config.get("enabled", True)
             
             # Update widget name
             widget.update_name(cam_name)
-            
             # Update configuration state
             widget.configure(rtsp_url, is_enabled)
             
@@ -640,7 +640,7 @@ class CameraWindow(QMainWindow):
                 
         # Handle focused widget if it exists
         if self.focused and hasattr(self, 'focused_widget') and self.focused_widget:
-            stream_config = self.controller.stream_config.get_camera_config(self.focused_cam_id) if self.controller else {}
+            stream_config = self.stream_config.get_camera_config(self.focused_cam_id) 
             cam_name = stream_config.get("name", f"Camera {self.focused_cam_id}")
             rtsp_url = stream_config.get("rtsp", "")
             is_enabled = stream_config.get("enabled", True)
