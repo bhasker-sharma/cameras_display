@@ -1,42 +1,31 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-"""
-Multi-Camera Monitoring Application
-Main Entry Point
-"""
+# camera_app/main.py
 
 import sys
-import logging
-
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtCore import Qt
-
-from ui.camera_grid import CameraGridWindow
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+from controller.app_controller import AppController
+from ui.styles import apply_dark_theme
+from utils.logging import log
 
 def main():
-    """Main entry point for the application"""
-    # Create application
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+
     app = QApplication(sys.argv)
-    
-    # Set application name and organization
-    app.setApplicationName("Tuyere Camera Monitoring System")
-    app.setOrganizationName("TIPL")
-    
-    # Create the main window
-    window = CameraGridWindow()
-    
-    # Show the window
-    window.show()
-    
-    # Run the application event loop
-    sys.exit(app.exec_())
+    apply_dark_theme(app)
+
+    controller = AppController()
+
+    try:
+        sys.exit(app.exec_())
+    except Exception as e:
+        log.exception("Unhandled exception occurred")
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Critical)
+        msg_box.setWindowTitle("Application Error")
+        msg_box.setText("An unexpected error occurred.")
+        msg_box.setInformativeText(str(e))
+        msg_box.exec_()
 
 if __name__ == "__main__":
     main()

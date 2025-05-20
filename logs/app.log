@@ -1,0 +1,416 @@
+[2025-05-15 18:09:19] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-15 18:09:20] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-15 18:09:20] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:21] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:23] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:28] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:31] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-15 18:09:31] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-15 18:09:36] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-15 18:09:36] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:36] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-15 18:09:36] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-15 18:09:36] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:37] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-15 18:09:37] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:37] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-15 18:09:37] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-15 18:09:39] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:03:39] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-16 12:03:40] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-16 12:03:40] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:03:42] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:03:45] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:03:49] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:03:52] [INFO] [AppLogger]: Changing camera count from 24 to 20
+[2025-05-16 12:03:52] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-16 12:03:52] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Initializing streams for 20 cameras
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-16 12:03:57] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-16 12:03:57] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:03:58] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:04:02] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Changing camera count from 20 to 48
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 25 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 26 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 27 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 28 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 29 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 30 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 31 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 32 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 33 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 34 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 35 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 36 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 37 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 38 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 39 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 40 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 41 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 42 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 43 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 44 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 45 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 46 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 47 disabled or no RTSP.
+[2025-05-16 12:04:06] [INFO] [AppLogger]: Camera 48 disabled or no RTSP.
+[2025-05-16 12:04:06] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:04:08] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:04:11] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:04:15] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 12:04:19] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-16 12:04:20] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-16 12:04:20] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-16 12:04:23] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-16 15:56:02] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-16 15:56:03] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 25 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 26 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 27 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 28 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 29 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 30 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 31 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 32 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 33 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 34 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 35 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 36 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 37 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 38 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 39 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 40 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 41 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 42 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 43 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 44 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 45 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 46 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 47 disabled or no RTSP.
+[2025-05-16 15:56:03] [INFO] [AppLogger]: Camera 48 disabled or no RTSP.
+[2025-05-16 15:56:04] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 15:56:06] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 15:56:10] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 15:56:18] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 15:56:28] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 15:56:28] [ERROR] [AppLogger]: Camera 1: Max reconnect attempts
+[2025-05-16 15:56:28] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-16 16:00:10] [INFO] [AppLogger]: [Camera Viewer (Window 2)] Focusing Camera 48.
+[2025-05-16 16:00:12] [INFO] [AppLogger]: [Camera Viewer (Window 2)] Returning to grid.
+[2025-05-16 16:00:14] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-16 16:00:14] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:14] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-16 16:00:14] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:16] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:18] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:21] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-16 16:00:21] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-16 16:00:22] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-16 16:00:22] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:22] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-16 16:00:22] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:22] [INFO] [AppLogger]: [Camera Viewer] Focusing Camera 1.
+[2025-05-16 16:00:22] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:23] [INFO] [AppLogger]: [Camera Viewer] Returning to grid.
+[2025-05-16 16:00:23] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-16 16:00:24] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:25] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-16 16:00:25] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:27] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:28] [INFO] [AppLogger]: Changing camera count from 48 to 4
+[2025-05-16 16:00:28] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-16 16:00:28] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-16 16:00:31] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-16 16:00:31] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-16 16:00:31] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-16 16:00:31] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:31] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-16 16:00:31] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-16 16:00:31] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-16 16:00:31] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-16 16:00:32] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:33] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:36] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:40] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:48] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 16:00:49] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-16 16:00:49] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-16 17:45:03] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-16 17:45:03] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-16 17:45:03] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 17:45:03] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-16 17:45:03] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-16 17:45:03] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-16 17:45:03] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-16 17:45:03] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 17:45:04] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 17:45:06] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 17:45:10] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 17:45:18] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 17:45:30] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-16 17:45:30] [ERROR] [AppLogger]: Camera 1: Max reconnect attempts
+[2025-05-16 17:45:30] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-16 17:45:48] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-16 17:45:48] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-19 14:31:44] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-19 14:31:45] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-19 14:31:45] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 14:31:45] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-19 14:31:45] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-19 14:31:45] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-19 14:31:45] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-19 14:31:45] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 14:31:46] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 14:31:48] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 14:31:52] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 14:32:00] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 14:32:10] [ERROR] [AppLogger]: Camera 1 exception: Cannot open stream: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 14:32:10] [ERROR] [AppLogger]: Camera 1: Max reconnect attempts
+[2025-05-19 14:32:10] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-19 14:32:22] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-19 14:32:22] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-19 17:06:17] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-19 17:06:17] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-19 17:06:17] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 17:06:17] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-19 17:06:17] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-19 17:06:17] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-19 17:06:17] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:17] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-19 17:06:17] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:20] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:20] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:23] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:24] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:27] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:27] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:30] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:30] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:31] [INFO] [AppLogger]: Changing camera count from 4 to 48
+[2025-05-19 17:06:31] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-19 17:06:31] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-19 17:06:33] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-19 17:06:33] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 25 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 26 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 27 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 28 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 29 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 30 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 31 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 32 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 33 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 34 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 35 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 36 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 37 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 38 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 39 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 40 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 41 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 42 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 43 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 44 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 45 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 46 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 47 disabled or no RTSP.
+[2025-05-19 17:06:33] [INFO] [AppLogger]: Camera 48 disabled or no RTSP.
+[2025-05-19 17:06:36] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:36] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:39] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:39] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:42] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:43] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:46] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:46] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:49] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:49] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:52] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:52] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:55] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:55] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:06:58] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:06:58] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:01] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:06] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:09] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:11] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:14] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:14] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:17] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:17] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:20] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:20] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:23] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:23] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:26] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:26] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:29] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:29] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:32] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:32] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:35] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-19 17:07:35] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-19 17:07:37] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-19 17:07:37] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-19 17:07:38] [INFO] [AppLogger]: Camera 1 worker ended.
+[2025-05-19 17:07:42] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-19 17:24:07] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-19 17:26:33] [DEBUG] [AppLogger]: Logger initialized.
