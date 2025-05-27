@@ -17,6 +17,7 @@ STATUS_COLOR = {
 
 class CameraWidget(QWidget):
     doubleClicked = pyqtSignal(int)
+    connectionStatusChanged =  pyqtSignal(int, bool) #new signal 
 
     def __init__(self, cam_id, name="Camera", logo_path="assets/logo.png"):
         super().__init__()
@@ -106,6 +107,7 @@ class CameraWidget(QWidget):
         if cam_id == self.cam_id:
             self.is_connected = connected
             self.update_status()
+            self.connectionStatusChanged.emit(cam_id, connected)
 
     def update_status(self):
         if not self.is_configured:
@@ -139,6 +141,8 @@ class CameraWidget(QWidget):
         self.stream_worker = CameraStreamWorker(self.cam_id, rtsp_url)
         self.stream_worker.frameReady.connect(self.handle_frame)
         self.stream_worker.connectionStatus.connect(self.update_connection_status)
+
+        self.stream_worker.finished.connect(lambda: log.info(f"Camera {self.cam_id}: Thread fully stopped."))
 
         try:
             self.stream_worker.start()

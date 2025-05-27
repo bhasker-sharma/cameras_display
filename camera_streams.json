@@ -1,7 +1,7 @@
 {
     "1": {
-        "name": "Camera 1",
-        "rtsp": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=1",
+        "name": "bhasker",
+        "rtsp": "rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=2",
         "enabled": true
     }
 }

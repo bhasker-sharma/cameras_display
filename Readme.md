@@ -28,4 +28,6 @@ camera_app/
 
 https://chatgpt.com/share/6825e10a-0c08-8000-8359-b063c6002daa
 
-this is the chat 
+commands to make the enviornment and activate it 
+
+* python -m venv env
