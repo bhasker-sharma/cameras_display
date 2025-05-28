@@ -5,6 +5,9 @@ from config.stream_config_manager import CameraStreamConfigManager
 from ui.camera_window import CameraWindow
 from ui.dialogs import CameraCountDialog, CameraConfigDialog
 from utils.logging import log
+from PyQt5.QtWidgets import QMessageBox
+import sys
+import os
 
 GRID_LAYOUTS = {
     4: [(0, 2, 2)],
@@ -65,7 +68,21 @@ class AppController:
             new_count = dialog.get_selected_count()
             log.info(f"Changing camera count from {old_count} to {new_count}")
             self.config_mgr.set_camera_count(new_count)
-            self.initialize_windows()
+            #making the dialogue for the pop up
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Question)
+            msg_box.setWindowTitle("restart window")
+            msg_box.setText("Configuration updated, Do you want to Restart to apply changes")
+            msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            result = msg_box.exec_()
+
+            if result == QMessageBox.Yes:
+                log.info("Opted for the option yes, going to restart")
+                python = sys.executable
+                os.execl(python, python, *sys.argv)
+            else:
+                log.info("User cancled restart , No restart will be performed")
+            # self.initialize_windows()
 
     def open_camera_config(self):
         dialog = CameraConfigDialog(self.camera_count, self.stream_config)

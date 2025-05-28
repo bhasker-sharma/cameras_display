@@ -1,7 +1,7 @@
 # camera_app/core/camera_stream_worker.py
 
 import cv2
-from PyQt5.QtCore import QThread, pyqtSignal, QMutex, QWaitCondition
+from PyQt5.QtCore import QThread, pyqtSignal, QMutex, QWaitCondition,QTimer
 from utils.logging import log
 
 
@@ -17,7 +17,7 @@ class CameraStreamWorker(QThread):
         self.mutex = QMutex()
         self.condition = QWaitCondition()
         self.reconnect_attempts = 0
-        self.max_reconnect_attempts = 9999  # Allow unlimited retries
+        self.max_reconnect_attempts = 3  # Allow unlimited retries
         self.retry_delay = 3000  # Start with 3 seconds
         self.timeout_seconds = 3  # OpenCV/FFmpeg timeout duration
 
@@ -65,13 +65,17 @@ class CameraStreamWorker(QThread):
                 log.error(f"Camera {self.cam_id} exception: {e}")
                 self.connectionStatus.emit(self.cam_id, False)
                 self.reconnect_attempts += 1
+
+                if self.reconnect_attempts > self.max_reconnect_attempts:
+                    log.error(f"Camera {self.cam_id}: Max reconnect attempts reached, stopping worker.")
+                    self.connectionStatus.emit(self.cam_id, False)
+                    break
+
                 self.msleep(self.retry_delay)
 
-        log.info(f"Camera {self.cam_id} worker ended.")
-
     def stop(self):
+        log.info(f"Camera {self.cam_id}: Stop requested.")
         self.mutex.lock()
         self.running = False
         self.condition.wakeAll()
         self.mutex.unlock()
-        self.wait()

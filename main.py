@@ -1,6 +1,6 @@
 # camera_app/main.py
 
-import sys
+import sys,os
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtCore import Qt
 from controller.app_controller import AppController
@@ -18,6 +18,9 @@ def main():
 
     try:
         sys.exit(app.exec_())
+    except SystemExit:
+        log.info("SystemExit caught — shutting down hard.")
+        os._exit(0)
     except Exception as e:
         log.exception("Unhandled exception occurred")
         msg_box = QMessageBox()
