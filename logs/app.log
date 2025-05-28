@@ -414,3 +414,1180 @@
 [2025-05-19 17:07:42] [INFO] [AppLogger]: Cleaning up all camera streams.
 [2025-05-19 17:24:07] [DEBUG] [AppLogger]: Logger initialized.
 [2025-05-19 17:26:33] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 14:52:37] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Initializing streams for 12 cameras
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=2
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 14:52:38] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 14:52:38] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 14:53:08] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 14:53:08] [INFO] [AppLogger]: Camera 1 added to disconnected set.
+[2025-05-28 14:53:11] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 14:53:41] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 14:53:44] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 14:54:14] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 14:54:17] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 14:54:47] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 14:54:47] [ERROR] [AppLogger]: Camera 1: Max reconnect attempts reached, stopping worker.
+[2025-05-28 14:54:47] [INFO] [AppLogger]: Camera 1: Thread fully stopped.
+[2025-05-28 14:57:37] [INFO] [AppLogger]: Polling disconnected cameras: {1}
+[2025-05-28 14:59:19] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 14:59:19] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 14:59:19] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-28 14:59:19] [INFO] [AppLogger]: Camera 1: Stop requested.
+[2025-05-28 14:59:19] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 14:59:19] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 15:29:32] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Initializing streams for 12 cameras
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=2
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:29:32] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 15:29:32] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 15:30:02] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 15:30:02] [INFO] [AppLogger]: Camera 1 added to disconnected set.
+[2025-05-28 15:30:05] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 15:30:08] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 15:30:08] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-28 15:30:09] [INFO] [AppLogger]: Camera 1: Stop requested.
+[2025-05-28 15:30:09] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 15:30:14] [INFO] [AppLogger]: Skipping fullscreen: Camera 1 is disconnected.
+[2025-05-28 15:30:17] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 15:30:17] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 15:30:17] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 15:30:17] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 15:30:38] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Initializing streams for 12 cameras
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 15:30:38] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 15:35:38] [INFO] [AppLogger]: Polling: No disconnected cameras.
+[2025-05-28 15:40:38] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:41:27] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Initializing streams for 12 cameras
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 15:41:28] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 15:41:46] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 15:41:46] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 15:41:46] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 15:41:46] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 15:43:34] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Initializing streams for 12 cameras
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 15:43:34] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 15:44:12] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 15:44:12] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 15:44:12] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 15:44:12] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 15:44:39] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Initializing streams for 12 cameras
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 15:44:40] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 15:44:49] [INFO] [AppLogger]: Changing camera count from 12 to 4
+[2025-05-28 15:44:51] [INFO] [AppLogger]: Opted for the option yes, going to restart
+[2025-05-28 15:44:51] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:44:51] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-28 15:44:51] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:44:51] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:44:51] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:44:51] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:45:54] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:45:54] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-28 15:45:54] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:45:54] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:45:54] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:45:54] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:46:08] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 15:46:08] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 15:46:25] [INFO] [AppLogger]: Skipping fullscreen: Camera 1 is disconnected.
+[2025-05-28 15:47:45] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:47:46] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-28 15:47:46] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:47:46] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:47:46] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:47:46] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:47:52] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:47:52] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-28 15:47:52] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:47:52] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:47:52] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:47:52] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:48:07] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:48:07] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-28 15:48:07] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:48:07] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:48:07] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:48:07] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:48:21] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 15:48:21] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 15:48:21] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 15:48:21] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 15:48:41] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:48:41] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-28 15:48:41] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:48:41] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:48:41] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:48:41] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:48:54] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 15:48:54] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 15:48:54] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 15:48:54] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 15:49:31] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:49:31] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-28 15:49:31] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:49:31] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:49:31] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:49:31] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:56:35] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:56:35] [INFO] [AppLogger]: Initializing streams for 4 cameras
+[2025-05-28 15:56:35] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 15:56:35] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:56:35] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:56:35] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:57:17] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 15:57:17] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 15:57:25] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 15:57:25] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=2
+[2025-05-28 15:57:25] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 15:57:25] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 15:57:27] [INFO] [AppLogger]: Skipping fullscreen: Camera 1 is disconnected.
+[2025-05-28 15:57:56] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 15:57:56] [INFO] [AppLogger]: Camera 1 added to disconnected set.
+[2025-05-28 15:57:59] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 15:58:29] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 15:58:32] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 15:58:36] [INFO] [AppLogger]: Changing camera count from 4 to 24
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Opted for the option yes, going to restart
+[2025-05-28 15:58:38] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Starting stream for Camera 1: rtsp://root:root@192.168.0.1:554/axis-media/media.amp?camera=2
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 1 stream started.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 15:58:38] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 15:58:38] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 15:59:08] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 15:59:08] [INFO] [AppLogger]: Camera 1 added to disconnected set.
+[2025-05-28 15:59:11] [DEBUG] [AppLogger]: Camera 1: Attempting to open RTSP
+[2025-05-28 15:59:24] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 15:59:24] [INFO] [AppLogger]: Stopping stream for Camera 1
+[2025-05-28 15:59:24] [INFO] [AppLogger]: Camera 1: Stop requested.
+[2025-05-28 15:59:24] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 15:59:41] [ERROR] [AppLogger]: Camera 1 exception: RTSP open timeout/failure
+[2025-05-28 15:59:44] [INFO] [AppLogger]: Camera 1: Thread fully stopped.
+[2025-05-28 16:00:41] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 16:00:41] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 16:00:41] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 16:00:42] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 16:06:19] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 16:06:19] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 16:07:47] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 16:07:47] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 16:07:47] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 16:07:47] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 16:09:14] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 16:09:15] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 16:09:37] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 16:09:37] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 16:32:43] [INFO] [AppLogger]: Polling: No disconnected cameras.
+[2025-05-28 16:39:25] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 16:39:25] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 16:41:06] [INFO] [AppLogger]: Polling: No disconnected cameras.
+[2025-05-28 16:46:06] [INFO] [AppLogger]: Polling: No disconnected cameras.
+[2025-05-28 16:47:36] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 16:47:36] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 16:50:47] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 16:50:47] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 16:52:14] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 16:52:14] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 16:52:14] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 16:52:14] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 16:58:56] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 16:58:57] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 16:59:18] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 16:59:18] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 16:59:25] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 16:59:25] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 17:01:22] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 17:01:22] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 17:01:22] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 17:01:22] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 17:34:26] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 17:34:27] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 17:35:05] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 17:35:05] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 17:35:05] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 17:35:05] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 17:52:11] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 17:52:11] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 17:52:43] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 17:52:43] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 17:52:43] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 17:52:43] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 17:52:43] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:52:43] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:52:43] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:52:43] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:52:43] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 17:52:43] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 17:52:46] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:52:46] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:52:46] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:52:46] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:52:49] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:52:49] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:52:49] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:52:49] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:52:52] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:52:52] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:52:52] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:52:52] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:52:52] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 17:52:52] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 17:52:52] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 17:52:52] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 17:52:59] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 17:52:59] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 17:53:02] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 17:53:02] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 17:53:02] [INFO] [AppLogger]: Stopping stream for Camera 2
+[2025-05-28 17:53:02] [INFO] [AppLogger]: Camera 2: Stop requested.
+[2025-05-28 17:53:02] [INFO] [AppLogger]: Stopping stream for Camera 6
+[2025-05-28 17:53:02] [INFO] [AppLogger]: Camera 6: Stop requested.
+[2025-05-28 17:53:02] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 17:53:02] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 17:55:59] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 17:55:59] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 17:55:59] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 17:55:59] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 17:55:59] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 17:55:59] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 17:56:02] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:56:02] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:56:02] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:56:02] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:56:05] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:56:05] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:56:05] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:56:05] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:56:08] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 17:56:08] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 17:56:08] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:56:08] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:56:08] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 17:56:08] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 17:56:08] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:56:08] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:56:08] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 17:56:08] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 17:56:10] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 17:56:10] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 17:56:10] [INFO] [AppLogger]: Stopping stream for Camera 2
+[2025-05-28 17:56:10] [INFO] [AppLogger]: Camera 2: Stop requested.
+[2025-05-28 17:56:10] [INFO] [AppLogger]: Stopping stream for Camera 6
+[2025-05-28 17:56:10] [INFO] [AppLogger]: Camera 6: Stop requested.
+[2025-05-28 17:56:10] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 17:56:10] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 17:56:33] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 17:56:33] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 17:56:33] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 17:56:33] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 17:56:33] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 17:56:33] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 17:56:36] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:56:36] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:56:36] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:56:36] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:56:39] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:56:39] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:56:39] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:56:39] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:56:42] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 17:56:42] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 17:56:42] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 17:56:42] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 17:56:42] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 17:56:42] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 17:56:42] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 17:56:42] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:00:40] [INFO] [AppLogger]: Camera configuration updated
+[2025-05-28 18:00:40] [INFO] [AppLogger]: Camera configurations refreshed
+[2025-05-28 18:00:42] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 18:00:42] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 18:00:42] [INFO] [AppLogger]: Stopping stream for Camera 2
+[2025-05-28 18:00:42] [INFO] [AppLogger]: Camera 2: Stop requested.
+[2025-05-28 18:00:42] [INFO] [AppLogger]: Stopping stream for Camera 6
+[2025-05-28 18:00:42] [INFO] [AppLogger]: Camera 6: Stop requested.
+[2025-05-28 18:00:42] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 18:00:42] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 18:01:55] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:01:55] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:01:55] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:01:55] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:01:55] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:01:55] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:01:55] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:01:56] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:01:56] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:01:56] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:01:56] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:01:59] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:01:59] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:01:59] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:01:59] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:02:02] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:02:02] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:02:02] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:02:02] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:02:05] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:02:05] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:02:05] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:02:05] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:02:05] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:02:05] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:02:05] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:02:05] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:02:14] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:02:15] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:02:15] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:02:15] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:02:15] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:02:15] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:02:18] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:02:18] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:02:18] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:02:18] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:02:21] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:02:21] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:02:21] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:02:21] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:02:24] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:02:24] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:02:24] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:02:24] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:02:24] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:02:24] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:02:24] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:02:24] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:02:42] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 18:02:42] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 18:02:42] [INFO] [AppLogger]: Stopping stream for Camera 2
+[2025-05-28 18:02:42] [INFO] [AppLogger]: Camera 2: Stop requested.
+[2025-05-28 18:02:42] [INFO] [AppLogger]: Stopping stream for Camera 6
+[2025-05-28 18:02:42] [INFO] [AppLogger]: Camera 6: Stop requested.
+[2025-05-28 18:02:42] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 18:02:42] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 18:06:46] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:06:46] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:06:46] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:06:46] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:06:46] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:06:46] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:06:49] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:06:49] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:06:49] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:06:49] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:06:52] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:06:52] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:06:52] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:06:52] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:06:55] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:06:55] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:06:55] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:06:55] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:06:55] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:06:55] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:06:55] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:06:55] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:07:25] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:07:26] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:07:26] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:07:26] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:07:26] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:07:26] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:07:29] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:07:29] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:07:29] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:07:29] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:07:32] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:07:32] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:07:32] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:07:32] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:07:35] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:07:35] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:07:35] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:07:35] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:07:35] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:07:35] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:07:35] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:07:35] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:12:26] [INFO] [AppLogger]: Polling disconnected cameras: {2, 6}
+[2025-05-28 18:17:26] [INFO] [AppLogger]: Polling disconnected cameras: {2, 6}
+[2025-05-28 18:22:26] [INFO] [AppLogger]: Polling disconnected cameras: {2, 6}
+[2025-05-28 18:27:26] [INFO] [AppLogger]: Polling disconnected cameras: {2, 6}
+[2025-05-28 18:32:26] [INFO] [AppLogger]: Polling disconnected cameras: {2, 6}
+[2025-05-28 18:35:47] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:35:48] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:35:48] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:35:48] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:35:48] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:35:48] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:35:51] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:35:51] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:35:51] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:35:51] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:35:54] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:35:54] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:35:54] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:35:54] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:35:57] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:35:57] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:35:57] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:35:57] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:35:57] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:35:57] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:35:57] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:35:57] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:40:48] [INFO] [AppLogger]: Polling disconnected cameras: {2, 6}
+[2025-05-28 18:45:48] [INFO] [AppLogger]: Polling disconnected cameras: {2, 6}
+[2025-05-28 18:48:46] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 18:48:46] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 18:48:46] [INFO] [AppLogger]: Stopping stream for Camera 2
+[2025-05-28 18:48:46] [INFO] [AppLogger]: Camera 2: Stop requested.
+[2025-05-28 18:48:46] [INFO] [AppLogger]: Stopping stream for Camera 6
+[2025-05-28 18:48:46] [INFO] [AppLogger]: Camera 6: Stop requested.
+[2025-05-28 18:48:46] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 18:48:46] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 18:51:34] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:51:34] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:51:34] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:51:34] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:51:34] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:51:34] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:51:37] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:51:37] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:51:37] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:51:37] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:51:40] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:51:40] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:51:40] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:51:40] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:51:43] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:51:43] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:51:43] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:51:43] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:51:43] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:51:43] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:51:43] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:51:43] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:52:02] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 18:52:02] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 18:52:02] [INFO] [AppLogger]: Stopping stream for Camera 2
+[2025-05-28 18:52:02] [INFO] [AppLogger]: Camera 2: Stop requested.
+[2025-05-28 18:52:02] [INFO] [AppLogger]: Stopping stream for Camera 6
+[2025-05-28 18:52:02] [INFO] [AppLogger]: Camera 6: Stop requested.
+[2025-05-28 18:52:02] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 18:52:02] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 18:52:28] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:52:28] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:52:28] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:52:28] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:52:28] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:52:28] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:52:31] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:52:31] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:52:31] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:52:31] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:52:34] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:52:34] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:52:34] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:52:34] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:52:37] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:52:37] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:52:37] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:52:37] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:52:37] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:52:37] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:52:37] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:52:37] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:53:32] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:53:32] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:53:32] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:53:32] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:53:32] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:53:32] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:53:35] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:53:35] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:53:35] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:53:35] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:53:38] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:53:38] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:53:38] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:53:38] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:53:41] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:53:41] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:53:41] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:53:41] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:53:41] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:53:41] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:53:41] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:53:41] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:54:00] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 18:54:00] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 18:54:00] [INFO] [AppLogger]: Stopping stream for Camera 2
+[2025-05-28 18:54:00] [INFO] [AppLogger]: Camera 2: Stop requested.
+[2025-05-28 18:54:00] [INFO] [AppLogger]: Stopping stream for Camera 6
+[2025-05-28 18:54:00] [INFO] [AppLogger]: Camera 6: Stop requested.
+[2025-05-28 18:54:00] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 18:54:00] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
+[2025-05-28 18:55:22] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:55:22] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:55:22] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:55:22] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:55:22] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:55:22] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:55:25] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:55:25] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:55:25] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:55:25] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:55:28] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:55:28] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:55:28] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:55:28] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:55:31] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:55:31] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:55:31] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:55:31] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:55:31] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:55:31] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:55:31] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:55:31] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:58:59] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Starting stream for Camera 2: fgsdfgsdfgsfd
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 2 stream started.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:58:59] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Starting stream for Camera 6: dfsgdvbdvzb
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 6 stream started.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:58:59] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:58:59] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:58:59] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 2 added to disconnected set.
+[2025-05-28 18:58:59] [INFO] [AppLogger]: Camera 6 added to disconnected set.
+[2025-05-28 18:59:02] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:59:02] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:59:02] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:59:02] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:59:05] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:59:05] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:59:05] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:59:05] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:59:08] [DEBUG] [AppLogger]: Camera 6: Attempting to open RTSP
+[2025-05-28 18:59:08] [DEBUG] [AppLogger]: Camera 2: Attempting to open RTSP
+[2025-05-28 18:59:08] [ERROR] [AppLogger]: Camera 6 exception: RTSP open timeout/failure
+[2025-05-28 18:59:08] [ERROR] [AppLogger]: Camera 2 exception: RTSP open timeout/failure
+[2025-05-28 18:59:08] [ERROR] [AppLogger]: Camera 6: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:59:08] [ERROR] [AppLogger]: Camera 2: Max reconnect attempts reached, stopping worker.
+[2025-05-28 18:59:08] [INFO] [AppLogger]: Camera 6: Thread fully stopped.
+[2025-05-28 18:59:08] [INFO] [AppLogger]: Camera 2: Thread fully stopped.
+[2025-05-28 18:59:41] [DEBUG] [AppLogger]: Logger initialized.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Initializing streams for 24 cameras
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 1 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 2 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 3 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 4 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 5 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 6 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 7 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 8 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 9 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 10 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 11 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 12 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 13 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 14 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 15 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 16 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 17 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 18 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 19 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 20 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 21 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 22 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 23 disabled or no RTSP.
+[2025-05-28 18:59:41] [INFO] [AppLogger]: Camera 24 disabled or no RTSP.
+[2025-05-28 19:00:29] [INFO] [AppLogger]: Shutting down: cleaning up all streams.
+[2025-05-28 19:00:29] [INFO] [AppLogger]: Cleaning up all camera streams.
+[2025-05-28 19:00:29] [INFO] [AppLogger]: Exiting application.
+[2025-05-28 19:00:29] [INFO] [AppLogger]: SystemExit caught — shutting down hard.
