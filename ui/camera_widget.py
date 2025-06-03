@@ -4,7 +4,7 @@ import os
 import cv2
 from PyQt5.QtWidgets import QWidget, QLabel, QSizePolicy, QMessageBox, QVBoxLayout
 from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtGui import QPixmap, QImage, QFont
 from core.camera_stream_worker import CameraStreamWorker
 from utils.logging import log
 
@@ -38,7 +38,13 @@ class CameraWidget(QWidget):
 
         self.title = QLabel(self.name)
         self.title.setAlignment(Qt.AlignCenter)
+        title_font = QFont()
+        title_font.setPointSize(14)  # increase this value as you prefer (e.g., 16, 18)
+        title_font.setBold(True)
+        self.title.setFont(title_font)
+
         self.title.setStyleSheet(f"color: white; background-color: {STATUS_COLOR['NOT_CONFIGURED']}; font-weight: bold; padding: 4px;")
+                
         layout.addWidget(self.title)
 
         self.content = QLabel()
@@ -66,7 +72,7 @@ class CameraWidget(QWidget):
             pixmap = QPixmap(self.logo_path)
             if not pixmap.isNull():
                 self.content.setPixmap(pixmap.scaled(
-                    160, 120, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                    240, 180, Qt.KeepAspectRatio, Qt.SmoothTransformation))
                 return
         self.content.setText("No Stream")
         self.update_status()

@@ -218,13 +218,36 @@ class CameraConfigDialog(QDialog):
 class CameraCountDialog(QDialog):
     def __init__(self, valid_camera_counts=None):
         super().__init__()
-        self.setWindowTitle("Select Number of Cameras")
-        self.setFixedSize(300, 150)
+        self.setWindowTitle("Change camera Count")
+        self.setFixedSize(500, 200)
 
         layout = QVBoxLayout()
-        layout.addWidget(QLabel("Choose number of cameras to display:"))
+        label = QLabel("Choose number of camera to display: ")
+        label_font = QFont()
+        label_font.setPointSize(13)
+        label.setFont(label_font)
+        layout.addWidget(label)
 
         self.combo = QComboBox()
+        main_font = QFont()
+        main_font.setPointSize(14)
+        self.combo.setFont(main_font)
+        self.combo.setStyleSheet("""
+            QComboBox {                         
+                background-color: #333;
+                color: white;
+                border: 1px solid #555;
+                padding: 4px;
+                border-radius: 4px;
+            }
+            QComboBox::drop-down {
+                border: 0px;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #333;
+                color: white;
+            }                
+            """)
         valid_counts = valid_camera_counts or [4, 8, 12, 16, 20, 24, 32, 40, 44, 48]
         self.combo.addItems([str(c) for c in valid_counts])
         layout.addWidget(self.combo)
