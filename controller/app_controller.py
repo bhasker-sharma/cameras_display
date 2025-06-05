@@ -35,6 +35,7 @@ class AppController:
             self.change_camera_count()
 
         self.initialize_windows()
+        self.start_recording_for_configured_cameras()
 
     def initialize_windows(self):
         for window in self.windows.values():
@@ -111,6 +112,8 @@ class AppController:
             enabled = config.get("enabled", False)
             record = config.get("record", False)
 
+            log.info(f"Evaluating camera {cam_id}: enabled={enabled}, record={record}, rtsp={rtsp_url}")
+            
             if enabled and record and rtsp_url:
                 recorder = CameraRecorderWorker(cam_id, rtsp_url, name)
                 recorder.start()

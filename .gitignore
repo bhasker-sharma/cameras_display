@@ -9,7 +9,7 @@ wheels/
 
 # Virtual environments
 env/
-
+recordings/
 # Ignore only specific config files
 camera_config.json
 camera_streams.json
