@@ -1,6 +1,5 @@
 # Python-generated files
 __pycache__/
-*.py[oc]
 build/
 dist/
 wheels/
@@ -11,5 +10,6 @@ wheels/
 # Virtual environments
 env/
 
-*camera_config.json/
-*camera_stream.json/
+# Ignore only specific config files
+camera_config.json
+camera_streams.json
