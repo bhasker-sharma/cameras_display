@@ -10,3 +10,6 @@ wheels/
 
 # Virtual environments
 env/
+
+*camera_config.json/
+*camera_stream.json/

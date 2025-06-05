@@ -1,8 +1,8 @@
 {
     "1": {
         "name": "cam 1",
-        "rtsp": "",
-        "enabled": false
+        "rtsp": "uhguyg",
+        "enabled": true
     },
     "2": {
         "name": "vasu",
@@ -75,7 +75,7 @@
         "enabled": false
     },
     "16": {
-        "name": "h",
+        "name": "camerae 16",
         "rtsp": "",
         "enabled": false
     },
