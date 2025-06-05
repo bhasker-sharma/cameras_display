@@ -2,121 +2,145 @@
     "1": {
         "name": "cam 1",
         "rtsp": "uhguyg",
-        "enabled": true
+        "enabled": false,
+        "record": false
     },
     "2": {
         "name": "vasu",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "3": {
         "name": "Camera 3",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "4": {
         "name": "Camera 4",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "5": {
         "name": "Camera 5",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "6": {
         "name": "Camera 6",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "7": {
         "name": "Camera 7",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "8": {
         "name": "Camera 8",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "9": {
         "name": "Camera 9",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "10": {
         "name": "Camera 10",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "11": {
         "name": "Camera 11",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "12": {
         "name": "bhasker 12",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "13": {
         "name": "Camera 13",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "14": {
         "name": "Camera 14",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "15": {
         "name": "Camera 15",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "16": {
         "name": "camerae 16",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "17": {
         "name": "Camera 17",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "18": {
         "name": "Camera 18",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "19": {
         "name": "Camera 19",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "20": {
         "name": "Camera 20",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "21": {
         "name": "Camera 21",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "22": {
         "name": "Camera 22",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "23": {
         "name": "Camera 23",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     },
     "24": {
         "name": "Camera 24",
         "rtsp": "",
-        "enabled": false
+        "enabled": false,
+        "record": false
     }
 }
