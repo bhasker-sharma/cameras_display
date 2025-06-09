@@ -13,3 +13,5 @@ env/
 
 *camera_config.json/
 *camera_stream.json/
+
+/recordings
