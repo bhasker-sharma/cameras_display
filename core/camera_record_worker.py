@@ -1,10 +1,7 @@
 import os
-<<<<<<< HEAD
 import cv2, shutil
 import time
-=======
 import cv2
->>>>>>> 4ab2b70c610856dd875f981ecf85fed2764d71b6
 from datetime import datetime, timedelta
 from PyQt5.QtCore import QThread
 from utils.logging import log
@@ -20,7 +17,6 @@ class CameraRecorderWorker(QThread):
 
     def run(self):
         self.running = True
-<<<<<<< HEAD
         reconnect_delay = 5  # seconds between reconnection attempts
         
         while self.running:
@@ -137,7 +133,6 @@ class CameraRecorderWorker(QThread):
                     cap.release()
 
         log.info(f"[Recorder] Recording stopped for Camera {self.cam_id}")
-=======
         cap = cv2.VideoCapture(self.rtsp_url, cv2.CAP_FFMPEG)
 
         if not cap.isOpened():
@@ -198,7 +193,6 @@ class CameraRecorderWorker(QThread):
         cap.release()
         log.info(f"[Recorder] Finished {file_name}. Total frames: {frame_count}")
 
->>>>>>> 4ab2b70c610856dd875f981ecf85fed2764d71b6
 
     def stop(self):
         self.running = False
