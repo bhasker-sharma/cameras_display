@@ -104,7 +104,13 @@ class AppController:
     def start_recording_for_configured_cameras(self):
         for cam_id in range(1, self.camera_count + 1):
             if cam_id in self.recorder_threads:
-                continue  # already recording
+                # Check if thread is still running, else remove it
+                recorder = self.recorder_threads[cam_id]
+                if not recorder.isRunning():
+                    log.info(f"Recorder thread for Camera {cam_id} stopped unexpectedly. Restarting.")
+                    del self.recorder_threads[cam_id]
+                else:
+                    continue  # already recording
 
             config = self.stream_config.get_camera_config(cam_id)
             rtsp_url = config.get("rtsp", "")
@@ -116,9 +122,20 @@ class AppController:
             
             if enabled and record and rtsp_url:
                 recorder = CameraRecorderWorker(cam_id, rtsp_url, name)
+                recorder.recording_finished.connect(self.handle_recording_finished)
                 recorder.start()
                 self.recorder_threads[cam_id] = recorder
                 log.info(f"Started recorder for Camera {cam_id}")
+
+    def handle_recording_finished(self, cam_id):
+        log.info(f"Recording finished signal received for Camera {cam_id}")
+        if cam_id in self.recorder_threads:
+            recorder = self.recorder_threads[cam_id]
+            if not recorder.isRunning():
+                del self.recorder_threads[cam_id]
+                # Restart recording for this camera
+                log.info(f"Restarting recorder for Camera {cam_id}")
+                self.start_recording_for_configured_cameras()
 
     def stop_all_recordings(self):
         for cam_id, recorder in self.recorder_threads.items():
