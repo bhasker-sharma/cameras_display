@@ -49,8 +49,8 @@ class CameraConfigDialog(QDialog):
         layout.addLayout(master_buttons_layout)
 
         # Table setup
-        self.table = QTableWidget(camera_count, 3)
-        self.table.setHorizontalHeaderLabels(["Camera Name", "RTSP URL", "Enabled"])
+        self.table = QTableWidget(camera_count, 4)
+        self.table.setHorizontalHeaderLabels(["Camera Name", "RTSP URL", "Recording","Enabled"])
         self.table.setFont(main_font)
         self.table.setStyleSheet("""
             QTableWidget {
@@ -85,8 +85,10 @@ class CameraConfigDialog(QDialog):
         header.setSectionResizeMode(0, self.table.horizontalHeader().ResizeToContents)  # Camera Name → stretch
         header.setSectionResizeMode(1, self.table.horizontalHeader().Stretch)  # RTSP URL → fit contents
         header.setSectionResizeMode(2, self.table.horizontalHeader().ResizeToContents)  # Enabled → fit content
-
+        header.setSectionResizeMode(3, self.table.horizontalHeader().ResizeToContents)
+        
         self.enable_buttons = {}
+        self.record_buttons = {}
 
         for row in range(camera_count):
             cam_id = row + 1
@@ -107,6 +109,27 @@ class CameraConfigDialog(QDialog):
             rtsp_item.setFont(main_font)
             self.table.setItem(row, 1, rtsp_item)
 
+            #  Recording Enabled Button (inside table, synced)
+            record_enabled_state = data.get("record",False)
+            record_btn = QPushButton()
+            record_btn.setCheckable(True)  
+            record_btn.setChecked(record_enabled_state)
+            record_btn.setText("ON" if record_enabled_state else "OFF")
+            record_btn.setFont(main_font)
+            record_btn.setMinimumWidth(130)
+            record_btn.setMinimumHeight(30)
+            record_btn.setStyleSheet(self.button_style(record_enabled_state))
+            record_btn.clicked.connect(lambda checked, btn=record_btn : self.toggle_record_button(btn))        
+
+            self.record_buttons[cam_id] = record_btn 
+
+            record_container = QWidget()
+            record_layout = QHBoxLayout(record_container)
+            record_layout.addWidget(record_btn)
+            record_layout.setAlignment(Qt.AlignCenter)
+            record_layout.setContentsMargins(0, 0, 0, 0)
+            self.table.setCellWidget(row, 2, record_container)
+
             # Enabled Button (inside table, synced)
             enable_btn = QPushButton()
             enable_btn.setCheckable(True)
@@ -125,7 +148,7 @@ class CameraConfigDialog(QDialog):
             button_layout.addWidget(enable_btn)
             button_layout.setAlignment(Qt.AlignCenter)
             button_layout.setContentsMargins(0, 0, 0, 0)  # Ensure no cutting
-            self.table.setCellWidget(row, 2, button_container)
+            self.table.setCellWidget(row, 3, button_container)
 
         layout.addWidget(self.table)
 
@@ -141,6 +164,10 @@ class CameraConfigDialog(QDialog):
 
     def toggle_button(self, btn):
         btn.setText("Enabled" if btn.isChecked() else "Disabled")
+        btn.setStyleSheet(self.button_style(btn.isChecked()))
+
+    def toggle_record_button(self, btn):
+        btn.setText("ON" if btn.isChecked() else "OFF")
         btn.setStyleSheet(self.button_style(btn.isChecked()))
 
     def button_style(self, enabled):
@@ -169,14 +196,22 @@ class CameraConfigDialog(QDialog):
         """
 
     def enable_all_cameras(self):
-        for btn in self.enable_buttons.values():
+        for btn in self.enable_buttons.values(): 
             btn.setChecked(True)
             self.toggle_button(btn)
+
+        for btn in self.record_buttons.values():
+            btn.setChecked(True)   
+            self.toggle_record_button(btn)
 
     def disable_all_cameras(self):
         for btn in self.enable_buttons.values():
             btn.setChecked(False)
             self.toggle_button(btn)
+        
+        for btn in self.record_buttons.values():
+            btn.setChecked(False)   
+            self.toggle_record_button(btn)
 
     def save_config(self):
         confirm = QMessageBox.question(
@@ -193,11 +228,13 @@ class CameraConfigDialog(QDialog):
                 name = self.table.item(row, 0).text()
                 rtsp = self.table.item(row, 1).text()
                 enabled = self.enable_buttons[cam_id].isChecked()
+                record = self.record_buttons[cam_id].isChecked()
 
                 data = {
                     "name": name,
                     "rtsp": rtsp,
-                    "enabled": enabled
+                    "enabled": enabled,
+                    "record": record
                 }
                 self.config_manager.set_camera_config(cam_id, data)
 
