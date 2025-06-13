@@ -8,6 +8,7 @@ from utils.logging import log
 from PyQt5.QtWidgets import QMessageBox
 import sys
 import os
+from core.camera_record_worker import CameraRecorderWorker
 
 GRID_LAYOUTS = {
     4: [(0, 2, 2)],
@@ -27,12 +28,14 @@ class AppController:
         self.config_mgr = ConfigManager()
         self.stream_config = CameraStreamConfigManager()
         self.windows = {}
+        self.recorder_threads = {}
         self.camera_count = self.config_mgr.get_camera_count()
 
         if self.camera_count == 0:
             self.change_camera_count()
 
         self.initialize_windows()
+        self.start_recording_for_configured_cameras()
 
     def initialize_windows(self):
         for window in self.windows.values():
@@ -93,4 +96,49 @@ class AppController:
     def refresh_configurations(self):
         for window in self.windows.values():
             window.refresh_widgets()
+            self.stop_all_recordings()
+            self.start_recording_for_configured_cameras()
         log.info("Camera configurations refreshed")
+
+
+    def start_recording_for_configured_cameras(self):
+        for cam_id in range(1, self.camera_count + 1):
+            if cam_id in self.recorder_threads:
+                # Check if thread is still running, else remove it
+                recorder = self.recorder_threads[cam_id]
+                if not recorder.isRunning():
+                    log.info(f"Recorder thread for Camera {cam_id} stopped unexpectedly. Restarting.")
+                    del self.recorder_threads[cam_id]
+                else:
+                    continue  # already recording
+
+            config = self.stream_config.get_camera_config(cam_id)
+            rtsp_url = config.get("rtsp", "")
+            name = config.get("name", f"Camera {cam_id}")
+            enabled = config.get("enabled", False)
+            record = config.get("record", False)
+
+            log.info(f"Evaluating camera {cam_id}: enabled={enabled}, record={record}, rtsp={rtsp_url}")
+            
+            if enabled and record and rtsp_url:
+                recorder = CameraRecorderWorker(cam_id, rtsp_url, name)
+                recorder.recording_finished.connect(self.handle_recording_finished)
+                recorder.start()
+                self.recorder_threads[cam_id] = recorder
+                log.info(f"Started recorder for Camera {cam_id}")
+
+    def handle_recording_finished(self, cam_id):
+        log.info(f"Recording finished signal received for Camera {cam_id}")
+        if cam_id in self.recorder_threads:
+            recorder = self.recorder_threads[cam_id]
+            if not recorder.isRunning():
+                del self.recorder_threads[cam_id]
+                # Restart recording for this camera
+                log.info(f"Restarting recorder for Camera {cam_id}")
+                self.start_recording_for_configured_cameras()
+
+    def stop_all_recordings(self):
+        for cam_id, recorder in self.recorder_threads.items():
+            recorder.stop()
+            log.info(f"Stopped recorder for Camera {cam_id}")
+        self.recorder_threads.clear()
