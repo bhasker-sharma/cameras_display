@@ -42,7 +42,8 @@ class CameraRecorderWorker(QThread):
 
         # Detect FPS from the capture device
         fps = cap.get(cv2.CAP_PROP_FPS)
-        if fps <= 0 or fps > 60:  # Sanity check for FPS value
+        # if fps <= 0 or fps > 60:  # Sanity check for FPS value
+        if fps <= 0:
             fps = 20.0  # Default fallback FPS
             log.info(f"[Recorder] Using default FPS: {fps}")
         else:
@@ -73,7 +74,7 @@ class CameraRecorderWorker(QThread):
 
         start_time = datetime.now()
         frame_count = 0
-        target_frames = int(fps * 60)  # Total frames needed for 60 seconds
+        target_frames = int(fps * 3600)  # Total frames needed for 1 hhour
         frame_interval = 1.0 / fps  # Time between frames in seconds
 
         log.info(f"[Recorder] Starting recording. Target: {target_frames} frames at {fps} FPS")
