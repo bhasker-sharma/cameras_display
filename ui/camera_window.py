@@ -9,6 +9,9 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QTimer
 from ui.camera_widget import CameraWidget
 from utils.logging import log
+from ui.dialogs import PlaybackDialog, CameraCountDialog, CameraConfigDialog
+from ui.responsive import ScreenScaler
+
 
 class CameraWindow(QMainWindow):
     def __init__(self, title, camera_ids, rows, cols, stream_config, controller=None):
@@ -16,7 +19,7 @@ class CameraWindow(QMainWindow):
         self.setWindowTitle(title)
         if os.path.exists("assets/logo.png"):
             self.setWindowIcon(QIcon("assets/logo.png"))
-
+        scaler = ScreenScaler()
         self.disconnected_cams = set() #this is to keep the track of the cameras that are disconnected
 
         self.poll_timer = QTimer()
@@ -42,33 +45,38 @@ class CameraWindow(QMainWindow):
         if controller:
             nav = QHBoxLayout()
 
-            # refresh_btn = QPushButton("Refresh System")
-            # refresh_btn.clicked.connect(self.controller.refresh_configurations)
-
             change_btn = QPushButton("Change Camera Count")
             change_btn.clicked.connect(self.controller.change_camera_count)
 
             config_btn = QPushButton("Configure Camera")
             config_btn.clicked.connect(self.controller.open_camera_config)
 
+            playback_btn = QPushButton("Playback")
+            playback_btn.clicked.connect(self.open_playback_dialog)
+
             # for btn in (refresh_btn ,chnage_btn, config_btn):
-            for btn in (change_btn, config_btn):
-                btn.setStyleSheet("""
-                    QPushButton {
+            for btn in (change_btn, config_btn, playback_btn):
+                font = btn.font()
+                font.setPointSize(scaler.scale(11))
+                btn.setFont(font)
+
+                btn.setStyleSheet(f"""
+                    QPushButton {{
                         background-color: #555;
                         color: white;
-                        padding: 6px 14px;
-                        border-radius: 4px;
-                    }
-                    QPushButton:hover {
+                        padding: {scaler.scale(6)}px {scaler.scale(14)}px;
+                        border-radius: {scaler.scale(4)}px;
+                    }}
+                    QPushButton:hover {{
                         background-color: #777;
-                    }
+                    }}
                 """)
 
             # nav.addWidget(refresh_btn)
             nav.addStretch()
             nav.addWidget(change_btn)
             nav.addWidget(config_btn)
+            nav.addWidget(playback_btn)
             layout.addLayout(nav)
 
         self.grid_widget = QWidget()
@@ -187,37 +195,37 @@ class CameraWindow(QMainWindow):
             self.focused_cam_id = None
             self.grid_widget.show()
 
-    def refresh_widgets(self):
-        for cam_id, widget in self.camera_widgets.items():
-            stream_cfg = self.stream_config.get_camera_config(cam_id)
-            cam_name = stream_cfg.get("name", f"Camera {cam_id}")
-            rtsp_url = stream_cfg.get("rtsp", "")
-            is_enabled = stream_cfg.get("enabled", True)
+    # def refresh_widgets(self):
+    #     for cam_id, widget in self.camera_widgets.items():
+    #         stream_cfg = self.stream_config.get_camera_config(cam_id)
+    #         cam_name = stream_cfg.get("name", f"Camera {cam_id}")
+    #         rtsp_url = stream_cfg.get("rtsp", "")
+    #         is_enabled = stream_cfg.get("enabled", True)
 
-            widget.update_name(cam_name)
-            widget.configure(rtsp_url, is_enabled)
+    #         widget.update_name(cam_name)
+    #         widget.configure(rtsp_url, is_enabled)
 
-            if widget.is_streaming:
-                if not is_enabled or not rtsp_url:
-                    widget.stop_stream()
-            elif is_enabled and rtsp_url:
-                widget.start_stream(rtsp_url)
+    #         if widget.is_streaming:
+    #             if not is_enabled or not rtsp_url:
+    #                 widget.stop_stream()
+    #         elif is_enabled and rtsp_url:
+    #             widget.start_stream(rtsp_url)
 
-        # Refresh focused widget too
-        if self.focused and hasattr(self, 'focused_widget'):
-            stream_cfg = self.stream_config.get_camera_config(self.focused_cam_id)
-            cam_name = stream_cfg.get("name", f"Camera {self.focused_cam_id}")
-            rtsp_url = stream_cfg.get("rtsp", "")
-            is_enabled = stream_cfg.get("enabled", True)
+    #     # Refresh focused widget too
+    #     if self.focused and hasattr(self, 'focused_widget'):
+    #         stream_cfg = self.stream_config.get_camera_config(self.focused_cam_id)
+    #         cam_name = stream_cfg.get("name", f"Camera {self.focused_cam_id}")
+    #         rtsp_url = stream_cfg.get("rtsp", "")
+    #         is_enabled = stream_cfg.get("enabled", True)
 
-            self.focused_widget.update_name(cam_name)
-            self.focused_widget.configure(rtsp_url, is_enabled)
+    #         self.focused_widget.update_name(cam_name)
+    #         self.focused_widget.configure(rtsp_url, is_enabled)
 
-            if self.focused_widget.is_streaming:
-                if not is_enabled or not rtsp_url:
-                    self.focused_widget.stop_stream()
-            elif is_enabled and rtsp_url:
-                self.focused_widget.start_stream(rtsp_url)
+    #         if self.focused_widget.is_streaming:
+    #             if not is_enabled or not rtsp_url:
+    #                 self.focused_widget.stop_stream()
+    #         elif is_enabled and rtsp_url:
+                # self.focused_widget.start_stream(rtsp_url)
 
     def cleanup_streams(self):
         log.info(f"Cleaning up all camera streams.")
@@ -231,3 +239,7 @@ class CameraWindow(QMainWindow):
         self.cleanup_streams()
         log.info("Exiting application.")
         event.accept()
+
+    def open_playback_dialog(self):
+        dialog = PlaybackDialog(parent =self)
+        dialog.exec_()

@@ -1,13 +1,17 @@
 # camera_app/ui/dialogs.py
 
 from PyQt5.QtWidgets import (
-    QDialog, QLabel, QLineEdit, QComboBox, QPushButton,
+    QDialog, QLabel, QLineEdit, QComboBox, QPushButton,QTreeWidget,QTreeWidgetItem,QHeaderView,
     QVBoxLayout, QGridLayout, QDialogButtonBox, QTableWidget, QTableWidgetItem, QCheckBox, QWidget, QHBoxLayout,
-    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox
+    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox,QSizePolicy
 )
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
+from PyQt5.QtCore import Qt,QTimer
+from PyQt5.QtGui import QFont, QImage, QPixmap
 import os,sys
+from ui.responsive import ScreenScaler
+from utils.logging import log
+import cv2
+
 
 class CameraConfigDialog(QDialog):
     def __init__(self, camera_count, config_manager, parent=None):
@@ -307,3 +311,111 @@ class CameraCountDialog(QDialog):
         self.move(dialog_geom.topLeft())
 
 
+class PlaybackDialog(QDialog):
+    def __init__(self, root_folder="recordings", parent=None):
+       
+        super().__init__(parent)
+        self.setWindowTitle("Playback Viewer")
+        scaler = ScreenScaler()
+        # Set responsive dialog size using global scaler
+        self.resize(scaler.scale_w(1200), scaler.scale_h(800))
+
+        # Tree widget setup
+        self.tree = QTreeWidget()
+        self.tree.setHeaderLabels(["File/Folder", "Type"])
+        self.tree.itemDoubleClicked.connect(self.on_item_double_clicked)
+
+        # Apply scaled font to tree and header
+        font = QFont()
+        font.setPointSize(scaler.scale(12))
+        self.tree.setFont(font)
+
+        header = self.tree.header()
+        header.setFont(font)
+        header.setStretchLastSection(True)
+        header.setSectionResizeMode(0, QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+
+        #create the vedio display area
+        self.video_label = QLabel("video preview")
+        self.video_label.setAlignment(Qt.AlignCenter)
+        self.video_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.video_label.setStyleSheet("background-color: #2c2c2c; color: white")
+
+        #split layout horizontally
+        main_layout = QHBoxLayout()
+        main_layout.addWidget(self.tree,2)
+        main_layout.addWidget(self.video_label, 5)
+
+        # outer layout 
+        layout = QVBoxLayout()
+        layout.setContentsMargins(
+            scaler.scale(10),
+            scaler.scale(10),
+            scaler.scale(10),
+            scaler.scale(10)
+        )
+        layout.addLayout(main_layout)
+        self.setLayout(layout)
+        #setup video playback
+        self.cap =  None
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.read_frame)
+
+        # Center the dialog
+        screen = QApplication.primaryScreen().availableGeometry()
+        frame = self.frameGeometry()
+        frame.moveCenter(screen.center())
+        self.move(frame.topLeft())
+
+        self.root_folder = root_folder
+        self.populate_tree()
+
+    def populate_tree(self):
+        if not os.path.exists(self.root_folder):
+            QMessageBox.warning(self, "Missing Folder", f"No recordings found in: {self.root_folder}")
+            return
+
+        self.tree.clear()
+        self.add_items(self.tree.invisibleRootItem(), self.root_folder)
+
+    def add_items(self, parent_item, folder_path):
+        for name in sorted(os.listdir(folder_path)):
+            full_path = os.path.join(folder_path, name)
+            if os.path.isdir(full_path):
+                item = QTreeWidgetItem(parent_item, [name, "Folder"])
+                self.add_items(item, full_path)
+            elif name.endswith((".avi", ".mp4")):
+                item = QTreeWidgetItem(parent_item, [name, "Video"])
+                item.setData(0, Qt.UserRole, full_path)
+
+    def on_item_double_clicked(self, item, column):
+        if item.text(1) == "Video":
+            file_path = item.data(0, Qt.UserRole)
+            self.start_video(file_path)
+
+    def start_video(self, path):
+        if self.cap:
+            self.cap.release()
+        self.cap = cv2.VideoCapture(path)
+        if not self.cap.isOpened():
+            QMessageBox.critical(self, "Error", f"Cannot open video:\n{path}")
+            return
+        self.timer.start(33)  # ~30 FPS
+
+    def read_frame(self):
+        if not self.cap:
+            return
+        ret, frame = self.cap.read()
+        if not ret:
+            self.timer.stop()
+            self.cap.release()
+            return
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        h, w, ch = frame.shape
+        bytes_per_line = ch * w
+        q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
+        pixmap = QPixmap.fromImage(q_img)
+        self.video_label.setPixmap(pixmap.scaled(
+            self.video_label.width(), self.video_label.height(),
+            Qt.KeepAspectRatio, Qt.SmoothTransformation))
