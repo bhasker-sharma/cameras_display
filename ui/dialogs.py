@@ -3,7 +3,7 @@
 from PyQt5.QtWidgets import (
     QDialog, QLabel, QLineEdit, QComboBox, QPushButton,QTreeWidget,QTreeWidgetItem,QHeaderView,
     QVBoxLayout, QGridLayout, QDialogButtonBox, QTableWidget, QTableWidgetItem, QCheckBox, QWidget, QHBoxLayout,
-    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox,QSizePolicy
+    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox,QSizePolicy,QSlider
 )
 from PyQt5.QtCore import Qt,QTimer
 from PyQt5.QtGui import QFont, QImage, QPixmap
@@ -316,6 +316,11 @@ class PlaybackDialog(QDialog):
        
         super().__init__(parent)
         self.setWindowTitle("Playback Viewer")
+        self.total_frames = 0
+        self.fps = 25
+        self.is_playing = True
+        self.seeking = False # track manual dragging of slider
+
         scaler = ScreenScaler()
         # Set responsive dialog size using global scaler
         self.resize(scaler.scale_w(1200), scaler.scale_h(800))
@@ -342,10 +347,76 @@ class PlaybackDialog(QDialog):
         self.video_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.video_label.setStyleSheet("background-color: #2c2c2c; color: white")
 
-        #split layout horizontally
+        #video display pause button
+        self.play_pause_button = QPushButton("⏸")  # Unicode pause symbol
+        self.play_pause_button.hide()  # Initially hidden
+        self.play_pause_button.setFixedSize(scaler.scale(50), scaler.scale(50))
+        self.play_pause_button.setStyleSheet(f"""
+            QPushButton {{
+                background-color: white;
+                color: black;
+                border-radius: {scaler.scale(25)}px;
+                font-size: {scaler.scale(24)}px;
+                font-weight: bold;
+                border: 2px solid #ccc;
+                outline: none;
+            }}
+            QPushButton:focus {{
+                background-color: white;
+                border: 2px solid #ccc;
+            }}
+            QPushButton:hover {{
+                background-color: #f5f5f5;
+            }}
+            QPushButton:pressed {{
+                background-color: #e0e0e0;
+            }}
+        """)
+        self.play_pause_button.clicked.connect(self.toggle_play_pause)
+        
+        # #vedio slider option
+        self.slider = QSlider(Qt.Horizontal)
+        self.slider.setRange(0, 100)
+        self.slider.setValue(0)
+        self.slider.sliderPressed.connect(self.pause_for_seek)
+        self.slider.sliderReleased.connect(self.seek_video)
+        self.slider.hide()
+
+
+        #time on video
+        self.time_label = QLabel("00:00 / 00:00")
+        self.time_label.setStyleSheet("color: white; font-size: 14px;")
+        self.time_label.hide()  
+
+
+        # 📦 Container layout for video and its controls
+        video_container = QVBoxLayout()
+        video_container.setContentsMargins(0, 0, 0, 0)
+        video_container.setSpacing(6)
+        video_container.addWidget(self.video_label)
+
+        # 🎮 Controls bar (below video)
+        controls_layout = QHBoxLayout()
+        controls_layout.setContentsMargins(0, 0, 0, 0)
+        controls_layout.setSpacing(15)
+        controls_layout.addStretch()  # push items to center
+        controls_layout.addWidget(self.play_pause_button)
+        controls_layout.addWidget(self.slider, 5)
+        controls_layout.addWidget(self.time_label)
+        controls_layout.addStretch()
+
+        # controls_layout.addWidget(self.slider)
+        # controls_layout.addWidget(self.time_label)
+        video_container.addLayout(controls_layout)
+
+        # 🔀 Main layout split: Tree on left, Video+Controls on right
         main_layout = QHBoxLayout()
-        main_layout.addWidget(self.tree,2)
-        main_layout.addWidget(self.video_label, 5)
+        main_layout.addWidget(self.tree, 2)
+
+        # 👇 Create a QWidget to hold video_container layout
+        video_widget_container = QWidget()
+        video_widget_container.setLayout(video_container)
+        main_layout.addWidget(video_widget_container, 5)
 
         # outer layout 
         layout = QVBoxLayout()
@@ -398,19 +469,34 @@ class PlaybackDialog(QDialog):
         if self.cap:
             self.cap.release()
         self.cap = cv2.VideoCapture(path)
+        self.total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        self.fps = self.cap.get(cv2.CAP_PROP_FPS) or 25
+        # self.slider.setRange(0, self.total_frames)
         if not self.cap.isOpened():
             QMessageBox.critical(self, "Error", f"Cannot open video:\n{path}")
             return
+        self.play_pause_button.show()
+        self.slider.setRange(0, self.total_frames)
+        self.slider.setValue(0)
+        self.slider.show()
+        self.time_label.show()
+
         self.timer.start(33)  # ~30 FPS
 
     def read_frame(self):
         if not self.cap:
             return
+
         ret, frame = self.cap.read()
         if not ret:
             self.timer.stop()
-            self.cap.release()
+            self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # rewind to start
+            self.slider.setValue(0)
+            self.is_playing = False
+            self.play_pause_button.setText("▶")
             return
+
+        # Show frame
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         h, w, ch = frame.shape
         bytes_per_line = ch * w
@@ -419,3 +505,62 @@ class PlaybackDialog(QDialog):
         self.video_label.setPixmap(pixmap.scaled(
             self.video_label.width(), self.video_label.height(),
             Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+        # Get current frame position
+        current_frame = int(self.cap.get(cv2.CAP_PROP_POS_FRAMES))
+
+        # Update time label
+        elapsed_sec = current_frame / self.fps
+        total_sec = self.total_frames / self.fps
+        self.time_label.setText(f"{self.format_time(elapsed_sec)} / {self.format_time(total_sec)}")
+        if not self.seeking:
+            # 📈 Update slider position (safely)
+            self.slider.blockSignals(True)
+            self.slider.setValue(current_frame)
+            self.slider.blockSignals(False)
+        
+    def format_time(self, seconds):
+        minutes = int(seconds // 60)
+        seconds = int(seconds % 60)
+        return f"{minutes:02}:{seconds:02}"
+
+
+    def toggle_play_pause(self):
+        self.is_playing = not self.is_playing
+        self.play_pause_button.setText("▶" if not self.is_playing else "⏸")
+        if self.is_playing:
+            current_frame = int(self.cap.get(cv2.CAP_PROP_POS_FRAMES))
+            if current_frame >= self.total_frames:
+                self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                self.slider.setValue(0)
+            self.timer.start(int(1000 / self.fps))
+        else:
+            self.timer.stop()
+            
+    def seek_video(self):
+        if not self.cap:
+            return
+
+        frame_number = self.slider.value()
+        self.cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+
+        # show that frame immediately
+        ret, frame = self.cap.read()
+        if ret:
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            h, w, ch = frame.shape
+            bytes_per_line = ch * w
+            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
+            pixmap = QPixmap.fromImage(q_img)
+            self.video_label.setPixmap(pixmap.scaled(
+                self.video_label.width(), self.video_label.height(),
+                Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+        self.seeking = False
+        if self.is_playing:
+            self.timer.start(int(1000 / self.fps))
+
+    def pause_for_seek(self):
+        self.seeking = True
+        self.timer.stop()
+    
