@@ -10,7 +10,8 @@ from PyQt5.QtGui import QFont, QImage, QPixmap
 import os,sys
 from ui.responsive import ScreenScaler
 from utils.logging import log
-import cv2
+import cv2,json
+from datetime import datetime, timedelta
 
 
 class CameraConfigDialog(QDialog):
@@ -388,6 +389,10 @@ class PlaybackDialog(QDialog):
         self.time_label = QLabel("00:00 / 00:00")
         self.time_label.setStyleSheet("color: white; font-size: 14px;")
         self.time_label.hide()  
+        # Timestamp label to show actual datetime
+        self.slider_time_label = QLabel("00:00:00 | 01-01-2025")
+        self.slider_time_label.setAlignment(Qt.AlignCenter)
+        self.slider_time_label.setStyleSheet("color: #aaa; font-size: 12px;")
 
 
         # 📦 Container layout for video and its controls
@@ -402,7 +407,14 @@ class PlaybackDialog(QDialog):
         controls_layout.setSpacing(15)
         controls_layout.addStretch()  # push items to center
         controls_layout.addWidget(self.play_pause_button)
-        controls_layout.addWidget(self.slider, 5)
+        # Stack timestamp above slider
+        slider_container = QVBoxLayout()
+        slider_container.setSpacing(0)
+        slider_container.setContentsMargins(0, 0, 0, 0)
+        slider_container.addWidget(self.slider_time_label)
+        slider_container.addWidget(self.slider)
+        controls_layout.addLayout(slider_container, 5)
+
         controls_layout.addWidget(self.time_label)
         controls_layout.addStretch()
 
@@ -469,6 +481,19 @@ class PlaybackDialog(QDialog):
     def start_video(self, path):
         if self.cap:
             self.cap.release()
+        self.current_video_path = path  # Store the path
+        self.actual_start_time = None   # Reset
+
+        # Try loading actual start time from .json
+        meta_path = path.replace(".avi", ".json").replace(".mp4", ".json")
+        if os.path.exists(meta_path):
+            try:
+                with open(meta_path) as f:
+                    meta = json.load(f)
+                    self.actual_start_time = datetime.strptime(meta["start_time"], "%Y-%m-%d %H:%M:%S")
+            except Exception as e:
+                log.warning(f"Failed to load start time metadata: {e}")
+
         self.cap = cv2.VideoCapture(path)
         self.total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
         self.fps = self.cap.get(cv2.CAP_PROP_FPS) or 25
@@ -512,6 +537,13 @@ class PlaybackDialog(QDialog):
 
         # Update time label
         elapsed_sec = current_frame / self.fps
+
+        if hasattr(self, "actual_start_time") and self.actual_start_time:
+            current_video_time = self.actual_start_time + timedelta(seconds=elapsed_sec)
+            self.slider_time_label.setText(current_video_time.strftime("%H:%M:%S | %d-%m-%Y"))
+        else:
+            self.slider_time_label.setText("Unknown Time")
+
         total_sec = self.total_frames / self.fps
         self.time_label.setText(f"{self.format_time(elapsed_sec)} / {self.format_time(total_sec)}")
         if not self.seeking:

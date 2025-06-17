@@ -1,4 +1,4 @@
-import os
+import os,json
 import cv2
 from datetime import datetime, timedelta
 from PyQt5.QtCore import QThread, pyqtSignal
@@ -72,6 +72,9 @@ class CameraRecorderWorker(QThread):
         log.info(f"[Recorder] Started writing: {full_path}")
 
         start_time = datetime.now()
+        metadata_path = full_path.replace(".avi", ".json")
+        with open(metadata_path, "w") as f:
+            json.dump({"start_time": start_time.strftime("%Y-%m-%d %H:%M:%S")}, f)        
         frame_count = 0
         target_frames = int(fps * 3600)  # Total frames needed for one hour
         frame_interval = 1.0 / fps  # Time between frames in seconds
@@ -93,6 +96,20 @@ class CameraRecorderWorker(QThread):
                 log.warning(f"[Recorder] Frame size mismatch. Resizing...")
                 frame = cv2.resize(frame, (width, height))
 
+
+            # ⏱ Add timestamp on frame
+            timestamp = current_time.strftime("%d-%m-%Y %H:%M:%S")
+            cv2.putText(
+                frame,
+                timestamp,
+                (10, height - 20),  # Bottom-left corner
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (255, 255, 255),
+                2,
+                cv2.LINE_AA
+            )
+            
             out.write(frame)
             frame_count += 1
 
