@@ -52,7 +52,7 @@ class CameraRecorderWorker(QThread):
         now = datetime.now()
         date_folder = now.strftime("%d-%m-%Y")
         minute = now.strftime("%H%M")
-        next_minute = (now + timedelta(minutes=1)).strftime("%H%M")
+        next_minute = (now + timedelta(minutes=60)).strftime("%H%M")
         base_folder = f"recordings/{date_folder}/camera{self.cam_id}"
         os.makedirs(base_folder, exist_ok=True)
 
@@ -73,7 +73,7 @@ class CameraRecorderWorker(QThread):
 
         start_time = datetime.now()
         frame_count = 0
-        target_frames = int(fps * 60)  # Total frames needed for 60 seconds
+        target_frames = int(fps * 3600)  # Total frames needed for one hour
         frame_interval = 1.0 / fps  # Time between frames in seconds
 
         log.info(f"[Recorder] Starting recording. Target: {target_frames} frames at {fps} FPS")

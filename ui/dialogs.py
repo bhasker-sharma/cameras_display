@@ -380,6 +380,7 @@ class PlaybackDialog(QDialog):
         self.slider.setValue(0)
         self.slider.sliderPressed.connect(self.pause_for_seek)
         self.slider.sliderReleased.connect(self.seek_video)
+        self.slider.sliderMoved.connect(self.preview_slider_position)
         self.slider.hide()
 
 
@@ -564,3 +565,8 @@ class PlaybackDialog(QDialog):
         self.seeking = True
         self.timer.stop()
     
+    def preview_slider_position(self, frame_number):
+        # Show preview time while dragging
+        elapsed_sec = frame_number / self.fps
+        total_sec = self.total_frames / self.fps
+        self.time_label.setText(f"{self.format_time(elapsed_sec)} / {self.format_time(total_sec)}")
