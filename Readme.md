@@ -31,3 +31,25 @@ https://chatgpt.com/share/6825e10a-0c08-8000-8359-b063c6002daa
 commands to make the enviornment and activate it 
 
 * python -m venv env
+
+
+Software flow :
+main.py
+│
+├── Starts QApplication
+│
+└── AppController
+    ├── Loads config files
+    ├── Initializes windows
+    │
+    └── CameraWindow (UI)
+        ├── Top Navbar (QHBoxLayout)
+        │   ├── [Change Camera Count] ──► AppController.change_camera_count()
+        │   ├── [Configure Camera] ────► AppController.open_camera_config()
+        │   └── [New: Playback Button] ─► AppController.open_playback_dialog()
+        │
+        └── Grid Layout (QGridLayout)
+            ├── CameraWidget 1
+            ├── CameraWidget 2
+            ├── ...
+            └── CameraWidget N
