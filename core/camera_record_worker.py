@@ -24,112 +24,104 @@ class CameraRecorderWorker(QThread):
 
         if not cap.isOpened():
             log.error(f"[Recorder] Failed to open RTSP for Camera {self.cam_id}")
-            self.running = False
-            self.recording_finished.emit(self.cam_id)
+            self.cleanup(cap)
             return
 
         # Get first valid frame to detect resolution
         ret, frame = cap.read()
         if not ret or frame is None:
             log.warning(f"[Recorder] No frame received from Camera {self.cam_id}")
-            cap.release()
-            self.running = False
-            self.recording_finished.emit(self.cam_id)
+            self.cleanup(cap)
             return
-
+        
         height, width = frame.shape[:2]
-        log.info(f"[Recorder] Camera {self.cam_id} frame size: {width}x{height}")
-
         # Detect FPS from the capture device
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        if fps <= 0 or fps > 60:  # Sanity check for FPS value
-            fps = 20.0  # Default fallback FPS
-            log.info(f"[Recorder] Using default FPS: {fps}")
-        else:
-            log.info(f"[Recorder] Camera {self.cam_id} FPS detected: {fps}")
-
-        # Create new file for current hour
-        now = datetime.now()
-        date_folder = now.strftime("%d-%m-%Y")
-        minute = now.strftime("%H%M")
-        next_minute = (now + timedelta(minutes=60)).strftime("%H%M")
-        base_folder = f"recordings/{date_folder}/camera{self.cam_id}"
-        os.makedirs(base_folder, exist_ok=True)
-
-        file_name = f"{self.camera_name}_{now.strftime('%d%m%Y')}_{minute}_{next_minute}.avi"
-        full_path = os.path.join(base_folder, file_name)
-
+        fps = cap.get(cv2.CAP_PROP_FPS)         
+        fps = fps if 0 < fps <= 60 else 20  # Default to 25 FPS if detection fails
+        log.info(f"[Recorder] Camera {self.cam_id}: resolution ={width}*{height},fps = {fps}")
+            
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        out = cv2.VideoWriter(full_path, fourcc, fps, (width, height))
-
-        if not out.isOpened():
-            log.error(f"[Recorder] Failed to open VideoWriter for {full_path}")
-            cap.release()
-            self.running = False
-            self.recording_finished.emit(self.cam_id)
-            return
-
-        log.info(f"[Recorder] Started writing: {full_path}")
-
+        frame_interval = 1.0 / fps
+        max_frames = int(fps * 86400) #frame for all the day
+        current_date = datetime.now().date()
         start_time = datetime.now()
-        metadata_path = full_path.replace(".avi", ".json")
-        with open(metadata_path, "w") as f:
-            json.dump({"start_time": start_time.strftime("%Y-%m-%d %H:%M:%S")}, f)        
         frame_count = 0
-        target_frames = int(fps * 3600)  # Total frames needed for one hour
-        frame_interval = 1.0 / fps  # Time between frames in seconds
+        
+        out, metadata_path = self.open_writer(start_time, current_date, width, height, fourcc, fps)
+        log.info(f"[Recorder] Started {metadata_path.replace('.json','')}")
 
-        log.info(f"[Recorder] Starting recording. Target: {target_frames} frames at {fps} FPS")
-        next_frame_time = start_time
-
-        while self.running and frame_count < target_frames:
-            current_time = datetime.now()
-            elapsed_time = (current_time - start_time).total_seconds()
+        while self.running:
+            now = datetime.now()
+            if frame_count >= max_frames or now.date() != current_date:
+                out.release()
+                log.info(f"[Recorder] Rollover: recorded {frame_count} frame")
+                current_date = now.date()
+                start_time = now
+                frame_count = 0
+                out, metadata_path = self.open_writer(start_time, current_date, width, height, fourcc, fps)
             
             ret, frame = cap.read()
             if not ret or frame is None:
                 log.warning(f"[Recorder] Frame read failed for Camera {self.cam_id}")
                 break
-
-            # Sanity check
             if frame.shape[:2] != (height, width):
                 log.warning(f"[Recorder] Frame size mismatch. Resizing...")
                 frame = cv2.resize(frame, (width, height))
-
-
-            # ⏱ Add timestamp on frame
-            timestamp = current_time.strftime("%d-%m-%Y %H:%M:%S")
+                # First: overlay the camera name (green, top-left)
             cv2.putText(
                 frame,
-                timestamp,
-                (10, height - 20),  # Bottom-left corner
+                self.camera_name,
+                (10, 30),  # x, y (top-left corner)
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.7,
-                (255, 255, 255),
-                2,
+                0.8,       # font scale
+                (0, 255, 0),  # green color
+                2,         # thickness
                 cv2.LINE_AA
             )
+            timestamp = now.strftime("%d-%m-%Y %H:%M:%S")
+            cv2.putText(frame, timestamp, 
+                        (10, height - 20),
+                        cv2.FONT_HERSHEY_SIMPLEX, 
+                        0.7, 
+                        (255, 255, 255), 
+                        2,
+                        cv2.LINE_AA)
             
             out.write(frame)
             frame_count += 1
 
-            if frame_count % 100 == 0:
-                log.info(f"[Recorder] Camera {self.cam_id}: Frame {frame_count}/{target_frames}, Time: {elapsed_time:.2f}s")
+            if frame_count % int(fps*60) == 0:
+                elapsed = (now - start_time).total_seconds()
+                log.info(f"[Recorder] Cam{self.cam_id}: {frame_count} frames (~{elapsed:.1f}s)")
 
-            # Calculate time until next frame should be captured
-            next_frame_time = start_time + timedelta(seconds=frame_count * frame_interval)
-            sleep_time = (next_frame_time - datetime.now()).total_seconds()
-            
-            if sleep_time > 0:
-                cv2.waitKey(int(sleep_time * 1000))
+            sleep_time = start_time + timedelta(seconds=frame_count * frame_interval) - datetime.now()
+            if sleep_time.total_seconds() > 0:
+                cv2.waitKey(int(sleep_time.total_seconds()*1000))
 
-        final_time = (datetime.now() - start_time).total_seconds()
-        log.info(f"[Recorder] Recording complete. Duration: {final_time:.2f}s, Frames: {frame_count}")
-
+        log.info(f"[Recorder] Finished: {frame_count} frames recorded.")
         out.release()
         cap.release()
-        log.info(f"[Recorder] Finished {file_name}. Total frames: {frame_count}")
+        self.recording_finished.emit(self.cam_id)
 
+    def open_writer(self, ts, date_obj, width, height, fourcc, fps):
+        date_str = date_obj.strftime("%d-%m-%Y")
+        folder = f"recordings/{date_str}/camera{self.cam_id}"
+        os.makedirs(folder, exist_ok=True)
+
+        file_ts = ts.strftime("%Y%m%d_%H%M%S")
+        avi = os.path.join(folder, f"{self.camera_name}_{file_ts}.avi")
+        json_path = avi.replace(".avi", ".json")
+        out = cv2.VideoWriter(avi, fourcc, fps, (width, height))
+
+        with open(json_path, "w") as f:
+            f.write(json.dumps({"start_time": ts.strftime("%Y-%m-%d %H:%M:%S")}))
+        return out, json_path
+    
+
+    def cleanup(self, cap):
+        cap.release()
+        self.running = False
+        self.recording_finished.emit(self.cam_id)
 
     def stop(self):
         self.running = False

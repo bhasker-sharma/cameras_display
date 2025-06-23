@@ -6,12 +6,14 @@ from PyQt5.QtCore import Qt
 from controller.app_controller import AppController
 from ui.styles import apply_dark_theme
 from utils.logging import log
+from PyQt5.QtGui import QIcon
 
 def main():
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
     app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon("assets/logo.png"))
     apply_dark_theme(app)
 
     controller = AppController()
