@@ -1,5 +1,5 @@
 # camera_app/ui/dialogs.py
-
+import vlc
 from PyQt5.QtWidgets import (
     QDialog, QLabel, QLineEdit, QComboBox, QPushButton,QTreeWidget,QTreeWidgetItem,QHeaderView,
     QVBoxLayout, QGridLayout, QDialogButtonBox, QTableWidget, QTableWidgetItem, QCheckBox, QWidget, QHBoxLayout,
@@ -313,154 +313,112 @@ class CameraCountDialog(QDialog):
 
 
 class PlaybackDialog(QDialog):
+
     def __init__(self, root_folder="recordings", parent=None):
-       
         super().__init__(parent)
         self.setWindowTitle("Playback Viewer")
-        self.total_frames = 0
-        self.fps = 25
+        self.root_folder = root_folder
+        self.current_video_path = ""
         self.is_playing = True
-        self.seeking = False # track manual dragging of slider
+        self.seeking = False
+        self.duration = 0  # in milliseconds
+        self.scaler = ScreenScaler()
 
-        scaler = ScreenScaler()
-        # Set responsive dialog size using global scaler
-        self.resize(scaler.scale_w(1200), scaler.scale_h(800))
+        # Size and centering
+        screen = QApplication.primaryScreen().availableGeometry()
+        width = int(screen.width() * 0.6)
+        height = int(screen.height() * 0.6)
+        self.setMinimumSize(width, height)
 
-        # Tree widget setup
+        frame = self.frameGeometry()
+        frame.moveCenter(screen.center())
+        self.move(frame.topLeft())
+
+        # VLC setup
+        self.vlc_instance = vlc.Instance()
+        self.player = self.vlc_instance.media_player_new()
+        self.vlc_timer = QTimer()
+        self.vlc_timer.timeout.connect(self.update_slider)
+
+        # Build UI and populate file list
+        self.build_ui()
+        self.populate_tree()
+
+    def build_ui(self):
+        font = QFont()
+        font.setPointSize(self.scaler.scale(12))
+
+        # Tree View
         self.tree = QTreeWidget()
         self.tree.setHeaderLabels(["File/Folder", "Type"])
-        self.tree.itemDoubleClicked.connect(self.on_item_double_clicked)
-
-        # Apply scaled font to tree and header
-        font = QFont()
-        font.setPointSize(scaler.scale(12))
         self.tree.setFont(font)
-
         header = self.tree.header()
         header.setFont(font)
         header.setStretchLastSection(True)
         header.setSectionResizeMode(0, QHeaderView.Stretch)
         header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.tree.itemDoubleClicked.connect(self.on_item_double_clicked)
 
-        #create the vedio display area
+        # Video Display
         self.video_label = QLabel("video preview")
         self.video_label.setAlignment(Qt.AlignCenter)
         self.video_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.video_label.setStyleSheet("background-color: #2c2c2c; color: white")
 
-        #video display pause button
-        self.play_pause_button = QPushButton("⏸")  # Unicode pause symbol
-        self.play_pause_button.hide()  # Initially hidden
-        self.play_pause_button.setFixedSize(scaler.scale(50), scaler.scale(50))
-        self.play_pause_button.setStyleSheet(f"""
-            QPushButton {{
-                background-color: white;
-                color: black;
-                border-radius: {scaler.scale(25)}px;
-                font-size: {scaler.scale(24)}px;
-                font-weight: bold;
-                border: 2px solid #ccc;
-                outline: none;
-            }}
-            QPushButton:focus {{
-                background-color: white;
-                border: 2px solid #ccc;
-            }}
-            QPushButton:hover {{
-                background-color: #f5f5f5;
-            }}
-            QPushButton:pressed {{
-                background-color: #e0e0e0;
-            }}
-        """)
+        # Controls
+        self.play_pause_button = QPushButton("⏸")
+        self.play_pause_button.setFixedSize(self.scaler.scale(50), self.scaler.scale(50))
         self.play_pause_button.clicked.connect(self.toggle_play_pause)
-        
-        # #vedio slider option
+
         self.slider = QSlider(Qt.Horizontal)
-        self.slider.setRange(0, 100)
-        self.slider.setValue(0)
         self.slider.sliderPressed.connect(self.pause_for_seek)
         self.slider.sliderReleased.connect(self.seek_video)
         self.slider.sliderMoved.connect(self.preview_slider_position)
-        self.slider.hide()
 
-
-        #time on video
         self.time_label = QLabel("00:00 / 00:00")
         self.time_label.setStyleSheet("color: white; font-size: 14px;")
-        self.time_label.hide()  
-        # Timestamp label to show actual datetime
-        self.slider_time_label = QLabel("00:00:00 | 01-01-2025")
+
+        self.slider_time_label = QLabel("00:00:00 | Timestamp")
         self.slider_time_label.setAlignment(Qt.AlignCenter)
         self.slider_time_label.setStyleSheet("color: #aaa; font-size: 12px;")
 
+        # Layouts
+        slider_box = QVBoxLayout()
+        slider_box.addWidget(self.slider_time_label)
+        slider_box.addWidget(self.slider)
 
-        # 📦 Container layout for video and its controls
-        video_container = QVBoxLayout()
-        video_container.setContentsMargins(0, 0, 0, 0)
-        video_container.setSpacing(6)
-        video_container.addWidget(self.video_label)
+        control_box = QHBoxLayout()
+        control_box.addStretch()
+        control_box.addWidget(self.play_pause_button)
+        control_box.addLayout(slider_box, 5)
+        control_box.addWidget(self.time_label)
+        control_box.addStretch()
 
-        # 🎮 Controls bar (below video)
-        controls_layout = QHBoxLayout()
-        controls_layout.setContentsMargins(0, 0, 0, 0)
-        controls_layout.setSpacing(15)
-        controls_layout.addStretch()  # push items to center
-        controls_layout.addWidget(self.play_pause_button)
-        # Stack timestamp above slider
-        slider_container = QVBoxLayout()
-        slider_container.setSpacing(0)
-        slider_container.setContentsMargins(0, 0, 0, 0)
-        slider_container.addWidget(self.slider_time_label)
-        slider_container.addWidget(self.slider)
-        controls_layout.addLayout(slider_container, 5)
+        video_box = QVBoxLayout()
+        video_box.addWidget(self.video_label)
+        video_box.addLayout(control_box)
 
-        controls_layout.addWidget(self.time_label)
-        controls_layout.addStretch()
+        main_box = QHBoxLayout()
+        main_box.addWidget(self.tree, 2)
+        container = QLabel()
+        container.setLayout(video_box)
+        main_box.addWidget(container, 5)
 
-        # controls_layout.addWidget(self.slider)
-        # controls_layout.addWidget(self.time_label)
-        video_container.addLayout(controls_layout)
-
-        # 🔀 Main layout split: Tree on left, Video+Controls on right
-        main_layout = QHBoxLayout()
-        main_layout.addWidget(self.tree, 2)
-
-        # 👇 Create a QWidget to hold video_container layout
-        video_widget_container = QWidget()
-        video_widget_container.setLayout(video_container)
-        main_layout.addWidget(video_widget_container, 5)
-
-        # outer layout 
         layout = QVBoxLayout()
         layout.setContentsMargins(
-            scaler.scale(10),
-            scaler.scale(10),
-            scaler.scale(10),
-            scaler.scale(10)
+            self.scaler.scale(10),
+            self.scaler.scale(10),
+            self.scaler.scale(10),
+            self.scaler.scale(10)
         )
-        layout.addLayout(main_layout)
+        layout.addLayout(main_box)
         self.setLayout(layout)
-        #setup video playback
-        self.cap =  None
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.read_frame)
-
-        # Center the dialog
-        screen = QApplication.primaryScreen().availableGeometry()
-        frame = self.frameGeometry()
-        frame.moveCenter(screen.center())
-        self.move(frame.topLeft())
-
-        self.root_folder = root_folder
-        self.populate_tree()
 
     def populate_tree(self):
+        self.tree.clear()
         if not os.path.exists(self.root_folder):
             QMessageBox.warning(self, "Missing Folder", f"No recordings found in: {self.root_folder}")
             return
-
-        self.tree.clear()
         self.add_items(self.tree.invisibleRootItem(), self.root_folder)
 
     def add_items(self, parent_item, folder_path):
@@ -475,130 +433,90 @@ class PlaybackDialog(QDialog):
 
     def on_item_double_clicked(self, item, column):
         if item.text(1) == "Video":
-            file_path = item.data(0, Qt.UserRole)
-            self.start_video(file_path)
+            path = item.data(0, Qt.UserRole)
+            self.start_video(path)
 
     def start_video(self, path):
-        if self.cap:
-            self.cap.release()
-        self.current_video_path = path  # Store the path
-        self.actual_start_time = None   # Reset
+        if self.player.is_playing():
+            self.player.stop()
 
-        # Try loading actual start time from .json
-        meta_path = path.replace(".avi", ".json").replace(".mp4", ".json")
-        if os.path.exists(meta_path):
-            try:
-                with open(meta_path) as f:
-                    meta = json.load(f)
-                    self.actual_start_time = datetime.strptime(meta["start_time"], "%Y-%m-%d %H:%M:%S")
-            except Exception as e:
-                log.warning(f"Failed to load start time metadata: {e}")
-
-        self.cap = cv2.VideoCapture(path)
-        self.total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        self.fps = self.cap.get(cv2.CAP_PROP_FPS) or 25
-        # self.slider.setRange(0, self.total_frames)
-        if not self.cap.isOpened():
-            QMessageBox.critical(self, "Error", f"Cannot open video:\n{path}")
-            return
-        self.play_pause_button.show()
-        self.slider.setRange(0, self.total_frames)
-        self.slider.setValue(0)
-        self.slider.show()
-        self.time_label.show()
-
-        self.timer.start(33)  # ~30 FPS
-
-    def read_frame(self):
-        if not self.cap:
-            return
-
-        ret, frame = self.cap.read()
-        if not ret:
-            self.timer.stop()
-            self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # rewind to start
-            self.slider.setValue(0)
-            self.is_playing = False
-            self.play_pause_button.setText("▶")
-            return
-
-        # Show frame
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        h, w, ch = frame.shape
-        bytes_per_line = ch * w
-        q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
-        pixmap = QPixmap.fromImage(q_img)
-        self.video_label.setPixmap(pixmap.scaled(
-            self.video_label.width(), self.video_label.height(),
-            Qt.KeepAspectRatio, Qt.SmoothTransformation))
-
-        # Get current frame position
-        current_frame = int(self.cap.get(cv2.CAP_PROP_POS_FRAMES))
-
-        # Update time label
-        elapsed_sec = current_frame / self.fps
-
-        if hasattr(self, "actual_start_time") and self.actual_start_time:
-            current_video_time = self.actual_start_time + timedelta(seconds=elapsed_sec)
-            self.slider_time_label.setText(current_video_time.strftime("%H:%M:%S | %d-%m-%Y"))
+        self.media = self.vlc_instance.media_new(path)
+        self.player.set_media(self.media)
+        if sys.platform.startswith("win"):
+            self.player.set_hwnd(int(self.video_label.winId()))
         else:
-            self.slider_time_label.setText("Unknown Time")
+            self.player.set_xwindow(self.video_label.winId())
+        self.player.play()
+        self.current_video_path = path
+        self.is_playing = True
+        self.play_pause_button.setText("⏸")
 
-        total_sec = self.total_frames / self.fps
-        self.time_label.setText(f"{self.format_time(elapsed_sec)} / {self.format_time(total_sec)}")
-        if not self.seeking:
-            # 📈 Update slider position (safely)
-            self.slider.blockSignals(True)
-            self.slider.setValue(current_frame)
-            self.slider.blockSignals(False)
+        # Delay to allow VLC to fetch metadata (like duration)
+        QTimer.singleShot(1500, self.setup_slider)   
+
+    def setup_slider(self):  
+        if not self.media:
+            return
+
+        def finalize_slider():
+            self.duration = self.media.get_duration()
+            if self.duration <= 0:
+                QTimer.singleShot(1000, self.setup_slider)
+                return
+
+            self.slider.setRange(0, self.duration)
+            self.slider.setValue(0)
+            self.vlc_timer.start(500)
+
+        # Try parsing the media info
+        parsed = self.media.get_state() in [vlc.State.Opening, vlc.State.Buffering, vlc.State.NothingSpecial]
+        if parsed:
+            self.media.parse_with_options(vlc.MediaParseFlag.local, timeout=5)
         
+        QTimer.singleShot(1000, finalize_slider)
+
     def format_time(self, seconds):
         minutes = int(seconds // 60)
         seconds = int(seconds % 60)
         return f"{minutes:02}:{seconds:02}"
 
-
+    def pretty_timestamp(self, seconds):
+        ts = timedelta(seconds=int(seconds))
+        return str(ts) + " | Timestamp"
+    
     def toggle_play_pause(self):
-        self.is_playing = not self.is_playing
-        self.play_pause_button.setText("▶" if not self.is_playing else "⏸")
-        if self.is_playing:
-            current_frame = int(self.cap.get(cv2.CAP_PROP_POS_FRAMES))
-            if current_frame >= self.total_frames:
-                self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-                self.slider.setValue(0)
-            self.timer.start(int(1000 / self.fps))
+        if self.player.is_playing():
+            self.player.pause()
+            self.play_pause_button.setText("▶")
+            self.is_playing = False
         else:
-            self.timer.stop()
-            
-    def seek_video(self):
-        if not self.cap:
-            return
+            self.player.play()
+            self.play_pause_button.setText("⏸")
+            self.is_playing = True
 
-        frame_number = self.slider.value()
-        self.cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
-
-        # show that frame immediately
-        ret, frame = self.cap.read()
-        if ret:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            h, w, ch = frame.shape
-            bytes_per_line = ch * w
-            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
-            pixmap = QPixmap.fromImage(q_img)
-            self.video_label.setPixmap(pixmap.scaled(
-                self.video_label.width(), self.video_label.height(),
-                Qt.KeepAspectRatio, Qt.SmoothTransformation))
-
-        self.seeking = False
-        if self.is_playing:
-            self.timer.start(int(1000 / self.fps))
-
+    
     def pause_for_seek(self):
         self.seeking = True
-        self.timer.stop()
-    
-    def preview_slider_position(self, frame_number):
-        # Show preview time while dragging
-        elapsed_sec = frame_number / self.fps
-        total_sec = self.total_frames / self.fps
-        self.time_label.setText(f"{self.format_time(elapsed_sec)} / {self.format_time(total_sec)}")
+        self.vlc_timer.stop()
+
+    def seek_video(self):
+        self.seeking = False
+        self.player.set_time(self.slider.value())  # in ms
+        if self.is_playing:
+            self.vlc_timer.start(500)
+
+    def preview_slider_position(self, value):
+        seconds = value // 1000
+        self.time_label.setText(f"{self.format_time(seconds)} / {self.format_time(self.duration // 1000)}")
+        self.slider_time_label.setText(self.pretty_timestamp(seconds))
+
+    def update_slider(self):
+        if not self.seeking:
+            position = self.player.get_time()  # in ms
+            self.slider.blockSignals(True)
+            self.slider.setValue(position)
+            self.slider.blockSignals(False)
+
+            seconds = position // 1000
+            self.time_label.setText(f"{self.format_time(seconds)} / {self.format_time(self.duration // 1000)}")
+            self.slider_time_label.setText(self.pretty_timestamp(seconds))

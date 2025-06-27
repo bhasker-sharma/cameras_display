@@ -42,7 +42,7 @@ class CameraRecorderWorker(QThread):
             
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         frame_interval = 1.0 / fps
-        max_frames = int(fps * 86400) #frame for all the day
+        max_frames = int(fps * 86500) #frame for all the day
         current_date = datetime.now().date()
         start_time = datetime.now()
         frame_count = 0
