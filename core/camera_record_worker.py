@@ -49,7 +49,8 @@ class CameraRecorderWorker(QThread):
         
         out, metadata_path = self.open_writer(start_time, current_date, width, height, fourcc, fps)
         log.info(f"[Recorder] Started {metadata_path.replace('.json','')}")
-
+        self.latest_metadata_path = metadata_path
+        
         while self.running:
             now = datetime.now()
             if frame_count >= max_frames or now.date() != current_date:
@@ -121,8 +122,34 @@ class CameraRecorderWorker(QThread):
     def cleanup(self, cap):
         cap.release()
         self.running = False
+        if hasattr(self, 'latest_metadata_path'):
+            self.finalize_metadata(self.latest_metadata_path)
         self.recording_finished.emit(self.cam_id)
 
     def stop(self):
+        log.debug(f"[Recorder] stop() called for cam {self.cam_id}")
+        log.debug(f"[Recorder] latest_metadata_path = {self.latest_metadata_path}")
+        if not self.running:
+            log.debug(f"[Recorder] Camera {self.cam_id} is not running, nothing to stop.")
+            return
         self.running = False
         self.wait()
+        try:
+            if hasattr(self, 'latest_metadata_path'):
+                self.finalize_metadata(self.latest_metadata_path)
+        except Exception as e:
+            log.error(f"[Recorder] Error finalizing metadata during stop: {e}")
+
+    def finalize_metadata(self, metadata_path):
+        try:
+            with open(metadata_path, "r+") as f:
+                meta = json.load(f)
+                meta["end_time"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                f.seek(0)
+                json.dump(meta, f, indent=4)
+                f.truncate()
+                f.flush()
+                os.fsync(f.fileno())  # ensures it’s written to disk
+            log.debug(f"[Recorder] Updated end_time in {metadata_path}")
+        except Exception as e:
+            log.error(f"[Recorder] Failed to update end_time in {metadata_path}: {e}")

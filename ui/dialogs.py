@@ -3,7 +3,7 @@ import vlc
 from PyQt5.QtWidgets import (
     QDialog, QLabel, QLineEdit, QComboBox, QPushButton,QTreeWidget,QTreeWidgetItem,QHeaderView,
     QVBoxLayout, QGridLayout, QDialogButtonBox, QTableWidget, QTableWidgetItem, QCheckBox, QWidget, QHBoxLayout,
-    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox,QSizePolicy,QSlider
+    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox,QSizePolicy,QSlider,QStyle
 )
 from PyQt5.QtCore import Qt,QTimer
 from PyQt5.QtGui import QFont, QImage, QPixmap
@@ -313,210 +313,265 @@ class CameraCountDialog(QDialog):
 
 
 class PlaybackDialog(QDialog):
-
     def __init__(self, root_folder="recordings", parent=None):
         super().__init__(parent)
         self.setWindowTitle("Playback Viewer")
         self.root_folder = root_folder
-        self.current_video_path = ""
-        self.is_playing = True
-        self.seeking = False
-        self.duration = 0  # in milliseconds
         self.scaler = ScreenScaler()
+        self.vlc_instance = vlc.Instance()
+        self.player = self.vlc_instance.media_player_new()
+        self.media = None
+        self.manual_duration = 0        # duration in ms
+        self.user_seeking = False       # whether user is dragging
+        self.slider_position_ms = 0     # current slider target
+        self.fps = 25                   # fallback if FPS isn't found
+        self.last_frame_limit_ms = 0    # upper seek limit for in-progress files
 
-        # Size and centering
+        log.debug("[PlaybackDialog] Initializing UI")
+        self.init_ui()
+        self.populate_tree()
+        self.resize_to_screen()
+
+    def init_ui(self):
+        layout = QHBoxLayout()
+        self.setLayout(layout)
+
+        # Left: Folder tree (unchanged)
+        self.tree = QTreeWidget()
+        self.tree.setHeaderLabel("Recorded Files")
+        self.tree.itemDoubleClicked.connect(self.play_video_from_item)
+        layout.addWidget(self.tree, 2)
+
+        # Right: Video player
+        player_layout = QVBoxLayout()
+
+        self.video_frame = QLabel("No video selected")
+        self.video_frame.setStyleSheet("background-color: black;")
+        self.video_frame.setMinimumHeight(self.scaler.scale_h(300))
+        self.video_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        player_layout.addWidget(self.video_frame)
+
+        # New compact control layout (slider + play + time) in one line
+        bottom_controls = QHBoxLayout()
+
+        # Play/Pause icon button
+        self.play_button = QPushButton()
+        self.play_button.setFixedSize(32, 32)
+        self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.play_button.clicked.connect(self.toggle_play_pause)
+        bottom_controls.addWidget(self.play_button)
+
+        # Slider
+        self.slider = QSlider(Qt.Horizontal)
+        self.slider.setRange(0, 1000)
+        self.slider.sliderPressed.connect(self.start_seeking)
+        self.slider.sliderReleased.connect(self.finish_seeking)
+        self.slider.sliderMoved.connect(self.while_seeking)
+
+        bottom_controls.addWidget(self.slider, stretch=1)
+
+        # Time label
+        self.time_label = QLabel("00:00 / 00:00")
+        self.time_label.setStyleSheet("color: white;")
+        bottom_controls.addWidget(self.time_label)
+
+        player_layout.addLayout(bottom_controls)
+        layout.addLayout(player_layout, 5)
+
+        # Timer for VLC sync
+        self.vlc_timer = QTimer()
+        self.vlc_timer.setInterval(500)
+        self.vlc_timer.timeout.connect(self.update_ui)
+
+
+    def resize_to_screen(self):
         screen = QApplication.primaryScreen().availableGeometry()
         width = int(screen.width() * 0.6)
         height = int(screen.height() * 0.6)
         self.setMinimumSize(width, height)
-
-        frame = self.frameGeometry()
-        frame.moveCenter(screen.center())
-        self.move(frame.topLeft())
-
-        # VLC setup
-        self.vlc_instance = vlc.Instance()
-        self.player = self.vlc_instance.media_player_new()
-        self.vlc_timer = QTimer()
-        self.vlc_timer.timeout.connect(self.update_slider)
-
-        # Build UI and populate file list
-        self.build_ui()
-        self.populate_tree()
-
-    def build_ui(self):
-        font = QFont()
-        font.setPointSize(self.scaler.scale(12))
-
-        # Tree View
-        self.tree = QTreeWidget()
-        self.tree.setHeaderLabels(["File/Folder", "Type"])
-        self.tree.setFont(font)
-        header = self.tree.header()
-        header.setFont(font)
-        header.setStretchLastSection(True)
-        header.setSectionResizeMode(0, QHeaderView.Stretch)
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        self.tree.itemDoubleClicked.connect(self.on_item_double_clicked)
-
-        # Video Display
-        self.video_label = QLabel("video preview")
-        self.video_label.setAlignment(Qt.AlignCenter)
-        self.video_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.video_label.setStyleSheet("background-color: #2c2c2c; color: white")
-
-        # Controls
-        self.play_pause_button = QPushButton("⏸")
-        self.play_pause_button.setFixedSize(self.scaler.scale(50), self.scaler.scale(50))
-        self.play_pause_button.clicked.connect(self.toggle_play_pause)
-
-        self.slider = QSlider(Qt.Horizontal)
-        self.slider.sliderPressed.connect(self.pause_for_seek)
-        self.slider.sliderReleased.connect(self.seek_video)
-        self.slider.sliderMoved.connect(self.preview_slider_position)
-
-        self.time_label = QLabel("00:00 / 00:00")
-        self.time_label.setStyleSheet("color: white; font-size: 14px;")
-
-        self.slider_time_label = QLabel("00:00:00 | Timestamp")
-        self.slider_time_label.setAlignment(Qt.AlignCenter)
-        self.slider_time_label.setStyleSheet("color: #aaa; font-size: 12px;")
-
-        # Layouts
-        slider_box = QVBoxLayout()
-        slider_box.addWidget(self.slider_time_label)
-        slider_box.addWidget(self.slider)
-
-        control_box = QHBoxLayout()
-        control_box.addStretch()
-        control_box.addWidget(self.play_pause_button)
-        control_box.addLayout(slider_box, 5)
-        control_box.addWidget(self.time_label)
-        control_box.addStretch()
-
-        video_box = QVBoxLayout()
-        video_box.addWidget(self.video_label)
-        video_box.addLayout(control_box)
-
-        main_box = QHBoxLayout()
-        main_box.addWidget(self.tree, 2)
-        container = QLabel()
-        container.setLayout(video_box)
-        main_box.addWidget(container, 5)
-
-        layout = QVBoxLayout()
-        layout.setContentsMargins(
-            self.scaler.scale(10),
-            self.scaler.scale(10),
-            self.scaler.scale(10),
-            self.scaler.scale(10)
-        )
-        layout.addLayout(main_box)
-        self.setLayout(layout)
+        self.move(screen.center() - self.rect().center())
+        log.debug(f"[PlaybackDialog] Resized to {width}x{height}")
 
     def populate_tree(self):
         self.tree.clear()
-        if not os.path.exists(self.root_folder):
-            QMessageBox.warning(self, "Missing Folder", f"No recordings found in: {self.root_folder}")
+        log.debug("[PlaybackDialog] Populating tree view")
+        for root, dirs, files in os.walk(self.root_folder):
+            relative_path = os.path.relpath(root, self.root_folder)
+            parts = [] if relative_path == "." else relative_path.split(os.sep)
+
+            parent = self.tree
+            current_item = None
+
+            for part in parts:
+                found = False
+                for i in range(parent.topLevelItemCount() if isinstance(parent, QTreeWidget) else parent.childCount()):
+                    item = parent.topLevelItem(i) if isinstance(parent, QTreeWidget) else parent.child(i)
+                    if item.text(0) == part:
+                        current_item = item
+                        parent = item
+                        found = True
+                        break
+
+                if not found:
+                    new_item = QTreeWidgetItem([part])
+                    if isinstance(parent, QTreeWidget):
+                        parent.addTopLevelItem(new_item)
+                    else:
+                        parent.addChild(new_item)
+                    current_item = new_item
+                    parent = new_item
+
+            for f in files:
+                if f.endswith(".avi") or f.endswith(".mp4"):
+                    file_item = QTreeWidgetItem([f])
+                    file_item.setData(0, Qt.UserRole, os.path.join(root, f))
+                    parent.addChild(file_item)
+
+    def play_video_from_item(self, item, column):
+        filepath = item.data(0, Qt.UserRole)
+        if not filepath or not filepath.endswith((".avi", ".mp4")):
             return
-        self.add_items(self.tree.invisibleRootItem(), self.root_folder)
-
-    def add_items(self, parent_item, folder_path):
-        for name in sorted(os.listdir(folder_path)):
-            full_path = os.path.join(folder_path, name)
-            if os.path.isdir(full_path):
-                item = QTreeWidgetItem(parent_item, [name, "Folder"])
-                self.add_items(item, full_path)
-            elif name.endswith((".avi", ".mp4")):
-                item = QTreeWidgetItem(parent_item, [name, "Video"])
-                item.setData(0, Qt.UserRole, full_path)
-
-    def on_item_double_clicked(self, item, column):
-        if item.text(1) == "Video":
-            path = item.data(0, Qt.UserRole)
-            self.start_video(path)
-
-    def start_video(self, path):
-        if self.player.is_playing():
-            self.player.stop()
-
-        self.media = self.vlc_instance.media_new(path)
-        self.player.set_media(self.media)
-        if sys.platform.startswith("win"):
-            self.player.set_hwnd(int(self.video_label.winId()))
-        else:
-            self.player.set_xwindow(self.video_label.winId())
-        self.player.play()
-        self.current_video_path = path
-        self.is_playing = True
-        self.play_pause_button.setText("⏸")
-
-        # Delay to allow VLC to fetch metadata (like duration)
-        QTimer.singleShot(1500, self.setup_slider)   
-
-    def setup_slider(self):  
-        if not self.media:
-            return
-
-        def finalize_slider():
-            self.duration = self.media.get_duration()
-            if self.duration <= 0:
-                QTimer.singleShot(1000, self.setup_slider)
-                return
-
-            self.slider.setRange(0, self.duration)
-            self.slider.setValue(0)
-            self.vlc_timer.start(500)
-
-        # Try parsing the media info
-        parsed = self.media.get_state() in [vlc.State.Opening, vlc.State.Buffering, vlc.State.NothingSpecial]
-        if parsed:
-            self.media.parse_with_options(vlc.MediaParseFlag.local, timeout=5)
         
-        QTimer.singleShot(1000, finalize_slider)
+        self.media = self.vlc_instance.media_new(filepath)
+        self.player.set_media(self.media)
+        self.manual_duration = 0
+        self.last_frame_limit_ms = 0
 
-    def format_time(self, seconds):
-        minutes = int(seconds // 60)
-        seconds = int(seconds % 60)
-        return f"{minutes:02}:{seconds:02}"
+        log.info(f"[PlaybackDialog] Playing: {filepath}")
+        self.media = self.vlc_instance.media_new(filepath)
+        self.player.set_media(self.media)
 
-    def pretty_timestamp(self, seconds):
-        ts = timedelta(seconds=int(seconds))
-        return str(ts) + " | Timestamp"
-    
+        json_path = filepath.replace(".avi", ".json").replace(".mp4", ".json")
+        if os.path.exists(json_path):
+            try:
+                with open(json_path, "r") as f:
+                    meta = json.load(f)
+                    if "start_time" in meta and "end_time" in meta:
+                        fmt = "%Y-%m-%d %H:%M:%S"
+                        start = datetime.strptime(meta["start_time"], fmt)
+                        end = datetime.strptime(meta["end_time"], fmt)
+                        self.manual_duration = int((end - start).total_seconds() * 1000)
+                    elif "start_time" in meta and os.path.exists(filepath):
+                        # Get frame count and FPS to calculate in-progress duration
+                        cap = cv2.VideoCapture(filepath)
+                        frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+                        fps = cap.get(cv2.CAP_PROP_FPS)
+                        cap.release()
+                        fps = fps if 0 < fps < 60 else 25
+                        self.fps = fps
+                        self.manual_duration = int(frames / fps * 1000)
+                        self.last_frame_limit_ms = self.manual_duration
+            except Exception as e:
+                log.warning(f"[PlaybackDialog] Failed to parse recording metadata: {e}")
+
+        # Attach to screen
+        if sys.platform.startswith("linux"):
+            self.player.set_xwindow(self.video_frame.winId())
+        elif sys.platform == "win32":
+            self.player.set_hwnd(int(self.video_frame.winId()))
+
+        self.player.play()
+        self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+        self.vlc_timer.start()
+
     def toggle_play_pause(self):
-        if self.player.is_playing():
+        if not self.player:
+            return
+
+        state = self.player.get_state()
+        log.debug(f"[PlaybackDialog] toggle_play_pause state = {state}")
+
+        if state == vlc.State.Playing:
             self.player.pause()
-            self.play_pause_button.setText("▶")
-            self.is_playing = False
-        else:
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        elif state in (vlc.State.Paused, vlc.State.Stopped):
             self.player.play()
-            self.play_pause_button.setText("⏸")
-            self.is_playing = True
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+        elif state == vlc.State.Ended:
+            self.player.stop()
+            self.player.play()
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
 
-    
-    def pause_for_seek(self):
-        self.seeking = True
-        self.vlc_timer.stop()
+    def handle_slider_release(self):
+        if not self.player or not self.player.get_media():
+            return
 
-    def seek_video(self):
-        self.seeking = False
-        self.player.set_time(self.slider.value())  # in ms
-        if self.is_playing:
-            self.vlc_timer.start(500)
+        new_position = self.slider.value() / 1000.0
+        self.player.set_position(new_position)
+        log.debug(f"[PlaybackDialog] Slider released -> position = {new_position:.2f}")
 
-    def preview_slider_position(self, value):
-        seconds = value // 1000
-        self.time_label.setText(f"{self.format_time(seconds)} / {self.format_time(self.duration // 1000)}")
-        self.slider_time_label.setText(self.pretty_timestamp(seconds))
+        if self.player.get_state() in (vlc.State.Ended, vlc.State.Stopped):
+            self.player.play()
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+            
+    def update_ui(self):
+        if not self.player or not self.player.get_media():
+            log.debug("[PlaybackDialog] update_ui skipped: No player/media")
+            return
 
-    def update_slider(self):
-        if not self.seeking:
-            position = self.player.get_time()  # in ms
+        state = self.player.get_state()
+        log.debug(f"[PlaybackDialog] update_ui state: {state}")
+
+        if state == vlc.State.Ended:
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+            log.debug("[PlaybackDialog] update_ui: Video ended")
+            return
+
+        if state not in (vlc.State.Playing, vlc.State.Paused):
+            log.debug("[PlaybackDialog] update_ui: Skipping — state is not playing/paused")
+            return
+
+        length = self.player.get_length()
+        pos = self.player.get_time()
+        log.debug(f"[PlaybackDialog] Raw VLC time — pos={pos}, length={length}")
+              
+        # Fallback: use JSON metadata duration
+        if length <= 0 and hasattr(self, 'manual_duration') and self.manual_duration > 0:
+            length = self.manual_duration
+            
+        # Clamp duration for live video (in-progress)
+        if self.last_frame_limit_ms > 0:
+            length = self.last_frame_limit_ms
+            if pos > self.last_frame_limit_ms:
+                self.player.set_pause(1)
+
+        if length > 0 and pos >= 0 and not self.user_seeking:
             self.slider.blockSignals(True)
-            self.slider.setValue(position)
+            self.slider.setValue(int((pos / length) * 1000))
             self.slider.blockSignals(False)
 
-            seconds = position // 1000
-            self.time_label.setText(f"{self.format_time(seconds)} / {self.format_time(self.duration // 1000)}")
-            self.slider_time_label.setText(self.pretty_timestamp(seconds))
+            formatted = f"{self.ms_to_time(pos)} / {self.ms_to_time(length)}"
+            self.time_label.setText(formatted)
+            log.debug(f"[PlaybackDialog] Time updated: {formatted}")
+        else:
+            log.debug("[PlaybackDialog] Skipped time update — length or pos invalid")
+    
+    def ms_to_time(self, ms):
+        seconds = ms // 1000
+        mins, secs = divmod(seconds, 60)
+        hrs, mins = divmod(mins, 60)
+        return f"{hrs:02}:{mins:02}:{secs:02}"
+
+    def start_seeking(self):
+        self.user_seeking = True
+        self.player.set_pause(1)  # pause while dragging
+
+    def while_seeking(self, val):
+        if self.manual_duration > 0:
+            self.slider_position_ms = int((val / 1000.0) * self.manual_duration)
+            self.time_label.setText(f"{self.ms_to_time(self.slider_position_ms)} / {self.ms_to_time(self.manual_duration)}")
+
+    def finish_seeking(self):
+        self.user_seeking = False
+        if self.manual_duration > 0:
+            seek_ratio = self.slider.value() / 1000.0
+            seek_ms = int(seek_ratio * self.manual_duration)
+
+            # Clamp to last known safe frame
+            if self.last_frame_limit_ms > 0:
+                seek_ms = min(seek_ms, self.last_frame_limit_ms)
+
+            self.player.set_time(seek_ms)
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+            self.player.set_pause(0)
+            log.debug(f"[PlaybackDialog] Seeking to {seek_ms} ms")
