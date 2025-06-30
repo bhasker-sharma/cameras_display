@@ -1,5 +1,7 @@
 # camera_app/ui/dialogs.py
-import vlc
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import (
     QDialog, QLabel, QLineEdit, QComboBox, QPushButton,QTreeWidget,QTreeWidgetItem,QHeaderView,
     QVBoxLayout, QGridLayout, QDialogButtonBox, QTableWidget, QTableWidgetItem, QCheckBox, QWidget, QHBoxLayout,
@@ -318,9 +320,11 @@ class PlaybackDialog(QDialog):
         self.setWindowTitle("Playback Viewer")
         self.root_folder = root_folder
         self.scaler = ScreenScaler()
-        self.vlc_instance = vlc.Instance()
-        self.player = self.vlc_instance.media_player_new()
-        self.media = None
+
+        self.player = QMediaPlayer()
+        self.video_widget = QVideoWidget()
+        self.player.setVideoOutput(self.video_widget)
+
         self.manual_duration = 0        # duration in ms
         self.user_seeking = False       # whether user is dragging
         self.slider_position_ms = 0     # current slider target
@@ -345,11 +349,12 @@ class PlaybackDialog(QDialog):
         # Right: Video player
         player_layout = QVBoxLayout()
 
-        self.video_frame = QLabel("No video selected")
-        self.video_frame.setStyleSheet("background-color: black;")
-        self.video_frame.setMinimumHeight(self.scaler.scale_h(300))
-        self.video_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        player_layout.addWidget(self.video_frame)
+        self.video_widget.setStyleSheet("background-color: black;")
+        self.video_widget.setMinimumHeight(self.scaler.scale_h(300))
+        self.video_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+
+        player_layout.addWidget(self.video_widget)
 
         # New compact control layout (slider + play + time) in one line
         bottom_controls = QHBoxLayout()
@@ -377,11 +382,6 @@ class PlaybackDialog(QDialog):
 
         player_layout.addLayout(bottom_controls)
         layout.addLayout(player_layout, 5)
-
-        # Timer for VLC sync
-        self.vlc_timer = QTimer()
-        self.vlc_timer.setInterval(500)
-        self.vlc_timer.timeout.connect(self.update_ui)
 
 
     def resize_to_screen(self):
@@ -422,130 +422,41 @@ class PlaybackDialog(QDialog):
                     parent = new_item
 
             for f in files:
-                if f.endswith(".avi") or f.endswith(".mp4"):
+                if f.endswith(".mp4") or f.endswith(".avi"):
                     file_item = QTreeWidgetItem([f])
                     file_item.setData(0, Qt.UserRole, os.path.join(root, f))
                     parent.addChild(file_item)
 
     def play_video_from_item(self, item, column):
         filepath = item.data(0, Qt.UserRole)
-        if not filepath or not filepath.endswith((".avi", ".mp4")):
+        if not filepath or not filepath.endswith((".avi",".mp4")):
             return
         
-        self.media = self.vlc_instance.media_new(filepath)
-        self.player.set_media(self.media)
+        self.filepath = filepath
+        log.debug(f"[PlaybackDialog] Playing video: {filepath}")
         self.manual_duration = 0
-        self.last_frame_limit_ms = 0
 
-        log.info(f"[PlaybackDialog] Playing: {filepath}")
-        self.media = self.vlc_instance.media_new(filepath)
-        self.player.set_media(self.media)
-
-        json_path = filepath.replace(".avi", ".json").replace(".mp4", ".json")
-        if os.path.exists(json_path):
-            try:
-                with open(json_path, "r") as f:
-                    meta = json.load(f)
-                    if "start_time" in meta and "end_time" in meta:
-                        fmt = "%Y-%m-%d %H:%M:%S"
-                        start = datetime.strptime(meta["start_time"], fmt)
-                        end = datetime.strptime(meta["end_time"], fmt)
-                        self.manual_duration = int((end - start).total_seconds() * 1000)
-                    elif "start_time" in meta and os.path.exists(filepath):
-                        # Get frame count and FPS to calculate in-progress duration
-                        cap = cv2.VideoCapture(filepath)
-                        frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-                        fps = cap.get(cv2.CAP_PROP_FPS)
-                        cap.release()
-                        fps = fps if 0 < fps < 60 else 25
-                        self.fps = fps
-                        self.manual_duration = int(frames / fps * 1000)
-                        self.last_frame_limit_ms = self.manual_duration
-            except Exception as e:
-                log.warning(f"[PlaybackDialog] Failed to parse recording metadata: {e}")
-
-        # Attach to screen
-        if sys.platform.startswith("linux"):
-            self.player.set_xwindow(self.video_frame.winId())
-        elif sys.platform == "win32":
-            self.player.set_hwnd(int(self.video_frame.winId()))
-
+        self.player.setMedia(QMediaContent(QUrl.fromLocalFile(filepath)))
         self.player.play()
         self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
-        self.vlc_timer.start()
+        try:
+            self.player.positionChanged.disconnect(self.set_position)
+            self.player.durationChanged.disconnect(self.set_duration)
+        except TypeError:
+            pass  # Already disconnected or not connected yet
+
+        self.player.positionChanged.connect(self.set_position)
+        self.player.durationChanged.connect(self.set_duration)
+
 
     def toggle_play_pause(self):
-        if not self.player:
-            return
-
-        state = self.player.get_state()
-        log.debug(f"[PlaybackDialog] toggle_play_pause state = {state}")
-
-        if state == vlc.State.Playing:
+        if self.player.state() == QMediaPlayer.PlayingState:
             self.player.pause()
             self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
-        elif state in (vlc.State.Paused, vlc.State.Stopped):
-            self.player.play()
-            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
-        elif state == vlc.State.Ended:
-            self.player.stop()
-            self.player.play()
-            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
-
-    def handle_slider_release(self):
-        if not self.player or not self.player.get_media():
-            return
-
-        new_position = self.slider.value() / 1000.0
-        self.player.set_position(new_position)
-        log.debug(f"[PlaybackDialog] Slider released -> position = {new_position:.2f}")
-
-        if self.player.get_state() in (vlc.State.Ended, vlc.State.Stopped):
-            self.player.play()
-            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
-            
-    def update_ui(self):
-        if not self.player or not self.player.get_media():
-            log.debug("[PlaybackDialog] update_ui skipped: No player/media")
-            return
-
-        state = self.player.get_state()
-        log.debug(f"[PlaybackDialog] update_ui state: {state}")
-
-        if state == vlc.State.Ended:
-            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
-            log.debug("[PlaybackDialog] update_ui: Video ended")
-            return
-
-        if state not in (vlc.State.Playing, vlc.State.Paused):
-            log.debug("[PlaybackDialog] update_ui: Skipping — state is not playing/paused")
-            return
-
-        length = self.player.get_length()
-        pos = self.player.get_time()
-        log.debug(f"[PlaybackDialog] Raw VLC time — pos={pos}, length={length}")
-              
-        # Fallback: use JSON metadata duration
-        if length <= 0 and hasattr(self, 'manual_duration') and self.manual_duration > 0:
-            length = self.manual_duration
-            
-        # Clamp duration for live video (in-progress)
-        if self.last_frame_limit_ms > 0:
-            length = self.last_frame_limit_ms
-            if pos > self.last_frame_limit_ms:
-                self.player.set_pause(1)
-
-        if length > 0 and pos >= 0 and not self.user_seeking:
-            self.slider.blockSignals(True)
-            self.slider.setValue(int((pos / length) * 1000))
-            self.slider.blockSignals(False)
-
-            formatted = f"{self.ms_to_time(pos)} / {self.ms_to_time(length)}"
-            self.time_label.setText(formatted)
-            log.debug(f"[PlaybackDialog] Time updated: {formatted}")
         else:
-            log.debug("[PlaybackDialog] Skipped time update — length or pos invalid")
-    
+            self.player.play()
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+
     def ms_to_time(self, ms):
         seconds = ms // 1000
         mins, secs = divmod(seconds, 60)
@@ -554,24 +465,27 @@ class PlaybackDialog(QDialog):
 
     def start_seeking(self):
         self.user_seeking = True
-        self.player.set_pause(1)  # pause while dragging
+        self.player.pause()  # pause while dragging
 
     def while_seeking(self, val):
         if self.manual_duration > 0:
-            self.slider_position_ms = int((val / 1000.0) * self.manual_duration)
-            self.time_label.setText(f"{self.ms_to_time(self.slider_position_ms)} / {self.ms_to_time(self.manual_duration)}")
+            self.slider_position_ms = val
+            self.time_label.setText(f"{self.ms_to_time(val)}/{self.ms_to_time(self.manual_duration)}")
 
     def finish_seeking(self):
         self.user_seeking = False
-        if self.manual_duration > 0:
-            seek_ratio = self.slider.value() / 1000.0
-            seek_ms = int(seek_ratio * self.manual_duration)
+        seek_ms = self.slider.value()
+        self.player.setPosition(seek_ms)
+        self.player.play()
+        self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
 
-            # Clamp to last known safe frame
-            if self.last_frame_limit_ms > 0:
-                seek_ms = min(seek_ms, self.last_frame_limit_ms)
+    def set_position(self, position):
+        if not self.user_seeking:
+            self.slider.blockSignals(True)
+            self.slider.setValue(position)
+            self.slider.blockSignals(False)
+            self.time_label.setText(f"{self.ms_to_time(position)} / {self.ms_to_time(self.player.duration())}")
 
-            self.player.set_time(seek_ms)
-            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
-            self.player.set_pause(0)
-            log.debug(f"[PlaybackDialog] Seeking to {seek_ms} ms")
+    def set_duration(self, duration):
+        self.manual_duration = duration
+        self.slider.setRange(0, duration)
