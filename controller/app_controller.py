@@ -121,7 +121,7 @@ class AppController:
             log.info(f"Evaluating camera {cam_id}: enabled={enabled}, record={record}, rtsp={rtsp_url}")
             
             if enabled and record and rtsp_url:
-                recorder = CameraRecorderWorker(cam_id, rtsp_url, name)
+                recorder = CameraRecorderWorker(cam_id, name, rtsp_url, record_enabled=record)
                 recorder.recording_finished.connect(self.handle_recording_finished)
                 recorder.start()
                 self.recorder_threads[cam_id] = recorder

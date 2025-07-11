@@ -1,143 +1,110 @@
-import os, json, cv2, subprocess
-from datetime import datetime, timedelta
 from PyQt5.QtCore import QThread, pyqtSignal
+import os
+import subprocess
+import datetime
+import time
+import re
 from utils.logging import log
+
+
+def sanitize_filename(name: str) -> str:
+    """Remove or replace invalid characters for filenames (Windows-safe)."""
+    name = name.strip().replace(" ", "_")
+    return re.sub(r'[<>:"/\\|?*]', '_', name)
+
 
 class CameraRecorderWorker(QThread):
     recording_finished = pyqtSignal(int)
 
-    def __init__(self, cam_id, rtsp_url, camera_name):
+    def __init__(self, cam_id, cam_name, rtsp_url, record_enabled):
         super().__init__()
         self.cam_id = cam_id
         self.rtsp_url = rtsp_url
-        self.camera_name = camera_name
+        self.record_enabled = record_enabled
         self.running = False
+        self.process = None
+        self.recording_dir = "recordings"
 
-    def run(self):
-        self.running = True
-        while self.running:
-            self._record_with_ffmpeg()
+        self.cam_name = sanitize_filename(cam_name or f"Camera_{cam_id}")
+        log.debug(f"[Recorder] Sanitized camera name: {self.cam_name}")
 
-    def _record_with_ffmpeg(self):
-        cap = cv2.VideoCapture(self.rtsp_url, cv2.CAP_FFMPEG)
-        if not cap.isOpened():
-            log.error(f"[Recorder] Failed to open RTSP for Camera {self.cam_id}")
-            return
+    def get_output_path(self, timestamp):
+        date_str = timestamp.strftime("%Y_%m_%d")
+        time_str = timestamp.strftime("%H_%M_%S")
+        base_path = os.path.join(self.recording_dir, date_str, self.cam_name)
+        os.makedirs(base_path, exist_ok=True)
 
-        ret, frame = cap.read()
-        if not ret or frame is None:
-            log.warning(f"[Recorder] No frame from Camera {self.cam_id}")
-            cap.release()
-            return
+        filename = f"{self.cam_name}_{date_str}_{time_str}.mp4"
+        log_path = os.path.join(base_path, f"{self.cam_name}_{date_str}_{time_str}.log")
 
-        height, width = frame.shape[:2]
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        fps = fps if 0 < fps <= 60 else 20
+        return os.path.join(base_path, filename), log_path
 
-        log.info(f"[Recorder] Camera {self.cam_id}: resolution={width}x{height}, fps={fps}")
-
-        start_time = datetime.now()
-        current_date = start_time.date()
-        frame_interval = 1.0 / fps
-        frame_count = 0
-
-        ffmpeg_proc, output_path, metadata_path = self._start_ffmpeg_writer(width, height, fps)
-        self.latest_metadata_path = metadata_path
-
-        while self.running:
-            now = datetime.now()
-            if now.date() != current_date or (now - start_time).total_seconds() >= 86400:
-                log.info(f"[Recorder] Rollover: {frame_count} frames")
-                ffmpeg_proc.stdin.close()
-                ffmpeg_proc.wait()
-                self.finalize_metadata(metadata_path)
-
-                start_time = now
-                current_date = now.date()
-                frame_count = 0
-                ffmpeg_proc, output_path, metadata_path = self._start_ffmpeg_writer(width, height, fps)
-                self.latest_metadata_path = metadata_path
-
-            ret, frame = cap.read()
-            if not ret or frame is None:
-                log.warning(f"[Recorder] Camera {self.cam_id} frame failed.")
-                break
-
-            # Overlay camera name and timestamp
-            cv2.putText(frame, self.camera_name, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,255,0), 2, cv2.LINE_AA)
-            cv2.putText(frame, now.strftime("%d-%m-%Y %H:%M:%S"), (10, height - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA)
-
-            try:
-                ffmpeg_proc.stdin.write(frame.tobytes())
-            except Exception as e:
-                log.error(f"[Recorder] FFmpeg write failed: {e}")
-                break
-
-            frame_count += 1
-            if frame_count % int(fps * 60) == 0:
-                elapsed = (now - start_time).total_seconds()
-                log.info(f"[Recorder] Cam{self.cam_id}: {frame_count} frames (~{elapsed:.1f}s)")
-
-            sleep_time = start_time + timedelta(seconds=frame_count * frame_interval) - datetime.now()
-            if sleep_time.total_seconds() > 0:
-                cv2.waitKey(int(sleep_time.total_seconds() * 1000))
-
-        cap.release()
-        ffmpeg_proc.stdin.close()
-        ffmpeg_proc.wait()
-        self.finalize_metadata(metadata_path)
-        self.recording_finished.emit(self.cam_id)
-
-    def _start_ffmpeg_writer(self, width, height, fps):
-        now = datetime.now()
-        date_str = now.strftime("%d-%m-%Y")
-        ts = now.strftime("%Y%m%d_%H%M%S")
-        folder = f"recordings/{date_str}/camera{self.cam_id}"
-        os.makedirs(folder, exist_ok=True)
-
-        avi_path = os.path.join(folder, f"{self.camera_name}_{ts}.avi")
-        json_path = avi_path.replace(".avi", ".json")
-
-        cmd = [
-        "ffmpeg",
-        "-y",
-        "-f", "rawvideo",
-        "-vcodec", "rawvideo",
-        "-pix_fmt", "bgr24",
-        "-s", f"{width}x{height}",
-        "-r", str(fps),
-        "-i", "-",
-        "-c:v", "mjpeg",
-        "-qscale:v", "3",
-        avi_path
+    def build_ffmpeg_command(self, output_file):
+        return [
+            "ffmpeg",
+            "-rtsp_transport", "tcp",
+            "-i", self.rtsp_url,
+            "-an",                           # No audio
+            "-c:v", "libx264",
+            "-preset", "ultrafast",
+            "-crf", "23",
+            "-g", "25",                      # Force keyframe every 25 frames (~1s)
+            "-f", "mp4",
+            "-movflags", "+faststart",      # For smoother playback
+            output_file
         ]
 
-        log.debug(f"[Recorder] Starting FFmpeg: {' '.join(cmd)}")
-        proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+    def run(self):
+        if not self.record_enabled:
+            log.info(f"[Recorder] Recording is disabled for Camera {self.cam_name}")
+            return
 
-        with open(json_path, "w") as f:
-            f.write(json.dumps({"start_time": now.strftime("%Y-%m-%d %H:%M:%S")}))
+        self.running = True
+        log.info(f"[Recorder] Starting recording for Camera {self.cam_name}")
 
-        return proc, avi_path, json_path
+        while self.running:
+            start_time = datetime.datetime.now()
+            output_file, log_file = self.get_output_path(start_time)
+            ffmpeg_cmd = self.build_ffmpeg_command(output_file)
+
+            log.info(f"[Recorder] Writing to {output_file}")
+            with open(log_file, "w", encoding="utf-8") as log_fh:
+                self.process = subprocess.Popen(
+                    ffmpeg_cmd,
+                    stdout=log_fh,
+                    stderr=subprocess.STDOUT
+                )
+
+                # Calculate cutoff time (midnight or 24 hours max)
+                next_midnight = (start_time + datetime.timedelta(days=1)).replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
+                next_cutoff = min(next_midnight, start_time + datetime.timedelta(hours=24))
+                time_to_sleep = (next_cutoff - datetime.datetime.now()).total_seconds()
+
+                if time_to_sleep > 0:
+                    time.sleep(time_to_sleep)
+
+                self.stop_ffmpeg()
+
+            if self.running:
+                self.recording_finished.emit(self.cam_id)
+
+        log.info(f"[Recorder] Thread for Camera {self.cam_name} has exited.")
+
+    def stop_ffmpeg(self):
+        if self.process and self.process.poll() is None:
+            log.info(f"[Recorder] Stopping recording process for Camera {self.cam_name}")
+            self.process.terminate()
+            try:
+                self.process.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                log.warning(f"[Recorder] FFmpeg process hung — forcing kill for {self.cam_name}")
+                self.process.kill()
+        self.process = None
 
     def stop(self):
-        log.debug(f"[Recorder] stop() called for cam {self.cam_id}")
+        log.info(f"[Recorder] Stop requested for Camera {self.cam_name}")
         self.running = False
-        self.wait()
-        try:
-            if hasattr(self, 'latest_metadata_path'):
-                self.finalize_metadata(self.latest_metadata_path)
-        except Exception as e:
-            log.error(f"[Recorder] finalize_metadata failed: {e}")
-
-    def finalize_metadata(self, metadata_path):
-        try:
-            with open(metadata_path, "r+", encoding="utf-8") as f:
-                meta = json.load(f)
-                meta["end_time"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                f.seek(0)
-                json.dump(meta, f, indent=4)
-                f.truncate()
-            log.debug(f"[Recorder] Updated metadata: {metadata_path}")
-        except Exception as e:
-            log.error(f"[Recorder] Failed to update metadata: {e}")
+        self.stop_ffmpeg()
+        log.info(f"[Recorder] Recording stopped for Camera {self.cam_name}")

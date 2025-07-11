@@ -1,9 +1,8 @@
-# camera_app/core/camera_stream_worker.py
-
+import numpy as np
+import subprocess
+from PyQt5.QtCore import QThread, pyqtSignal, QMutex, QWaitCondition
 import cv2
-from PyQt5.QtCore import QThread, pyqtSignal, QMutex, QWaitCondition,QTimer
 from utils.logging import log
-
 
 class CameraStreamWorker(QThread):
     frameReady = pyqtSignal(int, object)
@@ -17,9 +16,27 @@ class CameraStreamWorker(QThread):
         self.mutex = QMutex()
         self.condition = QWaitCondition()
         self.reconnect_attempts = 0
-        self.max_reconnect_attempts = 3  # Allow unlimited retries
-        self.retry_delay = 3000  # Start with 3 seconds
-        self.timeout_seconds = 3  # OpenCV/FFmpeg timeout duration
+        self.max_reconnect_attempts = 3
+        self.retry_delay = 3000
+
+    def get_stream_resolution(self):
+        command = [
+            "ffprobe",
+            "-v", "error",
+            "-select_streams", "v:0",
+            "-show_entries", "stream=width,height",
+            "-of", "default=noprint_wrappers=1:nokey=1",
+            self.rtsp_url
+        ]
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        lines = result.stdout.splitlines()
+        if len(lines) >= 2:
+            width = int(lines[0])
+            height = int(lines[1])
+            return width, height
+        else:
+            log.error(f"Failed to get resolution for {self.rtsp_url}")
+            raise RuntimeError(f"Camera {self.cam_id}: Cannot detect resolution")
 
     def run(self):
         self.running = True
@@ -27,48 +44,61 @@ class CameraStreamWorker(QThread):
         while self.running:
             try:
                 if not self.rtsp_url:
-                    log.warning(f"Camera {self.cam_id}: No RTSP URL, skipping.")
+                    log.error(f"Camera {self.cam_id} RTSP URL is empty.")
                     self.connectionStatus.emit(self.cam_id, False)
-                    self.msleep(self.retry_delay)
-                    continue
+                    return
 
-                log.debug(f"Camera {self.cam_id}: Attempting to open RTSP")
+                width, height = self.get_stream_resolution()
+                frame_size = width * height * 3
 
-                cap = cv2.VideoCapture(
-                    self.rtsp_url,
-                    cv2.CAP_FFMPEG
+                log.info(f"Camera {self.cam_id}: Native resolution {width}x{height}")
+                cmd = [
+                    'ffmpeg',
+                    '-hwaccel', 'dxva2',  # Windows hardware decoder
+                    '-rtsp_transport', 'tcp',
+                    '-i', self.rtsp_url,
+                    '-f', 'rawvideo',
+                    '-pix_fmt', 'bgr24',
+                    '-an', 'pipe:1'
+                ]
+
+                ffmpeg_proc = subprocess.Popen(
+                    cmd,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.DEVNULL,
+                    bufsize=frame_size * 3
                 )
-
-                # Wait up to N ms for stream to open
-                success = cap.isOpened()
-                if not success:
-                    raise Exception("RTSP open timeout/failure")
-
-                cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-                cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'H264'))
 
                 self.connectionStatus.emit(self.cam_id, True)
                 self.reconnect_attempts = 0
+                frame_counter = 0
 
                 while self.running:
-                    ret, frame = cap.read()
-                    if not ret or frame is None:
-                        log.warning(f"Camera {self.cam_id}: Failed to read frame.")
-                        raise Exception("Frame read failed")
+                    raw_frame = ffmpeg_proc.stdout.read(frame_size)
+                    if len(raw_frame) != frame_size:
+                        log.warning(f"Camera {self.cam_id}: Incomplete frame.")
+                        self.connectionStatus.emit(self.cam_id, False)
+                        break
 
-                    self.frameReady.emit(self.cam_id, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                    frame_counter += 1
+                    if frame_counter % 2 == 1:
+                        continue  # Optional: skip alternate frames
+
+                    frame = np.frombuffer(raw_frame, np.uint8).reshape((height, width, 3))
+                    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    self.frameReady.emit(self.cam_id, rgb_frame)
                     self.msleep(15)
 
-                cap.release()
+                ffmpeg_proc.terminate()
+                ffmpeg_proc.wait()
 
             except Exception as e:
-                log.error(f"Camera {self.cam_id} exception: {e}")
+                log.error(f"Camera {self.cam_id} error: {e}")
                 self.connectionStatus.emit(self.cam_id, False)
                 self.reconnect_attempts += 1
 
-                if self.reconnect_attempts > self.max_reconnect_attempts:
-                    log.error(f"Camera {self.cam_id}: Max reconnect attempts reached, stopping worker.")
-                    self.connectionStatus.emit(self.cam_id, False)
+                if self.reconnect_attempts >= self.max_reconnect_attempts:
+                    log.error(f"Camera {self.cam_id}: Max reconnect attempts reached.")
                     break
 
                 self.msleep(self.retry_delay)
