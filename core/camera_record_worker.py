@@ -5,13 +5,27 @@ import datetime
 import time
 import re
 from utils.logging import log
-
+import json
 
 def sanitize_filename(name: str) -> str:
     """Remove or replace invalid characters for filenames (Windows-safe)."""
     name = name.strip().replace(" ", "_")
     return re.sub(r'[<>:"/\\|?*]', '_', name)
 
+def save_metadata(path: str, start_time: datetime.datetime, duration_seconds:float = None, end_time: datetime.datetime = None):
+    try:
+        data = {
+            "start_time": start_time.isoformat()
+        }
+        if end_time is not None:
+            data["end_time"] = end_time.isoformat()
+        if duration_seconds is not None:
+            data["duration_seconds"] = round(duration_seconds, 2)
+
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        log.error(f"[Recorder] Failed to write metadata to {path}: {e}")
 
 class CameraRecorderWorker(QThread):
     recording_finished = pyqtSignal(int)
@@ -24,6 +38,8 @@ class CameraRecorderWorker(QThread):
         self.running = False
         self.process = None
         self.recording_dir = "recordings"
+        self.video_start_time = None
+        self.metadata_file = None
 
         self.cam_name = sanitize_filename(cam_name or f"Camera_{cam_id}")
         log.debug(f"[Recorder] Sanitized camera name: {self.cam_name}")
@@ -64,7 +80,12 @@ class CameraRecorderWorker(QThread):
 
         while self.running:
             start_time = datetime.datetime.now()
+            self.video_start_time = start_time
             output_file, log_file = self.get_output_path(start_time)
+            self.metadata_file = output_file.replace(".mp4", "_metadata.json")
+            #save start time now 
+            save_metadata(self.metadata_file, self.video_start_time)
+
             ffmpeg_cmd = self.build_ffmpeg_command(output_file)
 
             log.info(f"[Recorder] Writing to {output_file}")
@@ -87,6 +108,11 @@ class CameraRecorderWorker(QThread):
                     time.sleep(time_to_sleep)
 
                 self.stop_ffmpeg()
+                end_time = datetime.datetime.now()
+                duration_seconds = (end_time - self.video_start_time).total_seconds()
+
+                #update metadata with duration
+                save_metadata(self.metadata_file, start_time, duration_seconds,end_time)
 
             if self.running:
                 self.recording_finished.emit(self.cam_id)
@@ -109,5 +135,10 @@ class CameraRecorderWorker(QThread):
     def stop(self):
         log.info(f"[Recorder] Stop requested for Camera {self.cam_name}")
         self.running = False
+        if self.video_start_time and self.metadata_file:
+            end_time = datetime.datetime.now()
+            duration_seconds = (end_time - self.video_start_time).total_seconds()
+            save_metadata(self.metadata_file, self.video_start_time, duration_seconds,end_time)
+
         self.stop_ffmpeg()
         log.info(f"[Recorder] Recording stopped for Camera {self.cam_name}")
