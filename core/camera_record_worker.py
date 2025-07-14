@@ -44,13 +44,13 @@ class CameraRecorderWorker(QThread):
             "ffmpeg",
             "-rtsp_transport", "tcp",
             "-i", self.rtsp_url,
-            "-an",                           # No audio
+            "-an",  # No audio
             "-c:v", "libx264",
             "-preset", "ultrafast",
             "-crf", "23",
-            "-g", "25",                      # Force keyframe every 25 frames (~1s)
+            "-g", "25",  # Force keyframe every 25 frames 
             "-f", "mp4",
-            "-movflags", "+faststart",      # For smoother playback
+            "-movflags", "+faststart+frag_keyframe+empty_moov",  # For smoother playback and fragmented MP4
             output_file
         ]
 
@@ -71,6 +71,7 @@ class CameraRecorderWorker(QThread):
             with open(log_file, "w", encoding="utf-8") as log_fh:
                 self.process = subprocess.Popen(
                     ffmpeg_cmd,
+                    stdin=subprocess.PIPE,  
                     stdout=log_fh,
                     stderr=subprocess.STDOUT
                 )
@@ -95,13 +96,15 @@ class CameraRecorderWorker(QThread):
     def stop_ffmpeg(self):
         if self.process and self.process.poll() is None:
             log.info(f"[Recorder] Stopping recording process for Camera {self.cam_name}")
-            self.process.terminate()
+            # Send 'q' to FFmpeg to stop recording
+            self.process.stdin.write(b'q')
+            self.process.stdin.flush()
             try:
                 self.process.wait(timeout=10)
             except subprocess.TimeoutExpired:
                 log.warning(f"[Recorder] FFmpeg process hung — forcing kill for {self.cam_name}")
                 self.process.kill()
-        self.process = None
+            self.process = None
 
     def stop(self):
         log.info(f"[Recorder] Stop requested for Camera {self.cam_name}")
