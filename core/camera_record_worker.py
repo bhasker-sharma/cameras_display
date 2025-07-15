@@ -6,26 +6,9 @@ import time
 import re
 from utils.logging import log
 import json
+from utils.helper import sanitize_filename, save_metadata
 
-def sanitize_filename(name: str) -> str:
-    """Remove or replace invalid characters for filenames (Windows-safe)."""
-    name = name.strip().replace(" ", "_")
-    return re.sub(r'[<>:"/\\|?*]', '_', name)
 
-def save_metadata(path: str, start_time: datetime.datetime, duration_seconds:float = None, end_time: datetime.datetime = None):
-    try:
-        data = {
-            "start_time": start_time.isoformat()
-        }
-        if end_time is not None:
-            data["end_time"] = end_time.isoformat()
-        if duration_seconds is not None:
-            data["duration_seconds"] = round(duration_seconds, 2)
-
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2)
-    except Exception as e:
-        log.error(f"[Recorder] Failed to write metadata to {path}: {e}")
 
 class CameraRecorderWorker(QThread):
     recording_finished = pyqtSignal(int)
