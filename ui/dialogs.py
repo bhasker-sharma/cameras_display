@@ -1,16 +1,19 @@
 # camera_app/ui/dialogs.py
-
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import (
     QDialog, QLabel, QLineEdit, QComboBox, QPushButton,QTreeWidget,QTreeWidgetItem,QHeaderView,
     QVBoxLayout, QGridLayout, QDialogButtonBox, QTableWidget, QTableWidgetItem, QCheckBox, QWidget, QHBoxLayout,
-    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox,QSizePolicy,QSlider
+    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox,QSizePolicy,QSlider,QStyle
 )
 from PyQt5.QtCore import Qt,QTimer
 from PyQt5.QtGui import QFont, QImage, QPixmap
 import os,sys
 from ui.responsive import ScreenScaler
 from utils.logging import log
-import cv2
+import cv2,json
+from datetime import datetime, timedelta
 
 
 class CameraConfigDialog(QDialog):
@@ -313,254 +316,176 @@ class CameraCountDialog(QDialog):
 
 class PlaybackDialog(QDialog):
     def __init__(self, root_folder="recordings", parent=None):
-       
         super().__init__(parent)
         self.setWindowTitle("Playback Viewer")
-        self.total_frames = 0
-        self.fps = 25
-        self.is_playing = True
-        self.seeking = False # track manual dragging of slider
-
-        scaler = ScreenScaler()
-        # Set responsive dialog size using global scaler
-        self.resize(scaler.scale_w(1200), scaler.scale_h(800))
-
-        # Tree widget setup
-        self.tree = QTreeWidget()
-        self.tree.setHeaderLabels(["File/Folder", "Type"])
-        self.tree.itemDoubleClicked.connect(self.on_item_double_clicked)
-
-        # Apply scaled font to tree and header
-        font = QFont()
-        font.setPointSize(scaler.scale(12))
-        self.tree.setFont(font)
-
-        header = self.tree.header()
-        header.setFont(font)
-        header.setStretchLastSection(True)
-        header.setSectionResizeMode(0, QHeaderView.Stretch)
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
-
-        #create the vedio display area
-        self.video_label = QLabel("video preview")
-        self.video_label.setAlignment(Qt.AlignCenter)
-        self.video_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.video_label.setStyleSheet("background-color: #2c2c2c; color: white")
-
-        #video display pause button
-        self.play_pause_button = QPushButton("⏸")  # Unicode pause symbol
-        self.play_pause_button.hide()  # Initially hidden
-        self.play_pause_button.setFixedSize(scaler.scale(50), scaler.scale(50))
-        self.play_pause_button.setStyleSheet(f"""
-            QPushButton {{
-                background-color: white;
-                color: black;
-                border-radius: {scaler.scale(25)}px;
-                font-size: {scaler.scale(24)}px;
-                font-weight: bold;
-                border: 2px solid #ccc;
-                outline: none;
-            }}
-            QPushButton:focus {{
-                background-color: white;
-                border: 2px solid #ccc;
-            }}
-            QPushButton:hover {{
-                background-color: #f5f5f5;
-            }}
-            QPushButton:pressed {{
-                background-color: #e0e0e0;
-            }}
-        """)
-        self.play_pause_button.clicked.connect(self.toggle_play_pause)
-        
-        # #vedio slider option
-        self.slider = QSlider(Qt.Horizontal)
-        self.slider.setRange(0, 100)
-        self.slider.setValue(0)
-        self.slider.sliderPressed.connect(self.pause_for_seek)
-        self.slider.sliderReleased.connect(self.seek_video)
-        self.slider.hide()
-
-
-        #time on video
-        self.time_label = QLabel("00:00 / 00:00")
-        self.time_label.setStyleSheet("color: white; font-size: 14px;")
-        self.time_label.hide()  
-
-
-        # 📦 Container layout for video and its controls
-        video_container = QVBoxLayout()
-        video_container.setContentsMargins(0, 0, 0, 0)
-        video_container.setSpacing(6)
-        video_container.addWidget(self.video_label)
-
-        # 🎮 Controls bar (below video)
-        controls_layout = QHBoxLayout()
-        controls_layout.setContentsMargins(0, 0, 0, 0)
-        controls_layout.setSpacing(15)
-        controls_layout.addStretch()  # push items to center
-        controls_layout.addWidget(self.play_pause_button)
-        controls_layout.addWidget(self.slider, 5)
-        controls_layout.addWidget(self.time_label)
-        controls_layout.addStretch()
-
-        # controls_layout.addWidget(self.slider)
-        # controls_layout.addWidget(self.time_label)
-        video_container.addLayout(controls_layout)
-
-        # 🔀 Main layout split: Tree on left, Video+Controls on right
-        main_layout = QHBoxLayout()
-        main_layout.addWidget(self.tree, 2)
-
-        # 👇 Create a QWidget to hold video_container layout
-        video_widget_container = QWidget()
-        video_widget_container.setLayout(video_container)
-        main_layout.addWidget(video_widget_container, 5)
-
-        # outer layout 
-        layout = QVBoxLayout()
-        layout.setContentsMargins(
-            scaler.scale(10),
-            scaler.scale(10),
-            scaler.scale(10),
-            scaler.scale(10)
-        )
-        layout.addLayout(main_layout)
-        self.setLayout(layout)
-        #setup video playback
-        self.cap =  None
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.read_frame)
-
-        # Center the dialog
-        screen = QApplication.primaryScreen().availableGeometry()
-        frame = self.frameGeometry()
-        frame.moveCenter(screen.center())
-        self.move(frame.topLeft())
-
         self.root_folder = root_folder
+        self.scaler = ScreenScaler()
+
+        self.player = QMediaPlayer()
+        self.video_widget = QVideoWidget()
+        self.player.setVideoOutput(self.video_widget)
+
+        self.manual_duration = 0        # duration in ms
+        self.user_seeking = False       # whether user is dragging
+        self.slider_position_ms = 0     # current slider target
+        self.fps = 25                   # fallback if FPS isn't found
+        self.last_frame_limit_ms = 0    # upper seek limit for in-progress files
+
+        log.debug("[PlaybackDialog] Initializing UI")
+        self.init_ui()
         self.populate_tree()
+        self.resize_to_screen()
+
+    def init_ui(self):
+        layout = QHBoxLayout()
+        self.setLayout(layout)
+
+        # Left: Folder tree (unchanged)
+        self.tree = QTreeWidget()
+        self.tree.setHeaderLabel("Recorded Files")
+        self.tree.itemDoubleClicked.connect(self.play_video_from_item)
+        layout.addWidget(self.tree, 2)
+
+        # Right: Video player
+        player_layout = QVBoxLayout()
+
+        self.video_widget.setStyleSheet("background-color: black;")
+        self.video_widget.setMinimumHeight(self.scaler.scale_h(300))
+        self.video_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+
+        player_layout.addWidget(self.video_widget)
+
+        # New compact control layout (slider + play + time) in one line
+        bottom_controls = QHBoxLayout()
+
+        # Play/Pause icon button
+        self.play_button = QPushButton()
+        self.play_button.setFixedSize(32, 32)
+        self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.play_button.clicked.connect(self.toggle_play_pause)
+        bottom_controls.addWidget(self.play_button)
+
+        # Slider
+        self.slider = QSlider(Qt.Horizontal)
+        self.slider.setRange(0, 1000)
+        self.slider.sliderPressed.connect(self.start_seeking)
+        self.slider.sliderReleased.connect(self.finish_seeking)
+        self.slider.sliderMoved.connect(self.while_seeking)
+
+        bottom_controls.addWidget(self.slider, stretch=1)
+
+        # Time label
+        self.time_label = QLabel("00:00 / 00:00")
+        self.time_label.setStyleSheet("color: white;")
+        bottom_controls.addWidget(self.time_label)
+
+        player_layout.addLayout(bottom_controls)
+        layout.addLayout(player_layout, 5)
+
+
+    def resize_to_screen(self):
+        screen = QApplication.primaryScreen().availableGeometry()
+        width = int(screen.width() * 0.6)
+        height = int(screen.height() * 0.6)
+        self.setMinimumSize(width, height)
+        self.move(screen.center() - self.rect().center())
+        log.debug(f"[PlaybackDialog] Resized to {width}x{height}")
 
     def populate_tree(self):
-        if not os.path.exists(self.root_folder):
-            QMessageBox.warning(self, "Missing Folder", f"No recordings found in: {self.root_folder}")
-            return
-
         self.tree.clear()
-        self.add_items(self.tree.invisibleRootItem(), self.root_folder)
+        log.debug("[PlaybackDialog] Populating tree view")
+        for root, dirs, files in os.walk(self.root_folder):
+            relative_path = os.path.relpath(root, self.root_folder)
+            parts = [] if relative_path == "." else relative_path.split(os.sep)
 
-    def add_items(self, parent_item, folder_path):
-        for name in sorted(os.listdir(folder_path)):
-            full_path = os.path.join(folder_path, name)
-            if os.path.isdir(full_path):
-                item = QTreeWidgetItem(parent_item, [name, "Folder"])
-                self.add_items(item, full_path)
-            elif name.endswith((".avi", ".mp4")):
-                item = QTreeWidgetItem(parent_item, [name, "Video"])
-                item.setData(0, Qt.UserRole, full_path)
+            parent = self.tree
+            current_item = None
 
-    def on_item_double_clicked(self, item, column):
-        if item.text(1) == "Video":
-            file_path = item.data(0, Qt.UserRole)
-            self.start_video(file_path)
+            for part in parts:
+                found = False
+                for i in range(parent.topLevelItemCount() if isinstance(parent, QTreeWidget) else parent.childCount()):
+                    item = parent.topLevelItem(i) if isinstance(parent, QTreeWidget) else parent.child(i)
+                    if item.text(0) == part:
+                        current_item = item
+                        parent = item
+                        found = True
+                        break
 
-    def start_video(self, path):
-        if self.cap:
-            self.cap.release()
-        self.cap = cv2.VideoCapture(path)
-        self.total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        self.fps = self.cap.get(cv2.CAP_PROP_FPS) or 25
-        # self.slider.setRange(0, self.total_frames)
-        if not self.cap.isOpened():
-            QMessageBox.critical(self, "Error", f"Cannot open video:\n{path}")
+                if not found:
+                    new_item = QTreeWidgetItem([part])
+                    if isinstance(parent, QTreeWidget):
+                        parent.addTopLevelItem(new_item)
+                    else:
+                        parent.addChild(new_item)
+                    current_item = new_item
+                    parent = new_item
+
+            for f in files:
+                if f.endswith(".mp4") or f.endswith(".avi"):
+                    file_item = QTreeWidgetItem([f])
+                    file_item.setData(0, Qt.UserRole, os.path.join(root, f))
+                    parent.addChild(file_item)
+
+    def play_video_from_item(self, item, column):
+        filepath = item.data(0, Qt.UserRole)
+        if not filepath or not filepath.endswith((".avi",".mp4")):
             return
-        self.play_pause_button.show()
-        self.slider.setRange(0, self.total_frames)
-        self.slider.setValue(0)
-        self.slider.show()
-        self.time_label.show()
-
-        self.timer.start(33)  # ~30 FPS
-
-    def read_frame(self):
-        if not self.cap:
-            return
-
-        ret, frame = self.cap.read()
-        if not ret:
-            self.timer.stop()
-            self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # rewind to start
-            self.slider.setValue(0)
-            self.is_playing = False
-            self.play_pause_button.setText("▶")
-            return
-
-        # Show frame
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        h, w, ch = frame.shape
-        bytes_per_line = ch * w
-        q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
-        pixmap = QPixmap.fromImage(q_img)
-        self.video_label.setPixmap(pixmap.scaled(
-            self.video_label.width(), self.video_label.height(),
-            Qt.KeepAspectRatio, Qt.SmoothTransformation))
-
-        # Get current frame position
-        current_frame = int(self.cap.get(cv2.CAP_PROP_POS_FRAMES))
-
-        # Update time label
-        elapsed_sec = current_frame / self.fps
-        total_sec = self.total_frames / self.fps
-        self.time_label.setText(f"{self.format_time(elapsed_sec)} / {self.format_time(total_sec)}")
-        if not self.seeking:
-            # 📈 Update slider position (safely)
-            self.slider.blockSignals(True)
-            self.slider.setValue(current_frame)
-            self.slider.blockSignals(False)
         
-    def format_time(self, seconds):
-        minutes = int(seconds // 60)
-        seconds = int(seconds % 60)
-        return f"{minutes:02}:{seconds:02}"
+        self.filepath = filepath
+        log.debug(f"[PlaybackDialog] Playing video: {filepath}")
+        self.manual_duration = 0
+
+        self.player.setMedia(QMediaContent(QUrl.fromLocalFile(filepath)))
+        self.player.play()
+        self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+        try:
+            self.player.positionChanged.disconnect(self.set_position)
+            self.player.durationChanged.disconnect(self.set_duration)
+        except TypeError:
+            pass  # Already disconnected or not connected yet
+
+        self.player.positionChanged.connect(self.set_position)
+        self.player.durationChanged.connect(self.set_duration)
 
 
     def toggle_play_pause(self):
-        self.is_playing = not self.is_playing
-        self.play_pause_button.setText("▶" if not self.is_playing else "⏸")
-        if self.is_playing:
-            current_frame = int(self.cap.get(cv2.CAP_PROP_POS_FRAMES))
-            if current_frame >= self.total_frames:
-                self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-                self.slider.setValue(0)
-            self.timer.start(int(1000 / self.fps))
+        if self.player.state() == QMediaPlayer.PlayingState:
+            self.player.pause()
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         else:
-            self.timer.stop()
-            
-    def seek_video(self):
-        if not self.cap:
-            return
+            self.player.play()
+            self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
 
-        frame_number = self.slider.value()
-        self.cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+    def ms_to_time(self, ms):
+        seconds = ms // 1000
+        mins, secs = divmod(seconds, 60)
+        hrs, mins = divmod(mins, 60)
+        return f"{hrs:02}:{mins:02}:{secs:02}"
 
-        # show that frame immediately
-        ret, frame = self.cap.read()
-        if ret:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            h, w, ch = frame.shape
-            bytes_per_line = ch * w
-            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
-            pixmap = QPixmap.fromImage(q_img)
-            self.video_label.setPixmap(pixmap.scaled(
-                self.video_label.width(), self.video_label.height(),
-                Qt.KeepAspectRatio, Qt.SmoothTransformation))
+    def start_seeking(self):
+        self.user_seeking = True
+        self.player.pause()  # pause while dragging
 
-        self.seeking = False
-        if self.is_playing:
-            self.timer.start(int(1000 / self.fps))
+    def while_seeking(self, val):
+        if self.manual_duration > 0:
+            self.slider_position_ms = val
+            self.time_label.setText(f"{self.ms_to_time(val)}/{self.ms_to_time(self.manual_duration)}")
 
-    def pause_for_seek(self):
-        self.seeking = True
-        self.timer.stop()
-    
+    def finish_seeking(self):
+        self.user_seeking = False
+        seek_ms = self.slider.value()
+        self.player.setPosition(seek_ms)
+        self.player.play()
+        self.play_button.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+
+    def set_position(self, position):
+        if not self.user_seeking:
+            self.slider.blockSignals(True)
+            self.slider.setValue(position)
+            self.slider.blockSignals(False)
+            self.time_label.setText(f"{self.ms_to_time(position)} / {self.ms_to_time(self.player.duration())}")
+
+    def set_duration(self, duration):
+        self.manual_duration = duration
+        self.slider.setRange(0, duration)

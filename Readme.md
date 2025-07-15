@@ -24,13 +24,15 @@ camera_app/
     └── logging.py                   # Logging setup / fallback logger
 
 
-
+     
 
 https://chatgpt.com/share/6825e10a-0c08-8000-8359-b063c6002daa
 
 commands to make the enviornment and activate it 
 
-* python -m venv env
+create:-   python -m venv env
+
+activate:- .\env\Scripts\activate 
 
 
 Software flow :

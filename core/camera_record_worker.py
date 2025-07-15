@@ -1,120 +1,144 @@
-import os
-import cv2
-from datetime import datetime, timedelta
 from PyQt5.QtCore import QThread, pyqtSignal
+import os
+import subprocess
+import datetime
+import time
+import re
 from utils.logging import log
+import json
+
+def sanitize_filename(name: str) -> str:
+    """Remove or replace invalid characters for filenames (Windows-safe)."""
+    name = name.strip().replace(" ", "_")
+    return re.sub(r'[<>:"/\\|?*]', '_', name)
+
+def save_metadata(path: str, start_time: datetime.datetime, duration_seconds:float = None, end_time: datetime.datetime = None):
+    try:
+        data = {
+            "start_time": start_time.isoformat()
+        }
+        if end_time is not None:
+            data["end_time"] = end_time.isoformat()
+        if duration_seconds is not None:
+            data["duration_seconds"] = round(duration_seconds, 2)
+
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        log.error(f"[Recorder] Failed to write metadata to {path}: {e}")
 
 class CameraRecorderWorker(QThread):
-    recording_finished = pyqtSignal(int)  # Signal to emit camera_id when recording finishes
+    recording_finished = pyqtSignal(int)
 
-    def __init__(self, cam_id, rtsp_url, camera_name):
+    def __init__(self, cam_id, cam_name, rtsp_url, record_enabled):
         super().__init__()
         self.cam_id = cam_id
         self.rtsp_url = rtsp_url
-        self.camera_name = camera_name
+        self.record_enabled = record_enabled
         self.running = False
+        self.process = None
+        self.recording_dir = "recordings"
+        self.video_start_time = None
+        self.metadata_file = None
+
+        self.cam_name = sanitize_filename(cam_name or f"Camera_{cam_id}")
+        log.debug(f"[Recorder] Sanitized camera name: {self.cam_name}")
+
+    def get_output_path(self, timestamp):
+        date_str = timestamp.strftime("%Y_%m_%d")
+        time_str = timestamp.strftime("%H_%M_%S")
+        base_path = os.path.join(self.recording_dir, date_str, self.cam_name)
+        os.makedirs(base_path, exist_ok=True)
+
+        filename = f"{self.cam_name}_{date_str}_{time_str}.mp4"
+        log_path = os.path.join(base_path, f"{self.cam_name}_{date_str}_{time_str}.log")
+
+        return os.path.join(base_path, filename), log_path
+
+    def build_ffmpeg_command(self, output_file):
+        return [
+            "ffmpeg",
+            "-rtsp_transport", "tcp",
+            "-i", self.rtsp_url,
+            "-an",  # No audio
+            "-c:v", "libx264",
+            "-preset", "ultrafast",
+            "-crf", "23",
+            "-g", "25",  # Force keyframe every 25 frames 
+            "-f", "mp4",
+            "-movflags", "+faststart+frag_keyframe+empty_moov",  # For smoother playback and fragmented MP4
+            output_file
+        ]
 
     def run(self):
+        if not self.record_enabled:
+            log.info(f"[Recorder] Recording is disabled for Camera {self.cam_name}")
+            return
+
         self.running = True
-        while self.running:  # Continuous recording loop
-            self._record_one_hour()
+        log.info(f"[Recorder] Starting recording for Camera {self.cam_name}")
 
-    def _record_one_hour(self):
-        cap = cv2.VideoCapture(self.rtsp_url, cv2.CAP_FFMPEG)
+        while self.running:
+            start_time = datetime.datetime.now()
+            self.video_start_time = start_time
+            output_file, log_file = self.get_output_path(start_time)
+            self.metadata_file = output_file.replace(".mp4", "_metadata.json")
+            #save start time now 
+            save_metadata(self.metadata_file, self.video_start_time)
 
-        if not cap.isOpened():
-            log.error(f"[Recorder] Failed to open RTSP for Camera {self.cam_id}")
-            self.running = False
-            self.recording_finished.emit(self.cam_id)
-            return
+            ffmpeg_cmd = self.build_ffmpeg_command(output_file)
 
-        # Get first valid frame to detect resolution
-        ret, frame = cap.read()
-        if not ret or frame is None:
-            log.warning(f"[Recorder] No frame received from Camera {self.cam_id}")
-            cap.release()
-            self.running = False
-            self.recording_finished.emit(self.cam_id)
-            return
+            log.info(f"[Recorder] Writing to {output_file}")
+            with open(log_file, "w", encoding="utf-8") as log_fh:
+                self.process = subprocess.Popen(
+                    ffmpeg_cmd,
+                    stdin=subprocess.PIPE,  
+                    stdout=log_fh,
+                    stderr=subprocess.STDOUT
+                )
 
-        height, width = frame.shape[:2]
-        log.info(f"[Recorder] Camera {self.cam_id} frame size: {width}x{height}")
+                # Calculate cutoff time (midnight or 24 hours max)
+                next_midnight = (start_time + datetime.timedelta(days=1)).replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
+                next_cutoff = min(next_midnight, start_time + datetime.timedelta(hours=24))
+                time_to_sleep = (next_cutoff - datetime.datetime.now()).total_seconds()
 
-        # Detect FPS from the capture device
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        # if fps <= 0 or fps > 60:  # Sanity check for FPS value
-        if fps <= 0:
-            fps = 20.0  # Default fallback FPS
-            log.info(f"[Recorder] Using default FPS: {fps}")
-        else:
-            log.info(f"[Recorder] Camera {self.cam_id} FPS detected: {fps}")
+                if time_to_sleep > 0:
+                    time.sleep(time_to_sleep)
 
-        # Create new file for current hour
-        now = datetime.now()
-        date_folder = now.strftime("%d-%m-%Y")
-        minute = now.strftime("%H%M")
-        next_minute = (now + timedelta(minutes=1)).strftime("%H%M")
-        base_folder = f"recordings/{date_folder}/camera{self.cam_id}"
-        os.makedirs(base_folder, exist_ok=True)
+                self.stop_ffmpeg()
+                end_time = datetime.datetime.now()
+                duration_seconds = (end_time - self.video_start_time).total_seconds()
 
-        file_name = f"{self.camera_name}_{now.strftime('%d%m%Y')}_{minute}_{next_minute}.avi"
-        full_path = os.path.join(base_folder, file_name)
+                #update metadata with duration
+                save_metadata(self.metadata_file, start_time, duration_seconds,end_time)
 
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        out = cv2.VideoWriter(full_path, fourcc, fps, (width, height))
+            if self.running:
+                self.recording_finished.emit(self.cam_id)
 
-        if not out.isOpened():
-            log.error(f"[Recorder] Failed to open VideoWriter for {full_path}")
-            cap.release()
-            self.running = False
-            self.recording_finished.emit(self.cam_id)
-            return
+        log.info(f"[Recorder] Thread for Camera {self.cam_name} has exited.")
 
-        log.info(f"[Recorder] Started writing: {full_path}")
-
-        start_time = datetime.now()
-        frame_count = 0
-        target_frames = int(fps * 3600)  # Total frames needed for 1 hhour
-        frame_interval = 1.0 / fps  # Time between frames in seconds
-
-        log.info(f"[Recorder] Starting recording. Target: {target_frames} frames at {fps} FPS")
-        next_frame_time = start_time
-
-        while self.running and frame_count < target_frames:
-            current_time = datetime.now()
-            elapsed_time = (current_time - start_time).total_seconds()
-            
-            ret, frame = cap.read()
-            if not ret or frame is None:
-                log.warning(f"[Recorder] Frame read failed for Camera {self.cam_id}")
-                break
-
-            # Sanity check
-            if frame.shape[:2] != (height, width):
-                log.warning(f"[Recorder] Frame size mismatch. Resizing...")
-                frame = cv2.resize(frame, (width, height))
-
-            out.write(frame)
-            frame_count += 1
-
-            if frame_count % 100 == 0:
-                log.info(f"[Recorder] Camera {self.cam_id}: Frame {frame_count}/{target_frames}, Time: {elapsed_time:.2f}s")
-
-            # Calculate time until next frame should be captured
-            next_frame_time = start_time + timedelta(seconds=frame_count * frame_interval)
-            sleep_time = (next_frame_time - datetime.now()).total_seconds()
-            
-            if sleep_time > 0:
-                cv2.waitKey(int(sleep_time * 1000))
-
-        final_time = (datetime.now() - start_time).total_seconds()
-        log.info(f"[Recorder] Recording complete. Duration: {final_time:.2f}s, Frames: {frame_count}")
-
-        out.release()
-        cap.release()
-        log.info(f"[Recorder] Finished {file_name}. Total frames: {frame_count}")
-
+    def stop_ffmpeg(self):
+        if self.process and self.process.poll() is None:
+            log.info(f"[Recorder] Stopping recording process for Camera {self.cam_name}")
+            # Send 'q' to FFmpeg to stop recording
+            self.process.stdin.write(b'q')
+            self.process.stdin.flush()
+            try:
+                self.process.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                log.warning(f"[Recorder] FFmpeg process hung — forcing kill for {self.cam_name}")
+                self.process.kill()
+            self.process = None
 
     def stop(self):
+        log.info(f"[Recorder] Stop requested for Camera {self.cam_name}")
         self.running = False
-        self.wait()
+        if self.video_start_time and self.metadata_file:
+            end_time = datetime.datetime.now()
+            duration_seconds = (end_time - self.video_start_time).total_seconds()
+            save_metadata(self.metadata_file, self.video_start_time, duration_seconds,end_time)
+
+        self.stop_ffmpeg()
+        log.info(f"[Recorder] Recording stopped for Camera {self.cam_name}")
