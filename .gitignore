@@ -6,7 +6,7 @@ wheels/
 *.egg-info
 
 /logs
-
+/temp
 # Virtual environments
 env/
 recordings/

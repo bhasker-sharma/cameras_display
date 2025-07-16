@@ -9,7 +9,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QTimer
 from ui.camera_widget import CameraWidget
 from utils.logging import log
-from ui.dialogs import PlaybackDialog, CameraCountDialog, CameraConfigDialog
+from ui.playbackdialog import PlaybackDialog
 from ui.responsive import ScreenScaler
 
 
@@ -194,38 +194,6 @@ class CameraWindow(QMainWindow):
                 self.focused_widget = None
             self.focused_cam_id = None
             self.grid_widget.show()
-
-    # def refresh_widgets(self):
-    #     for cam_id, widget in self.camera_widgets.items():
-    #         stream_cfg = self.stream_config.get_camera_config(cam_id)
-    #         cam_name = stream_cfg.get("name", f"Camera {cam_id}")
-    #         rtsp_url = stream_cfg.get("rtsp", "")
-    #         is_enabled = stream_cfg.get("enabled", True)
-
-    #         widget.update_name(cam_name)
-    #         widget.configure(rtsp_url, is_enabled)
-
-    #         if widget.is_streaming:
-    #             if not is_enabled or not rtsp_url:
-    #                 widget.stop_stream()
-    #         elif is_enabled and rtsp_url:
-    #             widget.start_stream(rtsp_url)
-
-    #     # Refresh focused widget too
-    #     if self.focused and hasattr(self, 'focused_widget'):
-    #         stream_cfg = self.stream_config.get_camera_config(self.focused_cam_id)
-    #         cam_name = stream_cfg.get("name", f"Camera {self.focused_cam_id}")
-    #         rtsp_url = stream_cfg.get("rtsp", "")
-    #         is_enabled = stream_cfg.get("enabled", True)
-
-    #         self.focused_widget.update_name(cam_name)
-    #         self.focused_widget.configure(rtsp_url, is_enabled)
-
-    #         if self.focused_widget.is_streaming:
-    #             if not is_enabled or not rtsp_url:
-    #                 self.focused_widget.stop_stream()
-    #         elif is_enabled and rtsp_url:
-                # self.focused_widget.start_stream(rtsp_url)
 
     def cleanup_streams(self):
         log.info(f"Cleaning up all camera streams.")
