@@ -178,26 +178,51 @@ class PlaybackDialog(QDialog):
             return
       
     def extract_video(self):
-        if not hasattr(self, "preview_path") or not os.path.exists(self.preview_path):
-            QMessageBox.warning(self, "No Preview", "You must preview a clip before extracting.")
-            log.warning("No preview path set or file does not exist.")
+        log.debug("Triggered extract_video()")
+
+        if not hasattr(self, "preview_path"):
+            log.error("preview_path attribute not set on class.")
+            QMessageBox.warning(self, "Missing Data", "Preview path not set. Please preview a clip first.")
             return
 
-        output_dir = QFileDialog.getExistingDirectory(self, "Choose Save Folder")
-        if not output_dir:
+        if not os.path.exists(self.preview_path):
+            log.error(f"Preview file not found at: {self.preview_path}")
+            QMessageBox.warning(self, "File Not Found", "Preview file does not exist.")
             return
 
-        save_path = os.path.join(output_dir, self.preview_filename)
+        if not hasattr(self, "preview_filename") or not self.preview_filename:
+            log.error("preview_filename is not defined.")
+            QMessageBox.critical(self, "Filename Error", "No valid preview filename found.")
+            return
+
+        # Use Save File dialog
+        suggested_name = self.preview_filename
+        save_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Extracted Clip",
+            os.path.join(os.getcwd(), suggested_name),
+            "MP4 files (*.mp4);;All files (*)"
+        )
+        log.debug(f"User selected output path: {save_path}")
+
+        if not save_path:
+            log.info("User cancelled the save dialog.")
+            return
+
         try:
             import shutil
             shutil.copyfile(self.preview_path, save_path)
-            log.info(f"Clip saved to {save_path}")
-            QMessageBox.information(self, "Clip Saved", f"Clip saved to:\n{save_path}")
+            log.info(f"Clip successfully saved to: {save_path}")
+            QMessageBox.information(self, "Clip Saved", f"Saved successfully to:\n{save_path}")
+        except FileNotFoundError:
+            log.exception(f"Preview file missing during save: {self.preview_path}")
+            QMessageBox.critical(self, "Save Error", "Preview file could not be found during saving.")
+        except PermissionError:
+            log.exception(f"Permission denied while saving to: {save_path}")
+            QMessageBox.critical(self, "Save Error", "Permission denied. Please choose another folder.")
         except Exception as e:
-            log.error(f"Failed to save clip: {e}")
-            log.error(f"Error details: {str(e)}")
-            QMessageBox.critical(self, "Error", f"Failed to save file:\n{str(e)}")
-
+            log.exception(f"Unexpected error during clip save: {e}")
+            QMessageBox.critical(self, "Save Error", f"An unexpected error occurred:\n{str(e)}")
 
     def update_available_dates(self, cam_name):
         log.debug(f"Updating available dates for camera: {cam_name}")
