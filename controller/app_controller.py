@@ -81,6 +81,7 @@ class AppController:
 
             if result == QMessageBox.Yes:
                 log.info("Opted for the option yes, going to restart")
+                self.stop_all_recordings()
                 python = sys.executable
                 os.execl(python, python, *sys.argv)
             else:
@@ -88,17 +89,9 @@ class AppController:
             # self.initialize_windows()
 
     def open_camera_config(self):
-        dialog = CameraConfigDialog(self.camera_count, self.stream_config)
+        dialog = CameraConfigDialog(self.camera_count, self.stream_config, controller =self)
         if dialog.exec_():
             log.info("Camera configuration updated")
-            self.refresh_configurations()
-
-    def refresh_configurations(self):
-        for window in self.windows.values():
-            window.refresh_widgets()
-            self.stop_all_recordings()
-            self.start_recording_for_configured_cameras()
-        log.info("Camera configurations refreshed")
 
 
     def start_recording_for_configured_cameras(self):
