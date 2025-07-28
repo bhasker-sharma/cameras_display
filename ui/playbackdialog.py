@@ -59,7 +59,9 @@ class PlaybackDialog(QDialog):
         self.start_date = QDateEdit(calendarPopup=True)
         self.end_date = QDateEdit(calendarPopup=True)
         self.start_time = QTimeEdit()
+        self.start_time.setDisplayFormat("HH:mm")
         self.end_time = QTimeEdit()
+        self.end_time.setDisplayFormat("HH:mm")
 
         today = QDate.currentDate()
         self.start_date.setDate(today)
