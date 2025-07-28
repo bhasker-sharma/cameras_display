@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QDateEdit,
-    QTimeEdit, QPushButton, QWidget, QFileDialog, QMessageBox
+    QTimeEdit, QPushButton, QWidget, QFileDialog, QMessageBox,QTableWidget,QTableWidgetItem
 )
 from PyQt5.QtCore import QDate, QTime
 from PyQt5.QtGui import QTextCharFormat, QColor
@@ -13,7 +13,9 @@ from utils.helper import get_all_recorded_cameras , find_recording_file_for_time
 import subprocess
 import json
 from datetime import datetime,time
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
+import datetime as dt
+from PyQt5.QtWidgets import QHeaderView
 
 log = Logger.get_logger(name="DebugPlayback",log_file="pipeline1.log")
 
@@ -66,6 +68,11 @@ class PlaybackDialog(QDialog):
         self.start_time.setTime(QTime(0, 0))
         self.end_time.setTime(QTime(0, 0))
 
+        self.info_button = QPushButton("📋 Info")
+        self.info_button.setStyleSheet("background-color: #5A9; color: white;")
+        self.info_button.clicked.connect(self.show_metadata_info)
+        self.control_layout.addWidget(self.info_button)
+
         self.preview_button = QPushButton("Preview")
         self.preview_button.setStyleSheet("background-color: #e06666; color: white;")
         self.extract_button = QPushButton("Extract")
@@ -96,7 +103,71 @@ class PlaybackDialog(QDialog):
         # Trigger date highlight initially
         if self.camera_dropdown.count() > 0:
             self.update_available_dates(self.camera_dropdown.currentText())
+    
+    def show_metadata_info(self):
+        cam_name = self.camera_dropdown.currentText()
+        date_str = self.start_date.date().toString("yyyy_MM_dd")
+        folder_path = os.path.join("recordings", date_str, cam_name)
 
+        if not os.path.exists(folder_path):
+            QMessageBox.warning(self, "No Data", "No recordings found for this date.")
+            return
+
+        table = QTableWidget()
+        table.setColumnCount(3)
+        table.setHorizontalHeaderLabels(["File Name", "Start Time", "End Time"])
+        table.setRowCount(0)
+        
+        header = table.horizontalHeader()
+        header.setStretchLastSection(False)
+        header.setSectionResizeMode(0, QHeaderView.Stretch)    # File Name
+        header.setSectionResizeMode(1, QHeaderView.Fixed)      # Start Time
+        header.setSectionResizeMode(2, QHeaderView.Fixed)      # End Time
+
+        table.setColumnWidth(1, 100)
+        table.setColumnWidth(2, 100)
+
+        row = 0
+        for filename in sorted(os.listdir(folder_path)):
+            if filename.endswith("_metadata.json"):
+                metadata_path = os.path.join(folder_path, filename)
+                try:
+                    with open(metadata_path, "r") as f:
+                        meta = json.load(f)
+                    start = datetime.fromisoformat(meta["start_time"])
+                    
+                    duration = meta.get("duration_seconds")
+                    if duration is not None:
+                        end = start + dt.timedelta(seconds=duration)
+                        red_dot = ""
+                    else:
+                        end = dt.datetime.now()  # Use current time for ongoing
+                        red_dot = " 🔴"
+                    # Use base name for display
+                    base_name = filename.replace("_metadata.json", ".mp4")
+
+                    table.insertRow(row)
+                    item0 = QTableWidgetItem(base_name + red_dot)
+                    item0.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                    item1 = QTableWidgetItem(start.strftime("%H:%M"))
+                    item2 = QTableWidgetItem(end.strftime("%H:%M"))
+                    for item in (item0, item1, item2):
+                        item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+
+                    table.setItem(row, 0, item0)
+                    table.setItem(row, 1, item1)
+                    table.setItem(row, 2, item2)
+                    row += 1
+                except Exception as e:
+                    log.warning(f"Failed to read {metadata_path}: {e}")
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle(f"Recording Info for {cam_name}")
+        layout = QVBoxLayout(dialog)
+        layout.addWidget(table)
+        dialog.setMinimumWidth(500)
+        dialog.exec_()
+        
     def build_video_preview(self):
         self.video_frame = QWidget()
         self.video_frame.setStyleSheet("background-color: #ccc;")

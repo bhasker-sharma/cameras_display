@@ -13,7 +13,7 @@ recordings/
 # Ignore only specific config files
 camera_config.json
 camera_streams.json
-
+*.mp4
 
 *camera_config.json/
 *camera_stream.json/
