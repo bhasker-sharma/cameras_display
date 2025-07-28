@@ -17,8 +17,9 @@ from datetime import datetime, timedelta
 
 
 class CameraConfigDialog(QDialog):
-    def __init__(self, camera_count, config_manager, parent=None):
+    def __init__(self, camera_count, config_manager,controller = None, parent=None ):
         super().__init__(parent)
+        self.controller = controller
         self.setWindowTitle("Configure Cameras")
         self.setMinimumSize(1000, 600)
         self.config_manager = config_manager
@@ -248,6 +249,8 @@ class CameraConfigDialog(QDialog):
             self.accept()
 
             # Restart the application
+            if self.controller:
+                self.controller.stop_all_recordings()
             QApplication.quit()
             os.execl(sys.executable, sys.executable, *sys.argv)
         else:

@@ -20,15 +20,15 @@ def main():
 
     try:
         exit_code = app.exec_()
-        controller.stop_all_recordings()  # ✅ Ensure this is called on normal close
+        controller.stop_all_recordings()  # Ensure this is called on normal close
         sys.exit(exit_code)
     except SystemExit:
         log.info("SystemExit caught — shutting down hard.")
-        controller.stop_all_recordings()  # ✅ Ensure this is called on crash too
+        controller.stop_all_recordings()  # Ensure this is called on crash too
         os._exit(0)
     except Exception as e:
         log.exception("Unhandled exception occurred")
-        controller.stop_all_recordings()  # ✅ Catch-all shutdown protection
+        controller.stop_all_recordings()  # Catch-all shutdown protection
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Critical)
         msg_box.setWindowTitle("Application Error")
