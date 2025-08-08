@@ -165,7 +165,7 @@ class ControlPanel(QWidget):
     def emit_preview(self):
         self.preview_requested.emit(
             self.camera_dropdown.currentText(),
-            self.start_date.date().toString("yyyy_MM_dd"),
+            self.date_picker.date().toString("yyyy_MM_dd"),
             self.start_time.time(),
             self.end_time.time()
         )
@@ -173,7 +173,7 @@ class ControlPanel(QWidget):
     def emit_info(self):
         self.info_requested.emit(
             self.camera_dropdown.currentText(),
-            self.start_date.date().toString("yyyy_MM_dd")
+            self.date_picker.date().toString("yyyy_MM_dd")
         )
 
     def highlight_available_dates(self, cam_name):
