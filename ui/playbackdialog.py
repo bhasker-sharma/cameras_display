@@ -2,8 +2,8 @@ from PyQt5.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QDateEdit,
     QTimeEdit, QPushButton, QWidget, QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView
 )
-from PyQt5.QtCore import QDate, QTime, Qt, pyqtSignal
-from PyQt5.QtGui import QTextCharFormat, QColor
+from PyQt5.QtCore import QDate, QTime, Qt, pyqtSignal, QTimer, QPropertyAnimation, QEasingCurve
+from PyQt5.QtGui import QTextCharFormat, QColor, QPainter, QPen, QFont
 import os
 import vlc
 import datetime
@@ -16,6 +16,85 @@ import os
 from core.camera_playback_worker import CameraPlaybackWorker
 
 log = Logger.get_logger(name="DebugPlayback", log_file="pipeline1.log")
+
+# ========== LOADING SPINNER WIDGET ==========
+class LoadingSpinner(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setFixedSize(80, 80)
+        self.angle = 0
+        
+        # Timer for animation
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.rotate)
+        
+        # Set up widget properties
+        self.setStyleSheet("background-color: rgba(0, 0, 0, 150); border-radius: 10px;")
+        
+    def start_animation(self):
+        self.timer.start(50)  # Update every 50ms for smooth animation
+        self.show()
+        
+    def stop_animation(self):
+        self.timer.stop()
+        self.hide()
+        
+    def rotate(self):
+        self.angle = (self.angle + 10) % 360
+        self.update()  # Trigger paintEvent
+        
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        
+        # Draw background circle
+        painter.setPen(QPen(QColor(100, 100, 100), 3))
+        painter.drawEllipse(20, 20, 40, 40)
+        
+        # Draw spinning arc
+        painter.setPen(QPen(QColor(0, 150, 255), 4))
+        painter.drawArc(20, 20, 40, 40, self.angle * 16, 90 * 16)  # 90 degree arc
+        
+        # Draw center text
+        painter.setPen(QPen(QColor(255, 255, 255)))
+        painter.setFont(QFont("Arial", 8))
+        painter.drawText(self.rect(), Qt.AlignCenter, "Loading...")
+
+# ========== LOADING OVERLAY ==========
+class LoadingOverlay(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setStyleSheet("background-color: rgba(0, 0, 0, 100);")
+        
+        layout = QVBoxLayout()
+        layout.setAlignment(Qt.AlignCenter)
+        
+        self.spinner = LoadingSpinner()
+        layout.addWidget(self.spinner, 0, Qt.AlignCenter)
+        
+        self.status_label = QLabel("Processing video clip...")
+        self.status_label.setStyleSheet("color: white; font-size: 14px; font-weight: bold;")
+        self.status_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.status_label)
+        
+        self.setLayout(layout)
+        self.hide()
+        
+    def show_loading(self, message="Processing video clip..."):
+        self.status_label.setText(message)
+        self.spinner.start_animation()
+        self.show()
+        self.raise_()  # Bring to front
+        
+    def hide_loading(self):
+        self.spinner.stop_animation()
+        self.hide()
+        
+    def resizeEvent(self, event):
+        # Make sure overlay covers the entire parent
+        if self.parent():
+            self.resize(self.parent().size())
+        super().resizeEvent(event)
    
 
 # ========== MAIN PLAYBACK DIALOG ==========
@@ -50,22 +129,86 @@ class PlaybackDialog(QDialog):
         self.control_panel.preview_requested.connect(self.handle_preview)
         self.control_panel.extract_requested.connect(self.handle_extract)
         self.control_panel.info_requested.connect(self.handle_info)
+        
+        # Connect worker signals for loading animation
+        self.worker.ffmpeg_started.connect(lambda: self.preview_panel.show_loading("Extracting video clip..."))
+        self.worker.ffmpeg_finished.connect(self.on_ffmpeg_finished)
+
+    def on_ffmpeg_finished(self, success, error_message):
+        """Handle FFmpeg completion - hide loading and show errors if any"""
+        self.preview_panel.hide_loading()
+        if not success and error_message:
+            QMessageBox.warning(self, "Preview Error", f"Failed to process video: {error_message}")
 
     def handle_preview(self, cam, date_str, start_time, end_time):
         log.info(f"[UI] Preview requested: {cam}, {date_str}, {start_time.toString()} → {end_time.toString()}")
 
-        path, error = self.worker.preview_clip(cam, date_str, start_time, end_time)
+        success, error = self.worker.preview_clip(cam, date_str, start_time, end_time)
         if error:
             QMessageBox.warning(self, "Preview Error", error)
 
     def handle_extract(self):
         log.info("[UI] Extract requested")
-        path, error = self.worker.extract_clip(self)
+        
+        # Get the preview filename as a suggestion
+        suggested_name = self.worker.get_preview_file_name()
+        if not suggested_name:
+            suggested_name = "extracted_clip.mp4"
+        
+        # Ask user where to save the file
+        target_path, _ = QFileDialog.getSaveFileName(
+            self, 
+            "Save Extracted Clip", 
+            suggested_name,
+            "MP4 Files (*.mp4);;All Files (*)"
+        )
+        
+        if not target_path:  # User cancelled
+            return
+            
+        success, error = self.worker.extract_clip(target_path)
         if error:
             QMessageBox.warning(self, "Extract Error", error)
         else:
-            QMessageBox.information(self, "Saved", f"Clip saved to:\n{path}")
-
+            QMessageBox.information(self, "Saved", f"Clip saved to:\n{target_path}")
+    
+    def handle_info_row_double_clicked(self, row, column):
+        log.info(f"[UI Debug] Double-clicked row {row}, column {column}")
+        table = self.info_table
+        item0 = table.item(row, 0)
+        real_start = item0.data(Qt.UserRole)
+        duration = item0.data(Qt.UserRole + 1)
+        log.info(f"[UI Debug] Retrieved real_start: {real_start}, duration: {duration}")
+        
+        if real_start and duration:
+            from datetime import datetime, timedelta
+            from PyQt5.QtCore import QTime
+            start_dt = datetime.fromisoformat(real_start)
+            end_dt = start_dt + timedelta(seconds=duration)
+            log.info(f"[UI Debug] Calculated start_dt: {start_dt}, end_dt: {end_dt}")
+            
+            start_qtime = QTime(start_dt.hour, start_dt.minute, start_dt.second)
+            end_qtime = QTime(end_dt.hour, end_dt.minute, end_dt.second)
+            log.info(f"[UI Debug] QTime objects: {start_qtime.toString()} to {end_qtime.toString()}")
+            
+            # Set the time fields for reference
+            self.control_panel.start_time.setTime(start_qtime)
+            self.control_panel.end_time.setTime(end_qtime)
+            
+            # Play the full video directly (no extraction needed)
+            log.info(f"[UI Debug] Playing full video directly...")
+            success, error = self.worker.play_full_video(
+                self.control_panel.camera_dropdown.currentText(),
+                self.control_panel.date_picker.date().toString("yyyy_MM_dd"),
+                real_start
+            )
+            
+            if error:
+                QMessageBox.warning(self, "Playback Error", error)
+                
+        else:
+            log.warning(f"[UI Debug] Missing real_start or duration data")
+        
     def handle_info(self, cam, date_str):
         log.info(f"[UI] Info requested for {cam} on {date_str}")
         metadata_entries = self.worker.get_metadata_for_display(cam, date_str)
@@ -87,12 +230,19 @@ class PlaybackDialog(QDialog):
             item0 = QTableWidgetItem(entry["file"])
             item1 = QTableWidgetItem(entry["start"])
             item2 = QTableWidgetItem(entry["end"])
+            # Store real start and duration in item0
+            item0.setData(Qt.UserRole, entry.get("real_start"))
+            item0.setData(Qt.UserRole + 1, entry.get("duration"))
             for item in (item0, item1, item2):
                 item.setFlags(item.flags() & ~Qt.ItemIsEditable)
             table.setItem(row, 0, item0)
             table.setItem(row, 1, item1)
             table.setItem(row, 2, item2)
 
+        # Save table as instance variable for access in the slot
+        self.info_table = table
+        table.cellDoubleClicked.connect(self.handle_info_row_double_clicked)
+        
         dialog = QDialog(self)
         dialog.setWindowTitle(f"Recording Info – {cam}")
         layout = QVBoxLayout(dialog)
@@ -213,6 +363,21 @@ class PreviewPanel(QWidget):
         self.video_frame = QWidget(self)
         self.video_frame.setStyleSheet("background-color: black;")
         layout.addWidget(self.video_frame)
+        
+        # Add loading overlay
+        self.loading_overlay = LoadingOverlay(self)
+        
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        # Make sure the loading overlay covers the entire preview panel
+        if hasattr(self, 'loading_overlay'):
+            self.loading_overlay.resize(self.size())
+
+    def show_loading(self, message="Processing video clip..."):
+        self.loading_overlay.show_loading(message)
+        
+    def hide_loading(self):
+        self.loading_overlay.hide_loading()
 
     def get_video_frame(self):
         return self.video_frame

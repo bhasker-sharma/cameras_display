@@ -53,8 +53,10 @@ def find_recording_file_for_time_range(cam_name: str, date_str: str, start_time,
     Returns: (video_path, metadata_path, recording_start_datetime) or (None, None, None)
     """
     folder_path = os.path.join("recordings", date_str, cam_name)
+    log.info(f"[Debug] Looking for video in: {folder_path}")
 
     if not os.path.exists(folder_path):
+        log.info(f"[Debug] Folder does not exist: {folder_path}")
         return None, None, None
 
     # onvert QTime to datetime.time if needed
@@ -63,12 +65,16 @@ def find_recording_file_for_time_range(cam_name: str, date_str: str, start_time,
     if isinstance(end_time, QTime):
         end_time = datetime.time(end_time.hour(), end_time.minute(), end_time.second())
 
+    log.info(f"[Debug] Looking for time range: {start_time} to {end_time}")
+
     for filename in os.listdir(folder_path):
         if filename.endswith(".mp4"):
+            log.info(f"[Debug] Checking video file: {filename}")
             video_path = os.path.join(folder_path, filename)
             metadata_path = video_path.replace(".mp4", "_metadata.json")
 
             if not os.path.exists(metadata_path):
+                log.info(f"[Debug] Metadata not found: {metadata_path}")
                 continue
 
             try:
@@ -82,13 +88,27 @@ def find_recording_file_for_time_range(cam_name: str, date_str: str, start_time,
                 user_start = datetime.datetime.combine(recording_start.date(), start_time)
                 user_end = datetime.datetime.combine(recording_start.date(), end_time)
 
-                if recording_start <= user_start and recording_end >= user_end:
+                log.info(f"[Debug] Recording: {recording_start} to {recording_end}")
+                log.info(f"[Debug] User range: {user_start} to {user_end}")
+                
+                # Check for overlap instead of containment
+                # Overlap exists if: user_start < recording_end AND user_end > recording_start
+                overlaps = user_start < recording_end and user_end > recording_start
+                log.info(f"[Debug] Check overlap: user_start < recording_end? {user_start < recording_end}")
+                log.info(f"[Debug] Check overlap: user_end > recording_start? {user_end > recording_start}")
+                log.info(f"[Debug] Overlaps? {overlaps}")
+
+                if overlaps:
+                    log.info(f"[Debug] MATCH FOUND: {video_path}")
                     return video_path, metadata_path, recording_start
+                else:
+                    log.info(f"[Debug] No overlap for {filename}")
 
             except Exception as e:
                 log.warning(f"[Playback] Failed to read metadata: {metadata_path} — {e}")
                 continue
 
+    log.info(f"[Debug] No matching video found in {folder_path}")
     return None, None, None
 
 def get_available_metadata_for_camera(cam_name, date_str):
