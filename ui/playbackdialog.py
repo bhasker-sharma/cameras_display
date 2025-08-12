@@ -1,18 +1,18 @@
 from PyQt5.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QDateEdit,
-    QTimeEdit, QPushButton, QWidget, QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView
+    QTimeEdit, QPushButton, QWidget, QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView,
+    QSlider, QSizePolicy
 )
 from PyQt5.QtCore import QDate, QTime, Qt, pyqtSignal, QTimer, QPropertyAnimation, QEasingCurve
-from PyQt5.QtGui import QTextCharFormat, QColor, QPainter, QPen, QFont
+from PyQt5.QtGui import QTextCharFormat, QColor, QPainter, QPen, QFont, QIcon
 import os
 import vlc
 import datetime
+import time
+import json
 from ui.responsive import ScreenScaler
 from utils.logging import Logger
 from utils.helper import get_all_recorded_cameras
-from core.camera_playback_worker import CameraPlaybackWorker
-import json
-import os
 from core.camera_playback_worker import CameraPlaybackWorker
 
 log = Logger.get_logger(name="DebugPlayback", log_file="pipeline1.log")
@@ -95,7 +95,239 @@ class LoadingOverlay(QWidget):
         if self.parent():
             self.resize(self.parent().size())
         super().resizeEvent(event)
-   
+
+# ========== MEDIA CONTROLS ==========
+class MediaControls(QWidget):
+    # Signals for player control
+    play_pause_clicked = pyqtSignal()
+    position_changed = pyqtSignal(float)  # 0.0 to 1.0
+    volume_changed = pyqtSignal(int)  # 0 to 100
+    
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.player = None
+        self.total_duration = 0
+        self.is_seeking = False
+        
+        # Timer to update position
+        self.position_timer = QTimer()
+        self.position_timer.timeout.connect(self.update_position)
+        self.position_timer.start(1000)  # Update every second
+        
+        self.init_ui()
+        
+    def init_ui(self):
+        layout = QVBoxLayout()
+        layout.setContentsMargins(5, 5, 5, 5)
+        
+        # Progress bar and time display
+        progress_layout = QHBoxLayout()
+        
+        self.current_time_label = QLabel("00:00")
+        self.current_time_label.setStyleSheet("color: white; font-weight: bold;")
+        self.current_time_label.setMinimumWidth(50)
+        
+        # Position slider
+        self.position_slider = QSlider(Qt.Horizontal)
+        self.position_slider.setRange(0, 1000)
+        self.position_slider.setValue(0)
+        self.position_slider.setStyleSheet("""
+            QSlider::groove:horizontal {
+                border: 1px solid #bbb;
+                background: #444;
+                height: 8px;
+                border-radius: 4px;
+            }
+            QSlider::sub-page:horizontal {
+                background: #0078d4;
+                border: 1px solid #777;
+                height: 8px;
+                border-radius: 4px;
+            }
+            QSlider::add-page:horizontal {
+                background: #666;
+                border: 1px solid #777;
+                height: 8px;
+                border-radius: 4px;
+            }
+            QSlider::handle:horizontal {
+                background: #0078d4;
+                border: 1px solid #5c5c5c;
+                width: 16px;
+                margin: -4px 0;
+                border-radius: 8px;
+            }
+        """)
+        self.position_slider.sliderPressed.connect(self.on_slider_pressed)
+        self.position_slider.sliderReleased.connect(self.on_slider_released)
+        self.position_slider.valueChanged.connect(self.on_slider_moved)
+        
+        self.total_time_label = QLabel("00:00")
+        self.total_time_label.setStyleSheet("color: white; font-weight: bold;")
+        self.total_time_label.setMinimumWidth(50)
+        
+        progress_layout.addWidget(self.current_time_label)
+        progress_layout.addWidget(self.position_slider)
+        progress_layout.addWidget(self.total_time_label)
+        
+        # Control buttons
+        controls_layout = QHBoxLayout()
+        
+        # Play/Pause button
+        self.play_pause_btn = QPushButton("▶")
+        self.play_pause_btn.setFixedSize(40, 30)
+        self.play_pause_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #0078d4;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #106ebe;
+            }
+            QPushButton:pressed {
+                background-color: #005a9e;
+            }
+        """)
+        self.play_pause_btn.clicked.connect(self.play_pause_clicked.emit)
+        
+        # Volume control
+        volume_label = QLabel("🔊")
+        volume_label.setStyleSheet("color: white;")
+        
+        self.volume_slider = QSlider(Qt.Horizontal)
+        self.volume_slider.setRange(0, 100)
+        self.volume_slider.setValue(70)
+        self.volume_slider.setMaximumWidth(100)
+        self.volume_slider.setStyleSheet("""
+            QSlider::groove:horizontal {
+                border: 1px solid #bbb;
+                background: #444;
+                height: 6px;
+                border-radius: 3px;
+            }
+            QSlider::sub-page:horizontal {
+                background: #0078d4;
+                border: 1px solid #777;
+                height: 6px;
+                border-radius: 3px;
+            }
+            QSlider::handle:horizontal {
+                background: #0078d4;
+                border: 1px solid #5c5c5c;
+                width: 12px;
+                margin: -3px 0;
+                border-radius: 6px;
+            }
+        """)
+        self.volume_slider.valueChanged.connect(self.volume_changed.emit)
+        
+        controls_layout.addWidget(self.play_pause_btn)
+        controls_layout.addStretch()
+        controls_layout.addWidget(volume_label)
+        controls_layout.addWidget(self.volume_slider)
+        
+        layout.addLayout(progress_layout)
+        layout.addLayout(controls_layout)
+        
+        self.setLayout(layout)
+        self.setStyleSheet("background-color: #2d2d2d; border-top: 1px solid #555;")
+        self.setFixedHeight(80)
+        
+        # Add keyboard shortcut support
+        self.setFocusPolicy(Qt.StrongFocus)
+        
+    def keyPressEvent(self, event):
+        """Handle keyboard shortcuts"""
+        if event.key() == Qt.Key_Space:
+            self.play_pause_clicked.emit()
+            event.accept()
+        elif event.key() == Qt.Key_Left:
+            if self.player and self.total_duration > 0:
+                current_pos = self.player.get_position()
+                new_pos = max(0, current_pos - (10000 / self.total_duration))
+                self.player.set_position(new_pos)
+            event.accept()
+        elif event.key() == Qt.Key_Right:
+            if self.player and self.total_duration > 0:
+                current_pos = self.player.get_position()
+                new_pos = min(1.0, current_pos + (10000 / self.total_duration))
+                self.player.set_position(new_pos)
+            event.accept()
+        else:
+            super().keyPressEvent(event)
+        
+    def set_player(self, player):
+        """Connect to VLC player instance"""
+        self.player = player
+        if self.player:
+            self.player.audio_set_volume(self.volume_slider.value())
+            
+    def on_slider_pressed(self):
+        self.is_seeking = True
+        
+    def on_slider_released(self):
+        if self.player and self.total_duration > 0:
+            position = self.position_slider.value() / 1000.0
+            self.player.set_position(position)
+            # Only pause if user seeks to very end (99.5% or more)
+            if position >= 0.995:
+                self.player.pause()
+                print(f"[Media Control] Seeked to end ({position:.3f}), pausing")
+        self.is_seeking = False
+        
+    def on_slider_moved(self, value):
+        if self.is_seeking and self.total_duration > 0:
+            position = value / 1000.0
+            current_seconds = int(position * self.total_duration / 1000)
+            self.current_time_label.setText(self.format_time(current_seconds))
+            
+    def update_position(self):
+        """Update position slider and time display"""
+        if self.player and not self.is_seeking:
+            position = self.player.get_position()
+            length = self.player.get_length()
+            state = self.player.get_state()
+            
+            if length > 0:
+                self.total_duration = length
+                self.position_slider.setValue(int(position * 1000))
+                current_seconds = int(position * length / 1000)
+                total_seconds = int(length / 1000)
+                self.current_time_label.setText(self.format_time(current_seconds))
+                self.total_time_label.setText(self.format_time(total_seconds))
+                
+                # More precise end-of-video detection - only change button if truly ended
+                if state == vlc.State.Ended:
+                    self.play_pause_btn.setText("▶")
+                elif state == vlc.State.Playing:
+                    self.play_pause_btn.setText("⏸")
+                elif state == vlc.State.Paused:
+                    self.play_pause_btn.setText("▶")
+                else:
+                    # For other states (Opening, Buffering, etc.), keep current button state
+                    pass
+                    
+    def format_time(self, seconds):
+        """Format seconds to MM:SS or HH:MM:SS"""
+        hours = seconds // 3600
+        minutes = (seconds % 3600) // 60
+        seconds = seconds % 60
+        if hours > 0:
+            return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+        else:
+            return f"{minutes:02d}:{seconds:02d}"
+            
+    def reset(self):
+        """Reset controls to initial state"""
+        self.position_slider.setValue(0)
+        self.current_time_label.setText("00:00")
+        self.total_time_label.setText("00:00")
+        self.play_pause_btn.setText("▶")
+        self.total_duration = 0
 
 # ========== MAIN PLAYBACK DIALOG ==========
 class PlaybackDialog(QDialog):
@@ -103,6 +335,10 @@ class PlaybackDialog(QDialog):
         super().__init__(parent)
 
         self.setWindowTitle("Playback Dialog")
+        
+        # Add state tracking to prevent restart loops
+        self.last_restart_time = 0
+        self.restart_cooldown = 1.0  # 1 second cooldown between restarts
 
         # Responsive scaling
         self.scaler = ScreenScaler()
@@ -133,12 +369,58 @@ class PlaybackDialog(QDialog):
         # Connect worker signals for loading animation
         self.worker.ffmpeg_started.connect(lambda: self.preview_panel.show_loading("Extracting video clip..."))
         self.worker.ffmpeg_finished.connect(self.on_ffmpeg_finished)
+        self.worker.video_loaded.connect(self.on_video_loaded)
+        
+        # Connect media controls to player
+        self.preview_panel.set_player(self.worker.player)
+        self.preview_panel.media_controls.play_pause_clicked.connect(self.toggle_play_pause)
+        self.preview_panel.media_controls.volume_changed.connect(self.set_volume)
 
     def on_ffmpeg_finished(self, success, error_message):
         """Handle FFmpeg completion - hide loading and show errors if any"""
         self.preview_panel.hide_loading()
         if not success and error_message:
             QMessageBox.warning(self, "Preview Error", f"Failed to process video: {error_message}")
+
+    def on_video_loaded(self):
+        """Called when video is loaded and ready to play"""
+        # Reset controls when new video is loaded
+        self.preview_panel.reset_controls()
+
+    def toggle_play_pause(self):
+        """Toggle play/pause state of the video with end-of-video restart logic"""
+        if self.worker.player:
+            current_time = time.time()
+            
+            state = self.worker.player.get_state()
+            position = self.worker.player.get_position()
+            
+            print(f"[Media Control] Current state: {state}, position: {position:.3f}")
+            
+            # Check if video has truly ended (be more specific about end detection)
+            if state == vlc.State.Ended or (position >= 0.98 and state != vlc.State.Playing):
+                # Check cooldown to prevent rapid restarts
+                if current_time - self.last_restart_time > self.restart_cooldown:
+                    print("[Media Control] Video ended, restarting from beginning")
+                    self.worker.player.stop()  # Stop first to clear state
+                    self.worker.player.set_position(0.0)
+                    self.worker.player.play()
+                    self.last_restart_time = current_time
+                else:
+                    print("[Media Control] Restart cooldown active, ignoring request")
+            elif state == vlc.State.Playing:
+                # Currently playing, so pause
+                self.worker.player.pause()
+                print("[Media Control] Video paused")
+            else:
+                # Not playing (paused, stopped, etc.), so play from current position
+                self.worker.player.play()
+                print(f"[Media Control] Video resumed from position {position:.3f}")
+                
+    def set_volume(self, volume):
+        """Set player volume (0-100)"""
+        if self.worker.player:
+            self.worker.player.audio_set_volume(volume)
 
     def handle_preview(self, cam, date_str, start_time, end_time):
         log.info(f"[UI] Preview requested: {cam}, {date_str}, {start_time.toString()} → {end_time.toString()}")
@@ -249,8 +531,6 @@ class PlaybackDialog(QDialog):
         layout.addWidget(table)
         dialog.setMinimumWidth(500)
         dialog.exec_()
-
-
 
 # ========== CONTROL PANEL (LEFT UI) ==========
 class ControlPanel(QWidget):
@@ -364,6 +644,10 @@ class PreviewPanel(QWidget):
         self.video_frame.setStyleSheet("background-color: black;")
         layout.addWidget(self.video_frame)
         
+        # Add media controls at the bottom
+        self.media_controls = MediaControls(self)
+        layout.addWidget(self.media_controls)
+        
         # Add loading overlay
         self.loading_overlay = LoadingOverlay(self)
         
@@ -378,12 +662,17 @@ class PreviewPanel(QWidget):
         
     def hide_loading(self):
         self.loading_overlay.hide_loading()
+        
+    def set_player(self, player):
+        """Connect the media controls to the VLC player"""
+        self.media_controls.set_player(player)
+        
+    def reset_controls(self):
+        """Reset media controls to initial state"""
+        self.media_controls.reset()
 
     def get_video_frame(self):
         return self.video_frame
 
     def get_win_id(self):
         return int(self.video_frame.winId())
-        
-    
-    

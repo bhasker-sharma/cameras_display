@@ -37,6 +37,7 @@ class CameraPlaybackWorker(QObject):
     # Signals to communicate with UI
     ffmpeg_started = pyqtSignal()
     ffmpeg_finished = pyqtSignal(bool, str)  # success, error_message
+    video_loaded = pyqtSignal()  # New signal when video is loaded
     
     def __init__(self, video_widget):
         super().__init__()
@@ -58,6 +59,7 @@ class CameraPlaybackWorker(QObject):
             media = self.vlc_instance.media_new(self.preview_path)
             self.player.set_media(media)
             self.player.play()
+            self.video_loaded.emit()  # Notify that video is loaded
         else:
             log.error(f"[Preview] FFmpeg error: {error}")
             # Optionally, emit a signal to the UI to show an error message
@@ -93,6 +95,7 @@ class CameraPlaybackWorker(QObject):
                             media = self.vlc_instance.media_new(video_path)
                             self.player.set_media(media)
                             self.player.play()
+                            self.video_loaded.emit()  # Notify that video is loaded
                             return True, None
                         else:
                             return False, f"Video file not found: {video_path}"
