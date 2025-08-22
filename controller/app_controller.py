@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QMessageBox
 import sys
 import os
 from core.camera_record_worker import CameraRecorderWorker
+from PyQt5.QtCore import QTimer
 
 GRID_LAYOUTS = {
     4: [(0, 2, 2)],
@@ -30,6 +31,13 @@ class AppController:
         self.windows = {}
         self.recorder_threads = {}
         self.camera_count = self.config_mgr.get_camera_count()
+
+        # ---- ADD: periodic dongle enforcement ----
+        self._dongle_popup_shown = False
+        self._dongle_timer = QTimer()
+        self._dongle_timer.timeout.connect(self._enforce_dongle_presence)
+        self._dongle_timer.start(1000)  # every 5 seconds
+        # ------------------------------------------
 
         if self.camera_count == 0:
             self.change_camera_count()
@@ -135,3 +143,36 @@ class AppController:
             recorder.stop()
             log.info(f"Stopped recorder for Camera {cam_id}")
         self.recorder_threads.clear()
+
+    def _enforce_dongle_presence(self):
+        # Lazy import to avoid circulars at module import time
+        from utils.security_pendrive import check_pendrive_key
+        ok, err = check_pendrive_key()
+        if ok:
+            # Reset popup flag if user re-inserts during run
+            self._dongle_popup_shown = False
+            return
+
+        # Only act once per removal to avoid multiple popups
+        if not self._dongle_popup_shown:
+            self._dongle_popup_shown = True
+            try:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setWindowTitle("Security USB Removed")
+                msg.setText(err or "Authorized USB key was removed. The application will now close.")
+                msg.exec_()
+            except Exception:
+                pass
+
+            # Stop recordings & close all windows, then exit
+            try:
+                self.stop_all_recordings()
+            except Exception:
+                pass
+            for w in list(self.windows.values()):
+                try:
+                    w.close()
+                except Exception:
+                    pass
+            sys.exit(1)

@@ -7,6 +7,7 @@ from controller.app_controller import AppController
 from ui.styles import apply_dark_theme
 from utils.logging import log
 from PyQt5.QtGui import QIcon
+from utils.security_pendrive import check_pendrive_key
 
 def main():
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
@@ -15,6 +16,17 @@ def main():
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("assets/logo.png"))
     apply_dark_theme(app)
+    
+    # ---- Security USB check (pendrive dongle) ----
+    ok, err = check_pendrive_key()
+    if not ok:
+        m = QMessageBox()
+        m.setIcon(QMessageBox.Critical)
+        m.setWindowTitle("Security USB Required")
+        m.setText(err or "Authorization failed.")
+        m.exec_()
+        sys.exit(1)
+    # ----------------------------------------------
 
     controller = AppController()
 
