@@ -3,7 +3,7 @@ import ctypes, os, hmac, hashlib, string, subprocess, re
 
 # === Strong binding: token = HMAC(APP_SECRET, f"{VOLUME_SERIAL_HEX}|{PNP_ID}") ===
 MODE = "HMAC_SERIAL_PNP"
-_APP_SECRET_HEX = "9e127c09a36b438afe1583621cc066f2f57b3971c6e7b348dc607c93a4bfc7ae"
+_APP_SECRET_HEX = "9e157c09a36b438afe1583621cc066f2f57b3971c6e7b348dc607c93a4bfc7ae"
 _TOKEN_FILENAME = ".cam_dongle.token"
 
 # Windows drive type constants
