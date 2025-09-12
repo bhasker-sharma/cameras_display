@@ -7,7 +7,7 @@ import re
 from utils.logging import log
 import json
 from utils.helper import sanitize_filename, save_metadata
-
+from utils.subproc import win_no_window_kwargs
 
 
 class CameraRecorderWorker(QThread):
@@ -77,7 +77,8 @@ class CameraRecorderWorker(QThread):
                     ffmpeg_cmd,
                     stdin=subprocess.PIPE,  
                     stdout=log_fh,
-                    stderr=subprocess.STDOUT
+                    stderr=subprocess.STDOUT,
+                    **win_no_window_kwargs()
                 )
 
                 # Calculate cutoff time (midnight or 24 hours max)

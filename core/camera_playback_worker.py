@@ -9,6 +9,7 @@ from utils.helper import find_recording_file_for_time_range, get_available_metad
 from utils.logging import Logger
 import vlc
 from PyQt5.QtCore import QDate,pyqtSignal, QThread, QObject
+from utils.subproc import win_no_window_kwargs
 
 
 log = Logger.get_logger(name="PlaybackWorker", log_file="pipeline1.log")
@@ -24,8 +25,14 @@ class FFmpegWorker(QThread):
 
     def run(self):
         try:
-            import subprocess
-            result = subprocess.run(self.cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            result = subprocess.run(
+                self.cmd, 
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.DEVNULL,
+                stdin=subprocess.DEVNULL,
+                **win_no_window_kwargs()
+                )
+            
             self.success = (result.returncode == 0)
             self.error_message = "" if self.success else "FFmpeg failed"
         except Exception as e:
