@@ -1,5 +1,6 @@
 # utils/security_pendrive.py
 import ctypes, os, hmac, hashlib, string, subprocess, re
+from utils.subproc import win_no_window_kwargs
 
 # === Strong binding: token = HMAC(APP_SECRET, f"{VOLUME_SERIAL_HEX}|{PNP_ID}") ===
 MODE = "HMAC_SERIAL_PNP"
@@ -38,7 +39,12 @@ def _get_volume_serial(root):
     return serial.value if ok else None
 
 def _wmic(args):
-    p = subprocess.run(["wmic"] + args, capture_output=True, text=True, shell=True)
+    p = subprocess.run(["wmic"] + args, 
+                        capture_output=True, 
+                        text=True,
+                        shell=True,
+                        **win_no_window_kwargs()
+                        )
     out = (p.stdout or "").splitlines()
     return [ln.strip() for ln in out if ln.strip()]
 
@@ -59,10 +65,12 @@ $disk.PNPDeviceID
     try:
         r = subprocess.run(
             ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps],
-            capture_output=True, text=True
+            capture_output=True, 
+            text=True,
+            **win_no_window_kwargs()
         )
         if r.returncode == 0:
-            # Take the first non-empty line
+            # Take the first non-empty line 
             lines = [ln.strip() for ln in (r.stdout or "").splitlines() if ln.strip()]
             return lines[0] if lines else None
     except Exception:
@@ -160,7 +168,7 @@ def provision_token_on_drive(root):
     with open(path, "w", encoding="utf-8") as f:
         f.write(token + "\n")
     try:
-        subprocess.run(["attrib", "+H", path], check=False)
+        subprocess.run(["attrib", "+H", path], check=False, **win_no_window_kwargs())
     except Exception:
         pass
     return path, token

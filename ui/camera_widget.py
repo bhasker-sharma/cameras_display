@@ -1,7 +1,6 @@
 # camera_app/ui/camera_widget.py
 
 import os
-import cv2
 from PyQt5.QtWidgets import QWidget, QLabel, QSizePolicy, QMessageBox, QVBoxLayout
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QPixmap, QImage, QFont
