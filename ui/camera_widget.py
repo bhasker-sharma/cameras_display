@@ -89,7 +89,7 @@ class CameraWidget(QWidget):
         scaled_pixmap = pixmap.scaled(
             content_size.width(),
             content_size.height(),
-            Qt.KeepAspectRatioByExpanding,
+            Qt.KeepAspectRatio,#make it Qt.KeepAspectRatioByExpanding if you need to fit it to full screen.
             Qt.SmoothTransformation
         )
 

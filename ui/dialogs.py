@@ -12,7 +12,7 @@ from PyQt5.QtGui import QFont, QImage, QPixmap
 import os,sys
 from ui.responsive import ScreenScaler
 from utils.logging import log
-import cv2,json
+import json
 from datetime import datetime, timedelta
 
 
