@@ -98,8 +98,8 @@ class CameraStreamWorker(QThread):
         self.running = True
 
         # ---- knobs you can tweak without touching the rest ----
-        USE_UDP = False          # set True for lower latency (best on a clean LAN)
-        DOWNSCALE_WIDTH = None   # e.g. 640 for lighter frames; None = keep native
+        USE_UDP = True          # set True for lower latency (best on a clean LAN)
+        DOWNSCALE_WIDTH = 720   # e.g. 640 for lighter frames; None = keep native
         # -------------------------------------------------------
 
         while self.running:
@@ -127,7 +127,7 @@ class CameraStreamWorker(QThread):
 
                 # Choose transport profile
                 if USE_UDP:
-                    in_flags = ["-rtsp_transport", "udp", "-fflags", "nobuffer", "-flags", "low_delay"]
+                    in_flags = ["-rtsp_transport", "udp", "-fflags", "nobuffer", "-flags", "low_delay", "-fflags", "flush_packets"]
                 else:
                     in_flags = ["-rtsp_transport", "tcp", "-rtsp_flags", "prefer_tcp",
                                 "-fflags", "nobuffer", "-flags", "low_delay"]
@@ -137,6 +137,7 @@ class CameraStreamWorker(QThread):
                     ffmpeg, "-hide_banner", "-nostdin", "-loglevel", "warning",
                     *in_flags,
                     "-probesize", "32k", "-analyzeduration", "0",
+                    "-vsync", "0",
                     "-i", self.rtsp_url,
                 ]
                 # Optional scale in ffmpeg (only if we changed size)
@@ -167,7 +168,7 @@ class CameraStreamWorker(QThread):
                 self.reconnect_attempts = 0
 
                 # Smooth UI pacing: PAL cams are usually 25fps; others 30fps
-                max_emit_fps = 25.0 if width in (704, 720) or height in (576, 480) else 30.0
+                max_emit_fps = 30.0 #25.0 if width in (704, 720) or height in (576, 480) else 30.0
                 emit_interval = 1.0 / max_emit_fps
                 last_emit = 0.0
 
@@ -186,7 +187,7 @@ class CameraStreamWorker(QThread):
                         last_emit = now
 
                     # tiny yield so Qt paints smoothly (without adding visible lag)
-                    self.msleep(1)
+                    self.msleep(0.1)
 
                 # Cleanup before potential reconnect
                 try:
