@@ -36,7 +36,7 @@ class PlaybackDialog(QDialog):
         self.tree.setModel(self.model)
         self.tree.setRootIndex(self.model.index(self.recordings_dir))
         self.tree.setColumnWidth(0, 300)
-        self.tree.setAlternatingRowColors(True)
+        self.tree.setAlternatingRowColors(False)
         self.tree.setSortingEnabled(True)
         self.tree.setRootIsDecorated(True)
         self.tree.setItemsExpandable(True)
