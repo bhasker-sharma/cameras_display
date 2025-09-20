@@ -14,7 +14,14 @@ from ui.responsive import ScreenScaler
 from utils.logging import log
 import json
 from datetime import datetime, timedelta
-
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
+import csv
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph,Image, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_RIGHT
+from datetime import datetime
 
 class CameraConfigDialog(QDialog):
     def __init__(self, camera_count, config_manager,controller = None, parent=None ):
@@ -159,14 +166,33 @@ class CameraConfigDialog(QDialog):
             self.table.setCellWidget(row, 3, button_container)
 
         layout.addWidget(self.table)
-
+        
+        #create a horizontal row fro buttons
+        button_row_layout = QHBoxLayout()
+        
         # OK/Cancel Buttons
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         buttons.setFont(main_font)
         buttons.accepted.connect(self.save_config)
         buttons.rejected.connect(self.reject)
-        layout.addWidget(buttons)
-
+        
+        # Add export import  buttons
+        export_import_box = QDialogButtonBox()
+        export_import_box.setFont(main_font)
+        export_btn = export_import_box.addButton("Export CSV", QDialogButtonBox.ActionRole)
+        import_btn = export_import_box.addButton("Import CSV", QDialogButtonBox.ActionRole)
+        export_btn.setFont(main_font)
+        import_btn.setFont(main_font)
+        
+        export_btn.clicked.connect(self.export_config)
+        import_btn.clicked.connect(self.import_csv)
+        
+        # Add to layout: left, stretch, right
+        button_row_layout.addWidget(buttons)
+        button_row_layout.addStretch()
+        button_row_layout.addWidget(export_import_box)
+                
+        layout.addLayout(button_row_layout)
         self.setLayout(layout)
         self.center_dialog_on_screen()
 
@@ -262,6 +288,168 @@ class CameraConfigDialog(QDialog):
         dialog_geom.moveCenter(screen.center())
         self.move(dialog_geom.topLeft())
 
+    def export_config(self):
+
+        path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Export Camera Configuration",
+            "system_configuration.csv",
+            "CSV Files (*.csv);;PDF Files (*.pdf)"
+        )
+        if not path:
+            return  # user cancelled
+
+        try:
+            if path.lower().endswith(".csv"):
+                # --- Export CSV ---
+                with open(path, "w", newline="", encoding="utf-8") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(["CameraID", "Name", "RTSP", "Record", "Enabled"])
+                    for row in range(self.camera_count):
+                        cam_id = row + 1
+                        name = self.table.item(row, 0).text()
+                        rtsp = self.table.item(row, 1).text()
+                        record = self.record_buttons[cam_id].isChecked()
+                        enabled = self.enable_buttons[cam_id].isChecked()
+                        writer.writerow([cam_id, name, rtsp, record, enabled])
+                QMessageBox.information(self, "Export Successful", f"Configuration exported to:\n{path}")
+            
+            # ---Export PDF ---
+            elif path.lower().endswith(".pdf"):
+                # --- Header section ---
+
+                styles = getSampleStyleSheet()
+
+                # --- Header Styles ---
+                title_style = ParagraphStyle(
+                    "ReportTitle",
+                    parent=styles["Heading1"],
+                    alignment=TA_CENTER,
+                    fontSize=16,
+                    textColor=colors.black,
+                    spaceAfter=6,
+                )
+                subtitle_style = ParagraphStyle(
+                    "SubTitle",
+                    parent=styles["Normal"],
+                    alignment=TA_CENTER,
+                    fontSize=12,
+                    textColor=colors.darkgray,
+                    spaceAfter=12,
+                )
+                right_style = ParagraphStyle(
+                    "RightAlign",
+                    parent=styles["Normal"],
+                    alignment=TA_RIGHT,
+                    fontSize=9,
+                    textColor=colors.grey,
+                )
+
+                # --- Logo ---
+                logo_path = "assets/logo.png"
+                if os.path.exists(logo_path):
+                    logo = Image(logo_path, width=50, height=50)  # bigger logo
+                else:
+                    logo = Paragraph("", styles["Normal"])
+
+                # --- Title & Timestamp ---
+                title = Paragraph("TIPL – Camera Configuration Report", title_style)
+                timestamp = Paragraph(datetime.now().strftime("%d-%m-%Y %H:%M:%S"), right_style)
+
+                header_table = Table([[logo, title, timestamp]], colWidths=[60, 380, 140])
+                header_table.setStyle(TableStyle([
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                    ("ALIGN", (0, 0), (0, 0), "LEFT"),
+                    ("ALIGN", (1, 0), (1, 0), "CENTER"),
+                    ("ALIGN", (2, 0), (2, 0), "RIGHT"),
+                ]))
+
+                # --- Data Table ---
+                data = [["CameraID", "Name", "RTSP", "Record", "Enabled"]]
+                for row in range(self.camera_count):
+                    cam_id = row + 1
+                    name = self.table.item(row, 0).text()
+                    rtsp = self.table.item(row, 1).text()
+                    record = "ON" if self.record_buttons[cam_id].isChecked() else "OFF"
+                    enabled = "Enabled" if self.enable_buttons[cam_id].isChecked() else "Disabled"
+                    data.append([cam_id, name, rtsp, record, enabled])
+
+                table = Table(data, repeatRows=1)  # repeat header on each page
+                style = TableStyle([
+                    ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#2c3e50")),
+                    ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
+                    ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                    ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                    ("FONTSIZE", (0, 0), (-1, 0), 11),
+                    ("BOTTOMPADDING", (0, 0), (-1, 0), 10),
+                    ("BACKGROUND", (0, 1), (-1, -1), colors.beige),
+                    ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
+                ])
+                table.setStyle(style)
+
+                # --- Signature Line at Bottom ---
+                signature = Paragraph("<br/><br/><br/>Verified By: ___________________________", styles["Normal"])
+
+                # --- Build PDF ---
+                doc = SimpleDocTemplate(path, pagesize=letter)
+                elements = [
+                    header_table,
+                    Spacer(1, 8),
+                    Spacer(1, 8),
+                    table,
+                    Spacer(1, 20),
+                    signature,
+                ]
+                doc.build(elements)
+                QMessageBox.information(self, "Export Successful", f"Configuration exported to:\n{path}")
+            else:
+                QMessageBox.warning(self, "Export Failed", "Unsupported file format selected.")
+
+        except Exception as e:
+            QMessageBox.critical(self, "Export Failed", str(e))
+            
+        
+    def import_csv(self):
+        from PyQt5.QtWidgets import QFileDialog, QMessageBox
+        import csv
+
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Import Camera Configuration",
+            "",
+            "CSV Files (*.csv);;All Files (*)"
+        )
+        if not path:
+            return  # user cancelled
+
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    cam_id = int(row["CameraID"])
+                    if cam_id > self.camera_count:
+                        continue
+
+                    # Update table values
+                    self.table.setItem(cam_id-1, 0, QTableWidgetItem(row["Name"]))
+                    self.table.setItem(cam_id-1, 1, QTableWidgetItem(row["RTSP"]))
+
+                    # Update record button
+                    record_state = row["Record"].lower() == "true"
+                    btn = self.record_buttons[cam_id]
+                    btn.setChecked(record_state)
+                    self.toggle_record_button(btn)
+
+                    # Update enable button
+                    enabled_state = row["Enabled"].lower() == "true"
+                    btn2 = self.enable_buttons[cam_id]
+                    btn2.setChecked(enabled_state)
+                    self.toggle_button(btn2)
+
+            QMessageBox.information(self, "Import Successful", f"Configuration imported from:\n{path}")
+        except Exception as e:
+            QMessageBox.critical(self, "Import Failed", str(e))
+        
 class CameraCountDialog(QDialog):
     def __init__(self, valid_camera_counts=None):
         super().__init__()
