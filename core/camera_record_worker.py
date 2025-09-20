@@ -27,14 +27,16 @@ class CameraRecorderWorker(QThread):
         self.cam_name = sanitize_filename(cam_name or f"Camera_{cam_id}")
         log.debug(f"[Recorder] Sanitized camera name: {self.cam_name}")
 
-    def get_output_path(self, timestamp):
-        date_str = timestamp.strftime("%Y_%m_%d")
-        time_str = timestamp.strftime("%H_%M_%S")
+    def get_output_path(self, start_time, end_time=None):
+        date_str = start_time.strftime("%Y_%m_%d")
+        start_str = start_time.strftime("%H_%M_%S")
+        end_str = end_time.strftime("%H_%M_%S") if end_time else "ONGOING"
+        
         base_path = os.path.join(self.recording_dir, date_str, self.cam_name)
         os.makedirs(base_path, exist_ok=True)
 
-        filename = f"{self.cam_name}_{date_str}_{time_str}.mp4"
-        log_path = os.path.join(base_path, f"{self.cam_name}_{date_str}_{time_str}.log")
+        filename = f"{self.cam_name}_{date_str}_{start_str}_{end_str}.mp4"
+        log_path = os.path.join(base_path, f"{self.cam_name}_{date_str}_{start_str}_{end_str}.log")
 
         return os.path.join(base_path, filename), log_path
 
@@ -64,14 +66,16 @@ class CameraRecorderWorker(QThread):
         while self.running:
             start_time = datetime.datetime.now()
             self.video_start_time = start_time
-            output_file, log_file = self.get_output_path(start_time)
+            end_time_expected = start_time + datetime.timedelta(hours=1)
+            
+            output_file, log_file = self.get_output_path(start_time,end_time_expected)
             self.metadata_file = output_file.replace(".mp4", "_metadata.json")
-            #save start time now 
+            #save start metadata
             save_metadata(self.metadata_file, self.video_start_time)
 
             ffmpeg_cmd = self.build_ffmpeg_command(output_file)
-
             log.info(f"[Recorder] Writing to {output_file}")
+            
             with open(log_file, "w", encoding="utf-8") as log_fh:
                 self.process = subprocess.Popen(
                     ffmpeg_cmd,
@@ -80,15 +84,13 @@ class CameraRecorderWorker(QThread):
                     stderr=subprocess.STDOUT
                 )
 
-                # Calculate cutoff time (midnight or 24 hours max)
-                next_midnight = (start_time + datetime.timedelta(days=1)).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                next_cutoff = min(next_midnight, start_time + datetime.timedelta(hours=24))
-                time_to_sleep = (next_cutoff - datetime.datetime.now()).total_seconds()
-
-                if time_to_sleep > 0:
-                    time.sleep(time_to_sleep)
+                # Monitor until 1 hour or stop/error
+                while self.running and datetime.datetime.now() < end_time_expected:
+                    if self.process.poll() is not None:
+                        log.error(f"[Recorder] FFmpeg exited early for {self.cam_name}")
+                        self.running = False
+                        break
+                    time.sleep(1)
 
                 self.stop_ffmpeg()
                 end_time = datetime.datetime.now()

@@ -9,7 +9,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QTimer
 from ui.camera_widget import CameraWidget
 from utils.logging import log
-from ui.playbackdialog import PlaybackDialog
+from core.camera_playback_worker import PlaybackDialog
 from ui.responsive import ScreenScaler
 
 
