@@ -20,6 +20,7 @@ camera_streams.json
 
 /recordings
 
-CameraApp.spec
+# CameraApp.spec
 main.spec
 /ffmpeg_binary
+build.log

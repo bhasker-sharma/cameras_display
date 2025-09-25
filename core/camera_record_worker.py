@@ -6,7 +6,7 @@ import time
 import re
 from utils.logging import log
 import json
-from utils.helper import sanitize_filename, save_metadata
+from utils.helper import sanitize_filename, save_metadata, win_no_window_kwargs
 
 
 
@@ -81,7 +81,8 @@ class CameraRecorderWorker(QThread):
                     ffmpeg_cmd,
                     stdin=subprocess.PIPE,  
                     stdout=log_fh,
-                    stderr=subprocess.STDOUT
+                    stderr=subprocess.STDOUT,
+                    **win_no_window_kwargs()
                 )
 
                 # Monitor until 1 hour or stop/error

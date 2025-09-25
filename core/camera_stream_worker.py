@@ -3,6 +3,7 @@ import subprocess
 from PyQt5.QtCore import QThread, pyqtSignal, QMutex, QWaitCondition
 import cv2
 from utils.logging import log
+from utils.helper import win_no_window_kwargs
 
 class CameraStreamWorker(QThread):
     frameReady = pyqtSignal(int, object)
@@ -28,7 +29,13 @@ class CameraStreamWorker(QThread):
             "-of", "default=noprint_wrappers=1:nokey=1",
             self.rtsp_url
         ]
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.PIPE, 
+            text=True,
+            **win_no_window_kwargs()
+            )
         lines = result.stdout.splitlines()
         if len(lines) >= 2:
             width = int(lines[0])
@@ -66,7 +73,8 @@ class CameraStreamWorker(QThread):
                     cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.DEVNULL,
-                    bufsize=frame_size * 3
+                    bufsize=frame_size * 3,
+                    **win_no_window_kwargs()  
                 )
 
                 self.connectionStatus.emit(self.cam_id, True)
@@ -87,7 +95,7 @@ class CameraStreamWorker(QThread):
                     frame = np.frombuffer(raw_frame, np.uint8).reshape((height, width, 3))
                     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                     self.frameReady.emit(self.cam_id, rgb_frame)
-                    self.msleep(15)
+                    self.msleep(1)
 
                 ffmpeg_proc.terminate()
                 ffmpeg_proc.wait()

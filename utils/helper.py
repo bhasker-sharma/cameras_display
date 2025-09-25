@@ -3,6 +3,7 @@ import datetime
 from utils.logging import Logger
 import re
 from PyQt5.QtCore import QDate, QTime
+import subprocess
 
 log = Logger.get_logger(name="Helper", log_file="pipeline1.log")
 
@@ -118,3 +119,15 @@ def get_available_metadata_for_camera(cam_name, date_str):
     if not found:
         log.info("[Metadata Debug] No metadata files found in folder.")
     log.info(f"[Metadata Debug] --- End of metadata listing ---")
+
+
+def win_no_window_kwargs():
+    """Return kwargs for subprocess.run/Popen to avoid console flicker on Windows."""
+    if os.name == "nt":
+        si = subprocess.STARTUPINFO()
+        si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        return {
+            "startupinfo": si,
+            "creationflags": subprocess.CREATE_NO_WINDOW,
+        }
+    return {}
