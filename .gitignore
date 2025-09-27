@@ -22,6 +22,6 @@ camera_streams.json
 
 # CameraApp.spec
 main.spec
-/ffmpeg_binary
+core/ffmpeg_binary
 build.log
-vlc_runtime/
+core/vlc_runtime/
