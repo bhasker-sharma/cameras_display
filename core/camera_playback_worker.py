@@ -10,6 +10,21 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import QModelIndex, Qt, QTimer
 
+def get_vlc_instance():
+    """Return a VLC instance with bundled runtime path awareness."""
+    if getattr(sys, 'frozen', False):  # Running as exe
+        base_path = sys._MEIPASS  # PyInstaller temp extraction dir
+    else:
+        base_path = os.path.abspath(os.path.dirname(__file__))
+
+    vlc_path = os.path.join(base_path, "vlc_runtime")
+    plugins_path = os.path.join(vlc_path, "plugins")
+
+    # Update PATH so libvlc.dll can be found
+    os.environ['PATH'] = vlc_path + os.pathsep + os.environ.get('PATH', '')
+
+    # Explicitly tell VLC where plugins are
+    return vlc.Instance(f'--plugin-path={plugins_path}')
 
 class PlaybackDialog(QDialog):
     def __init__(self, parent=None, recordings_dir="recordings"):

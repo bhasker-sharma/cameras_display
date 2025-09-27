@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QThread, pyqtSignal
-import os
+import os, sys
 import subprocess
 import datetime
 import time
@@ -8,6 +8,13 @@ from utils.logging import log
 import json
 from utils.helper import sanitize_filename, save_metadata, win_no_window_kwargs
 
+def get_ffmpeg_path():
+    """Return path to bundled ffmpeg.exe"""
+    if getattr(sys, 'frozen', False):  # running as exe
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(__file__)
+    return os.path.join(base_path, "ffmpeg_binary", "ffmpeg.exe")
 
 
 class CameraRecorderWorker(QThread):

@@ -4,6 +4,19 @@ from PyQt5.QtCore import QThread, pyqtSignal, QMutex, QWaitCondition
 import cv2
 from utils.logging import log
 from utils.helper import win_no_window_kwargs
+import os, sys
+
+
+
+def get_ffmpeg_path(tool="ffmpeg.exe"):
+    """Return path to bundled ffmpeg/ffprobe"""
+    if getattr(sys, 'frozen', False):  # running as exe
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(__file__)
+    return os.path.join(base_path, "ffmpeg_binary", tool)
+
+
 
 class CameraStreamWorker(QThread):
     frameReady = pyqtSignal(int, object)

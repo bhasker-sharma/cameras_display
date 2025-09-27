@@ -24,3 +24,4 @@ camera_streams.json
 main.spec
 /ffmpeg_binary
 build.log
+vlc_runtime/

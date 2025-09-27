@@ -100,3 +100,10 @@ cd camera_app
 
 
 
+this is the command for build but befor build keep in context we have to kee ffmpeg_binary folder which contains ffmpeg.exe and ffprobe.exe.   and the vlc_runtime folder that will contain the dll from vlc that is plugins fodler, libvlc.dll, libvlccore.dll
+
+then use this command
+
+pyinstaller CameraApp.spec --clean --noconfirm --log-level=DEBUG > build_log.txt 2>&1
+
+
