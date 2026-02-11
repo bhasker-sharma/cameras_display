@@ -2,7 +2,7 @@
 
 import os
 from PyQt5.QtWidgets import QWidget, QLabel, QSizePolicy, QMessageBox, QVBoxLayout
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtGui import QPixmap, QImage, QFont
 from core.camera_stream_worker import CameraStreamWorker
 from utils.logging import log
@@ -28,6 +28,7 @@ class CameraWidget(QWidget):
         self.is_configured = False
         self.is_enabled = False
         self.stream_worker = None
+        self._pending_frame = None  # latest frame awaiting paint (drop-old strategy)
 
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setStyleSheet("border: 1px solid #444; background-color: #2c2c2c; border-radius: 5px;")
@@ -76,13 +77,27 @@ class CameraWidget(QWidget):
         self.content.setText("No Stream")
         self.update_status()
 
-    def update_frame(self, frame):
+    def handle_frame(self, cam_id, frame):
+        """Store the latest frame and schedule a single paint.
+        If frames arrive faster than the UI can paint, older ones are dropped."""
+        if cam_id != self.cam_id:
+            return
+        self._pending_frame = frame
+        # Schedule paint on next event-loop tick (coalesces multiple frames)
+        QTimer.singleShot(0, self._paint_pending_frame)
+
+    def _paint_pending_frame(self):
+        """Paint only the most recent frame, discarding any that arrived in between."""
+        frame = self._pending_frame
         if frame is None or not self.isVisible():
             return
+        self._pending_frame = None  # consume it
 
         height, width, channel = frame.shape
         bytes_per_line = 3 * width
-        q_img = QImage(frame.data, width, height, bytes_per_line, QImage.Format_RGB888)
+        # BGR888 accepts OpenCV's native BGR format — no cvtColor conversion needed.
+        # .copy() ensures Qt owns the data (numpy array may be freed otherwise)
+        q_img = QImage(frame.data, width, height, bytes_per_line, QImage.Format_BGR888).copy()
         pixmap = QPixmap.fromImage(q_img)
 
         content_size = self.content.size()
@@ -90,7 +105,7 @@ class CameraWidget(QWidget):
             content_size.width(),
             content_size.height(),
             Qt.KeepAspectRatio,#make it Qt.KeepAspectRatioByExpanding if you need to fit it to full screen.
-            Qt.SmoothTransformation
+            Qt.FastTransformation
         )
 
         if scaled_pixmap.width() > content_size.width() or scaled_pixmap.height() > content_size.height():
@@ -103,10 +118,6 @@ class CameraWidget(QWidget):
             )
 
         self.content.setPixmap(scaled_pixmap)
-
-    def handle_frame(self, cam_id, frame):
-        if cam_id == self.cam_id:
-            self.update_frame(frame)
 
     def update_connection_status(self, cam_id, connected):
         if cam_id == self.cam_id:
@@ -158,13 +169,17 @@ class CameraWidget(QWidget):
             self.show_error_popup(f"Unable to start camera stream:\n{e}")
             return False
 
-    def stop_stream(self):
+    def stop_stream(self, blocking=True):
         if self.stream_worker:
-            log.info(f"Stopping stream for Camera {self.cam_id}")
-            self.stream_worker.stop()
-            self.stream_worker.frameReady.disconnect(self.handle_frame)
-            self.stream_worker.connectionStatus.disconnect(self.update_connection_status)
+            log.info(f"Stopping stream for Camera {self.cam_id} (blocking={blocking})")
+            try:
+                self.stream_worker.frameReady.disconnect(self.handle_frame)
+                self.stream_worker.connectionStatus.disconnect(self.update_connection_status)
+            except (TypeError, RuntimeError):
+                pass  # already disconnected
+            self.stream_worker.stop(blocking=blocking)
             self.stream_worker = None
+            self._pending_frame = None
             self.is_streaming = False
             self.is_connected = False
             self.show_placeholder()

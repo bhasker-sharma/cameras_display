@@ -63,6 +63,7 @@ class CameraPlaybackWorker(QObject):
         
         if success:
             log.info(f"[Preview] Clip saved: {self.preview_path}")
+            self.player.stop()  # stop any previous playback before loading new media
             media = self.vlc_instance.media_new(self.preview_path)
             self.player.set_media(media)
             self.player.play()
@@ -98,7 +99,7 @@ class CameraPlaybackWorker(QObject):
                         
                         if os.path.exists(video_path):
                             log.info(f"[Play Full] Playing: {video_path}")
-                            # Play directly without extraction
+                            self.player.stop()  # stop any previous playback
                             media = self.vlc_instance.media_new(video_path)
                             self.player.set_media(media)
                             self.player.play()
@@ -203,6 +204,16 @@ class CameraPlaybackWorker(QObject):
         for filename in sorted(os.listdir(folder_path)):
             if filename.endswith("_metadata.json"):
                 try:
+                    # Check if the corresponding MP4 exists and has actual data
+                    video_file = filename.replace("_metadata.json", ".mp4")
+                    video_path = os.path.join(folder_path, video_file)
+                    if not os.path.exists(video_path):
+                        continue
+                    video_size = os.path.getsize(video_path)
+                    if video_size < 1024:  # skip files < 1KB (empty/failed recordings)
+                        log.info(f"[Metadata Debug] Skipping {video_file}: file too small ({video_size} bytes)")
+                        continue
+
                     with open(os.path.join(folder_path, filename), "r") as f:
                         meta = json.load(f)
                     start = datetime.fromisoformat(meta["start_time"])
@@ -210,7 +221,7 @@ class CameraPlaybackWorker(QObject):
                     end = start + dt.timedelta(seconds=duration) if duration else None
                     log.info(f"[Metadata Debug] Processing {filename}: real_start={meta['start_time']}, duration={duration}")
                     entries.append({
-                        "file": filename.replace("_metadata.json", ".mp4"),
+                        "file": video_file,
                         "start": start.strftime("%H:%M"),
                         "end": end.strftime("%H:%M") if end else "🔴 Ongoing",
                         "real_start": meta["start_time"],  # ISO string

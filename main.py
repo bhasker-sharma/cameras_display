@@ -8,6 +8,7 @@ from ui.styles import apply_dark_theme
 from utils.logging import log
 from PyQt5.QtGui import QIcon
 from utils.security_pendrive import check_pendrive_key
+from utils.helper import fix_orphaned_metadata
 
 def main():
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
@@ -16,7 +17,14 @@ def main():
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("assets/logo.png"))
     apply_dark_theme(app)
-    
+
+    # ---- Fix metadata left orphaned by previous crash/close ----
+    try:
+        fix_orphaned_metadata()
+    except Exception as e:
+        log.warning(f"Failed to fix orphaned metadata on startup: {e}")
+    # ------------------------------------------------------------
+
     # ---- Security USB check (pendrive dongle) ----
     ok, err = check_pendrive_key()
     if not ok:
@@ -32,21 +40,18 @@ def main():
 
     try:
         exit_code = app.exec_()
-        controller.stop_all_recordings()  # Ensure this is called on normal close
-        sys.exit(exit_code)
-    except SystemExit:
-        log.info("SystemExit caught — shutting down hard.")
-        controller.stop_all_recordings()  # Ensure this is called on crash too
-        os._exit(0)
     except Exception as e:
         log.exception("Unhandled exception occurred")
-        controller.stop_all_recordings()  # Catch-all shutdown protection
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Critical)
-        msg_box.setWindowTitle("Application Error")
-        msg_box.setText("An unexpected error occurred.")
-        msg_box.setInformativeText(str(e))
-        msg_box.exec_()
+        exit_code = 1
+
+    # Fast shutdown: signal everything to stop, don't block
+    try:
+        controller.shutdown()
+    except Exception as e:
+        log.warning(f"Shutdown error (ignored): {e}")
+
+    log.info("Exiting application.")
+    os._exit(exit_code)
 
 if __name__ == "__main__":
     main()

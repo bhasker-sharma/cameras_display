@@ -88,8 +88,10 @@ class CameraRecorderWorker(QThread):
                 next_cutoff = min(next_midnight, start_time + datetime.timedelta(hours=24))
                 time_to_sleep = (next_cutoff - datetime.datetime.now()).total_seconds()
 
-                if time_to_sleep > 0:
-                    time.sleep(time_to_sleep)
+                # Sleep in small intervals so stop() is responsive
+                while time_to_sleep > 0 and self.running:
+                    time.sleep(min(time_to_sleep, 1.0))
+                    time_to_sleep = (next_cutoff - datetime.datetime.now()).total_seconds()
 
                 self.stop_ffmpeg()
                 end_time = datetime.datetime.now()
@@ -107,8 +109,11 @@ class CameraRecorderWorker(QThread):
         if self.process and self.process.poll() is None:
             log.info(f"[Recorder] Stopping recording process for Camera {self.cam_name}")
             # Send 'q' to FFmpeg to stop recording
-            self.process.stdin.write(b'q')
-            self.process.stdin.flush()
+            try:
+                self.process.stdin.write(b'q')
+                self.process.stdin.flush()
+            except (BrokenPipeError, OSError):
+                log.warning(f"[Recorder] FFmpeg stdin already closed for {self.cam_name}")
             try:
                 self.process.wait(timeout=10)
             except subprocess.TimeoutExpired:

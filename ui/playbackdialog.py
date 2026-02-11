@@ -431,7 +431,11 @@ class PlaybackDialog(QDialog):
 
     def handle_extract(self):
         log.info("[UI] Extract requested")
-        
+
+        if not self.worker.preview_path or not os.path.exists(self.worker.preview_path):
+            QMessageBox.warning(self, "No Preview", "Please preview a clip first before extracting.")
+            return
+
         # Get the preview filename as a suggestion
         suggested_name = self.worker.get_preview_file_name()
         if not suggested_name:
@@ -461,36 +465,56 @@ class PlaybackDialog(QDialog):
         real_start = item0.data(Qt.UserRole)
         duration = item0.data(Qt.UserRole + 1)
         log.info(f"[UI Debug] Retrieved real_start: {real_start}, duration: {duration}")
-        
-        if real_start and duration:
-            from datetime import datetime, timedelta
-            from PyQt5.QtCore import QTime
-            start_dt = datetime.fromisoformat(real_start)
+
+        if not real_start:
+            log.warning(f"[UI Debug] Missing real_start data")
+            return
+
+        from datetime import datetime, timedelta
+        from PyQt5.QtCore import QTime
+        start_dt = datetime.fromisoformat(real_start)
+
+        if duration:
+            # Completed recording — set start/end times in the control panel
             end_dt = start_dt + timedelta(seconds=duration)
             log.info(f"[UI Debug] Calculated start_dt: {start_dt}, end_dt: {end_dt}")
-            
             start_qtime = QTime(start_dt.hour, start_dt.minute, start_dt.second)
             end_qtime = QTime(end_dt.hour, end_dt.minute, end_dt.second)
-            log.info(f"[UI Debug] QTime objects: {start_qtime.toString()} to {end_qtime.toString()}")
-            
-            # Set the time fields for reference
             self.control_panel.start_time.setTime(start_qtime)
             self.control_panel.end_time.setTime(end_qtime)
-            
-            # Play the full video directly (no extraction needed)
-            log.info(f"[UI Debug] Playing full video directly...")
-            success, error = self.worker.play_full_video(
-                self.control_panel.camera_dropdown.currentText(),
-                self.control_panel.date_picker.date().toString("yyyy_MM_dd"),
-                real_start
-            )
-            
-            if error:
-                QMessageBox.warning(self, "Playback Error", error)
-                
         else:
-            log.warning(f"[UI Debug] Missing real_start or duration data")
+            # Ongoing recording — set start time, end time to now
+            log.info(f"[UI Debug] Ongoing recording, playing live file")
+            start_qtime = QTime(start_dt.hour, start_dt.minute, start_dt.second)
+            now = datetime.now()
+            end_qtime = QTime(now.hour, now.minute, now.second)
+            self.control_panel.start_time.setTime(start_qtime)
+            self.control_panel.end_time.setTime(end_qtime)
+
+        # Play the full video directly (works for both completed and ongoing
+        # recordings since we use fragmented MP4 movflags)
+        log.info(f"[UI Debug] Playing full video directly...")
+        success, error = self.worker.play_full_video(
+            self.control_panel.camera_dropdown.currentText(),
+            self.control_panel.date_picker.date().toString("yyyy_MM_dd"),
+            real_start
+        )
+
+        if error:
+            QMessageBox.warning(self, "Playback Error", error)
         
+    def closeEvent(self, event):
+        """Clean up VLC player and timers when dialog is closed."""
+        self.preview_panel.media_controls.position_timer.stop()
+        self.worker.stop_playback()
+        # Clean up temp preview file
+        if self.worker.preview_path and os.path.exists(self.worker.preview_path):
+            try:
+                os.remove(self.worker.preview_path)
+            except OSError:
+                pass
+        event.accept()
+
     def handle_info(self, cam, date_str):
         log.info(f"[UI] Info requested for {cam} on {date_str}")
         metadata_entries = self.worker.get_metadata_for_display(cam, date_str)

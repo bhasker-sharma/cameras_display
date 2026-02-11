@@ -8,8 +8,9 @@ from utils.logging import log
 from PyQt5.QtWidgets import QMessageBox
 import sys
 import os
+import time
 from core.camera_record_worker import CameraRecorderWorker
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, QThread, pyqtSignal
 
 GRID_LAYOUTS = {
     4: [(0, 2, 2)],
@@ -24,6 +25,16 @@ GRID_LAYOUTS = {
     48: [(0, 4, 6), (1, 4, 6)],
 }
 
+class _DongleChecker(QThread):
+    """Runs the dongle check in a background thread so it never blocks the UI."""
+    result = pyqtSignal(bool, str)  # (ok, error_message)
+
+    def run(self):
+        from utils.security_pendrive import check_pendrive_key
+        ok, err = check_pendrive_key()
+        self.result.emit(ok, err or "")
+
+
 class AppController:
     def __init__(self):
         self.config_mgr = ConfigManager()
@@ -32,11 +43,12 @@ class AppController:
         self.recorder_threads = {}
         self.camera_count = self.config_mgr.get_camera_count()
 
-        # ---- ADD: periodic dongle enforcement ----
+        # ---- periodic dongle enforcement (background thread, every 5 min) ----
         self._dongle_popup_shown = False
+        self._dongle_checker = None          # background thread reference
         self._dongle_timer = QTimer()
-        self._dongle_timer.timeout.connect(self._enforce_dongle_presence)
-        self._dongle_timer.start(1000)  # every 5 seconds
+        self._dongle_timer.timeout.connect(self._start_dongle_check)
+        self._dongle_timer.start(5 * 60 * 1000)  # every 5 minutes
         # ------------------------------------------
 
         if self.camera_count == 0:
@@ -45,10 +57,54 @@ class AppController:
         self.initialize_windows()
         self.start_recording_for_configured_cameras()
 
-    def initialize_windows(self):
+    def _stop_all_streams_fast(self):
+        """Signal ALL stream workers to stop, then wait collectively (max 2s total).
+        This ensures old VideoCapture objects are released before new streams open."""
+        workers = []
         for window in self.windows.values():
-            window.close()
-        self.windows.clear()
+            for widget in window.camera_widgets.values():
+                if widget.stream_worker:
+                    widget.stream_worker.running = False
+                    workers.append(widget.stream_worker)
+                    # Disconnect signals so old frames don't arrive on new widgets
+                    try:
+                        widget.stream_worker.frameReady.disconnect()
+                        widget.stream_worker.connectionStatus.disconnect()
+                    except (TypeError, RuntimeError):
+                        pass
+
+        if not workers:
+            return
+
+        # Wait for all workers collectively — 2s max total, not per camera
+        deadline = time.perf_counter() + 2.0
+        for w in workers:
+            remaining_ms = max(0, int((deadline - time.perf_counter()) * 1000))
+            if remaining_ms > 0:
+                w.wait(remaining_ms)
+
+    def _stop_all_recorders_fast(self):
+        """Stop all recorders quickly: send 'q' to ffmpeg, don't wait for threads."""
+        for cam_id, recorder in list(self.recorder_threads.items()):
+            recorder.running = False
+            # Send 'q' to ffmpeg without waiting for process exit
+            if recorder.process and recorder.process.poll() is None:
+                try:
+                    recorder.process.stdin.write(b'q')
+                    recorder.process.stdin.flush()
+                except (BrokenPipeError, OSError):
+                    pass
+            log.info(f"Signaled recorder for Camera {cam_id} to stop.")
+        self.recorder_threads.clear()
+
+    def initialize_windows(self):
+        # Fast cleanup of old windows
+        if self.windows:
+            self._stop_all_streams_fast()
+            self._stop_all_recorders_fast()
+            for window in self.windows.values():
+                window.close()
+            self.windows.clear()
 
         self.camera_count = self.config_mgr.get_camera_count()
         if self.camera_count == 0:
@@ -77,24 +133,16 @@ class AppController:
         if dialog.exec_():
             old_count = self.camera_count
             new_count = dialog.get_selected_count()
+            if new_count == old_count:
+                return
             log.info(f"Changing camera count from {old_count} to {new_count}")
             self.config_mgr.set_camera_count(new_count)
-            #making the dialogue for the pop up
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Question)
-            msg_box.setWindowTitle("restart window")
-            msg_box.setText("Configuration updated, Do you want to Restart to apply changes")
-            msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-            result = msg_box.exec_()
 
-            if result == QMessageBox.Yes:
-                log.info("Opted for the option yes, going to restart")
-                self.stop_all_recordings()
-                python = sys.executable
-                os.execl(python, python, *sys.argv)
-            else:
-                log.info("User cancled restart , No restart will be performed")
-            # self.initialize_windows()
+            # Rebuild windows — fast cleanup happens inside initialize_windows
+            self.initialize_windows()
+
+            # Restart recordings for newly configured cameras
+            self.start_recording_for_configured_cameras()
 
     def open_camera_config(self):
         dialog = CameraConfigDialog(self.camera_count, self.stream_config, controller =self)
@@ -120,7 +168,7 @@ class AppController:
             record = config.get("record", False)
 
             log.info(f"Evaluating camera {cam_id}: enabled={enabled}, record={record}, rtsp={rtsp_url}")
-            
+
             if enabled and record and rtsp_url:
                 recorder = CameraRecorderWorker(cam_id, name, rtsp_url, record_enabled=record)
                 recorder.recording_finished.connect(self.handle_recording_finished)
@@ -139,21 +187,45 @@ class AppController:
                 self.start_recording_for_configured_cameras()
 
     def stop_all_recordings(self):
-        for cam_id, recorder in self.recorder_threads.items():
-            recorder.stop()
-            log.info(f"Stopped recorder for Camera {cam_id}")
+        self._dongle_timer.stop()
+        # Signal all recorders to stop first (instant)
+        for cam_id, recorder in list(self.recorder_threads.items()):
+            recorder.running = False
+            recorder.stop_ffmpeg()
+            log.info(f"Signaled recorder stop for Camera {cam_id}")
+        # Then wait collectively with a 5s total cap
+        deadline = time.perf_counter() + 5.0
+        for cam_id, recorder in list(self.recorder_threads.items()):
+            remaining_ms = max(0, int((deadline - time.perf_counter()) * 1000))
+            if remaining_ms > 0:
+                recorder.wait(remaining_ms)
+            log.info(f"Recorder for Camera {cam_id} finished.")
         self.recorder_threads.clear()
 
-    def _enforce_dongle_presence(self):
-        # Lazy import to avoid circulars at module import time
-        from utils.security_pendrive import check_pendrive_key
-        ok, err = check_pendrive_key()
+    def shutdown(self):
+        """Fast shutdown for app exit. Signals everything to stop, brief wait, then done."""
+        log.info("Shutdown: stopping all streams and recordings.")
+        self._dongle_timer.stop()
+        # Signal all streams to stop (non-blocking)
+        self._stop_all_streams_fast()
+        # Signal all recorders to stop
+        self._stop_all_recorders_fast()
+        log.info("Shutdown complete.")
+
+    def _start_dongle_check(self):
+        """Launch the dongle check in a background thread (never blocks UI)."""
+        if self._dongle_checker and self._dongle_checker.isRunning():
+            return  # previous check still running, skip
+        self._dongle_checker = _DongleChecker()
+        self._dongle_checker.result.connect(self._on_dongle_result)
+        self._dongle_checker.start()
+
+    def _on_dongle_result(self, ok, err):
+        """Handle dongle check result back on the UI thread (via signal)."""
         if ok:
-            # Reset popup flag if user re-inserts during run
             self._dongle_popup_shown = False
             return
 
-        # Only act once per removal to avoid multiple popups
         if not self._dongle_popup_shown:
             self._dongle_popup_shown = True
             try:
@@ -165,7 +237,6 @@ class AppController:
             except Exception:
                 pass
 
-            # Stop recordings & close all windows, then exit
             try:
                 self.stop_all_recordings()
             except Exception:

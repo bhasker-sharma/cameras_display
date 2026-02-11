@@ -1,8 +1,10 @@
 import json,os
 import datetime
+import subprocess
 from utils.logging import Logger
 import re
 from PyQt5.QtCore import QDate, QTime
+from utils.subproc import win_no_window_kwargs
 
 log = Logger.get_logger(name="Helper", log_file="pipeline1.log")
 
@@ -138,3 +140,83 @@ def get_available_metadata_for_camera(cam_name, date_str):
     if not found:
         log.info("[Metadata Debug] No metadata files found in folder.")
     log.info(f"[Metadata Debug] --- End of metadata listing ---")
+
+
+def _get_mp4_duration_seconds(video_path):
+    """Use ffprobe to get the duration of an MP4 file in seconds."""
+    try:
+        cmd = [
+            "ffprobe", "-v", "quiet",
+            "-print_format", "json",
+            "-show_format",
+            video_path
+        ]
+        result = subprocess.run(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            stdin=subprocess.DEVNULL,
+            **win_no_window_kwargs()
+        )
+        if result.returncode == 0:
+            info = json.loads(result.stdout)
+            return float(info["format"]["duration"])
+    except Exception as e:
+        log.warning(f"[Metadata Cleanup] ffprobe failed for {video_path}: {e}")
+    return None
+
+
+def fix_orphaned_metadata(recordings_root="recordings"):
+    """
+    Scan all metadata files and fix ones missing duration_seconds.
+    This happens when the app crashes or is closed without stopping recordings.
+    Calculates duration from the MP4 file using ffprobe.
+    """
+    if not os.path.exists(recordings_root):
+        return
+
+    fixed = 0
+    for date_folder in os.listdir(recordings_root):
+        date_path = os.path.join(recordings_root, date_folder)
+        if not os.path.isdir(date_path):
+            continue
+        for cam_folder in os.listdir(date_path):
+            cam_path = os.path.join(date_path, cam_folder)
+            if not os.path.isdir(cam_path):
+                continue
+            for filename in os.listdir(cam_path):
+                if not filename.endswith("_metadata.json"):
+                    continue
+                meta_path = os.path.join(cam_path, filename)
+                try:
+                    with open(meta_path, "r", encoding="utf-8") as f:
+                        meta = json.load(f)
+                    if meta.get("duration_seconds") is not None:
+                        continue  # already has duration, skip
+
+                    # Find the corresponding MP4
+                    video_file = filename.replace("_metadata.json", ".mp4")
+                    video_path = os.path.join(cam_path, video_file)
+                    if not os.path.exists(video_path):
+                        continue
+
+                    duration = _get_mp4_duration_seconds(video_path)
+                    if duration is None or duration <= 0:
+                        continue
+
+                    start_time = datetime.datetime.fromisoformat(meta["start_time"])
+                    end_time = start_time + datetime.timedelta(seconds=duration)
+                    meta["duration_seconds"] = round(duration, 2)
+                    meta["end_time"] = end_time.isoformat()
+
+                    with open(meta_path, "w", encoding="utf-8") as f:
+                        json.dump(meta, f, indent=2)
+                    fixed += 1
+                    log.info(f"[Metadata Cleanup] Fixed: {meta_path} → duration={duration:.2f}s")
+
+                except Exception as e:
+                    log.warning(f"[Metadata Cleanup] Error processing {meta_path}: {e}")
+
+    if fixed > 0:
+        log.info(f"[Metadata Cleanup] Fixed {fixed} orphaned metadata file(s).")

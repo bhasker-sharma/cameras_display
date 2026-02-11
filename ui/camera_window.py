@@ -36,6 +36,7 @@ class CameraWindow(QMainWindow):
         self.grid_layout = None
         self.focused = False
         self.focused_cam_id = None
+        self._streams_cleaned = False
 
         self.central_widget = QWidget()
         layout = QVBoxLayout()
@@ -136,8 +137,14 @@ class CameraWindow(QMainWindow):
                 self.disconnected_cams.add(cam_id)
                 log.info(f"Camera {cam_id} added to disconnected set.")
 
-        # Optional: Update UI title or log current count
-        self.setWindowTitle(f"Camera Viewer ({len(self.disconnected_cams)} disconnected)")
+            # If this camera is in fullscreen, auto-return to grid
+            if self.focused and self.focused_cam_id == cam_id:
+                log.info(f"Camera {cam_id} disconnected while in fullscreen — returning to grid.")
+                self.toggle_focus_view(cam_id)
+
+        # Update UI title with disconnected count
+        disc = len(self.disconnected_cams)
+        self.setWindowTitle(f"Camera Viewer ({disc} disconnected)" if disc > 0 else "Camera Viewer")
 
     def initialize_streams(self):
         log.info(f"Initializing streams for {len(self.camera_widgets)} cameras")
@@ -155,6 +162,21 @@ class CameraWindow(QMainWindow):
                 log.info(f"Camera {cam_id} disabled or no RTSP.")
 
     def toggle_focus_view(self, cam_id):
+        if self.focused:
+            # ---- EXIT fullscreen (always allowed, even if disconnected) ----
+            log.info(f"[{self.windowTitle()}] Returning to grid.")
+            widget = self.camera_widgets.get(self.focused_cam_id)
+            if widget:
+                # Put the widget back into the grid at its original position
+                idx = self.camera_ids.index(self.focused_cam_id)
+                r, c = divmod(idx, self.cols)
+                self.grid_layout.addWidget(widget, r, c)
+            self.focused = False
+            self.focused_cam_id = None
+            self.grid_widget.show()
+            return
+
+        # ---- ENTER fullscreen (block if disconnected) ----
         widget = self.camera_widgets.get(cam_id)
         if cam_id in self.disconnected_cams or (widget and not widget.is_connected):
             log.info(f"Skipping fullscreen: Camera {cam_id} is disconnected.")
@@ -165,47 +187,30 @@ class CameraWindow(QMainWindow):
             msg_box.exec_()
             return
 
-        if not self.focused:
-            log.info(f"[{self.windowTitle()}] Focusing Camera {cam_id}.")
-            self.focused = True
-            self.focused_cam_id = cam_id
+        log.info(f"[{self.windowTitle()}] Focusing Camera {cam_id}.")
+        self.focused = True
+        self.focused_cam_id = cam_id
 
-            self.grid_widget.hide()
+        # Hide the grid and move the EXISTING widget to the main layout
+        # (no new stream needed — instant transition)
+        self.grid_widget.hide()
+        self.centralWidget().layout().addWidget(widget)
 
-            stream_cfg = self.stream_config.get_camera_config(cam_id)
-            cam_name = stream_cfg.get("name", f"Camera {cam_id}")
-            rtsp_url = stream_cfg.get("rtsp", "")
-            is_enabled = stream_cfg.get("enabled", True)
-
-            self.focused_widget = CameraWidget(cam_id, name=cam_name)
-            self.focused_widget.doubleClicked.connect(self.toggle_focus_view)
-            self.centralWidget().layout().addWidget(self.focused_widget)
-            self.focused_widget.configure(rtsp_url, is_enabled)
-
-            if is_enabled and rtsp_url:
-                self.focused_widget.start_stream(rtsp_url)
-        else:
-            log.info(f"[{self.windowTitle()}] Returning to grid.")
-            self.focused = False
-            if hasattr(self, "focused_widget"):
-                self.focused_widget.stop_stream()
-                self.centralWidget().layout().removeWidget(self.focused_widget)
-                self.focused_widget.deleteLater()
-                self.focused_widget = None
-            self.focused_cam_id = None
-            self.grid_widget.show()
-
-    def cleanup_streams(self):
-        log.info(f"Cleaning up all camera streams.")
+    def cleanup_streams(self, blocking=True):
+        if self._streams_cleaned:
+            return
+        self._streams_cleaned = True
+        log.info(f"Cleaning up all camera streams (blocking={blocking}).")
         for widget in self.camera_widgets.values():
-            widget.stop_stream()
-        if hasattr(self, 'focused_widget') and self.focused_widget:
-            self.focused_widget.stop_stream()
+            widget.stop_stream(blocking=blocking)
 
     def closeEvent(self, event):
-        log.info("Shutting down: cleaning up all streams.")
-        self.cleanup_streams()
-        log.info("Exiting application.")
+        log.info("Window closing: signaling all streams to stop.")
+        self.poll_timer.stop()
+        # Non-blocking: just signal threads to stop, don't wait.
+        # The process exit will clean up everything.
+        self.cleanup_streams(blocking=False)
+        log.info("Window closed.")
         event.accept()
 
     def open_playback_dialog(self):
