@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt,QTimer
 from PyQt5.QtGui import QFont, QImage, QPixmap
-import os,sys
+import os
 from ui.responsive import ScreenScaler
 from utils.logging import log
 import json
@@ -250,8 +250,8 @@ class CameraConfigDialog(QDialog):
     def save_config(self):
         confirm = QMessageBox.question(
             self,
-            "Restart Required",
-            "Do you want to restart the system to apply these changes?",
+            "Apply Changes",
+            "Save and apply camera configuration changes?",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )
@@ -272,13 +272,7 @@ class CameraConfigDialog(QDialog):
                 }
                 self.config_manager.set_camera_config(cam_id, data)
 
-            self.accept()
-
-            # Restart the application
-            if self.controller:
-                self.controller.stop_all_recordings()
-            QApplication.quit()
-            os.execl(sys.executable, sys.executable, *sys.argv)
+            self.accept()  # controller will rebuild windows after dialog closes
         else:
             self.reject()  # Close without saving
 

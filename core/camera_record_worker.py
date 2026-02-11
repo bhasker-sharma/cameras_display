@@ -41,7 +41,6 @@ class CameraRecorderWorker(QThread):
     def build_ffmpeg_command(self, output_file):
         return [
             "ffmpeg",
-            "-rtsp_transport", "tcp",
             "-i", self.rtsp_url,
             "-an",  # No audio
             "-c:v", "libx264",

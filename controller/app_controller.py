@@ -145,9 +145,11 @@ class AppController:
             self.start_recording_for_configured_cameras()
 
     def open_camera_config(self):
-        dialog = CameraConfigDialog(self.camera_count, self.stream_config, controller =self)
+        dialog = CameraConfigDialog(self.camera_count, self.stream_config, controller=self)
         if dialog.exec_():
-            log.info("Camera configuration updated")
+            log.info("Camera configuration updated — rebuilding windows.")
+            self.initialize_windows()
+            self.start_recording_for_configured_cameras()
 
 
     def start_recording_for_configured_cameras(self):

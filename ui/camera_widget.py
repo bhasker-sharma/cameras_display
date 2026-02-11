@@ -95,9 +95,8 @@ class CameraWidget(QWidget):
 
         height, width, channel = frame.shape
         bytes_per_line = 3 * width
-        # BGR888 accepts OpenCV's native BGR format — no cvtColor conversion needed.
-        # .copy() ensures Qt owns the data (numpy array may be freed otherwise)
-        q_img = QImage(frame.data, width, height, bytes_per_line, QImage.Format_BGR888).copy()
+        # GStreamer outputs RGB; .copy() ensures Qt owns the data
+        q_img = QImage(frame.data, width, height, bytes_per_line, QImage.Format_RGB888).copy()
         pixmap = QPixmap.fromImage(q_img)
 
         content_size = self.content.size()
@@ -105,7 +104,7 @@ class CameraWidget(QWidget):
             content_size.width(),
             content_size.height(),
             Qt.KeepAspectRatio,#make it Qt.KeepAspectRatioByExpanding if you need to fit it to full screen.
-            Qt.FastTransformation
+            Qt.SmoothTransformation
         )
 
         if scaled_pixmap.width() > content_size.width() or scaled_pixmap.height() > content_size.height():
