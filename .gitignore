@@ -13,10 +13,25 @@ recordings/
 # Ignore only specific config files
 camera_config.json
 camera_streams.json
-
+*.mp4
 
 *camera_config.json/
 *camera_stream.json/
 
 /recordings
 
+/ffmpeg_binary
+build_log.txt
+CameraApp.spec
+main.spec
+/build
+
+# Build tooling — binaries placed here manually before building
+/bin/ffmpeg.exe
+/bin/ffprobe.exe
+
+# Installer output
+/installer/TuyereCameraViewer_Setup.exe
+
+# GStreamer plugin registry (generated at first run)
+gst_registry.bin

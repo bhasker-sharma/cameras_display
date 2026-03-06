@@ -1,9 +1,8 @@
 # camera_app/ui/camera_widget.py
 
 import os
-import cv2
 from PyQt5.QtWidgets import QWidget, QLabel, QSizePolicy, QMessageBox, QVBoxLayout
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtGui import QPixmap, QImage, QFont
 from core.camera_stream_worker import CameraStreamWorker
 from utils.logging import log
@@ -29,6 +28,7 @@ class CameraWidget(QWidget):
         self.is_configured = False
         self.is_enabled = False
         self.stream_worker = None
+        self._pending_frame = None  # latest frame awaiting paint (drop-old strategy)
 
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setStyleSheet("border: 1px solid #444; background-color: #2c2c2c; border-radius: 5px;")
@@ -77,37 +77,40 @@ class CameraWidget(QWidget):
         self.content.setText("No Stream")
         self.update_status()
 
-    def update_frame(self, frame):
-        if frame is None or not self.isVisible():
+    def handle_frame(self, cam_id, frame):
+        """Store the latest frame and schedule a single paint.
+        If frames arrive faster than the UI can paint, older ones are dropped."""
+        if cam_id != self.cam_id:
             return
+        self._pending_frame = frame
+        # Schedule paint on next event-loop tick (coalesces multiple frames)
+        QTimer.singleShot(0, self._paint_pending_frame)
+
+    def _paint_pending_frame(self):
+        """Paint only the most recent frame, discarding any that arrived in between."""
+        frame = self._pending_frame
+        if frame is None or not self.isVisible():
+            if self.stream_worker:
+                self.stream_worker.frame_consumed = True
+            return
+        self._pending_frame = None  # consume it
 
         height, width, channel = frame.shape
         bytes_per_line = 3 * width
-        q_img = QImage(frame.data, width, height, bytes_per_line, QImage.Format_RGB888)
+        q_img = QImage(frame.data, width, height, bytes_per_line, QImage.Format_RGB888).copy()
         pixmap = QPixmap.fromImage(q_img)
 
         content_size = self.content.size()
-        scaled_pixmap = pixmap.scaled(
+        self.content.setPixmap(pixmap.scaled(
             content_size.width(),
             content_size.height(),
-            Qt.KeepAspectRatioByExpanding,
-            Qt.SmoothTransformation
-        )
+            Qt.KeepAspectRatio,
+            Qt.FastTransformation
+        ))
 
-        if scaled_pixmap.width() > content_size.width() or scaled_pixmap.height() > content_size.height():
-            x = (scaled_pixmap.width() - content_size.width()) // 2
-            y = (scaled_pixmap.height() - content_size.height()) // 2
-            scaled_pixmap = scaled_pixmap.copy(
-                x, y,
-                min(content_size.width(), scaled_pixmap.width()),
-                min(content_size.height(), scaled_pixmap.height())
-            )
-
-        self.content.setPixmap(scaled_pixmap)
-
-    def handle_frame(self, cam_id, frame):
-        if cam_id == self.cam_id:
-            self.update_frame(frame)
+        # Tell worker we're ready for the next frame
+        if self.stream_worker:
+            self.stream_worker.frame_consumed = True
 
     def update_connection_status(self, cam_id, connected):
         if cam_id == self.cam_id:
@@ -159,13 +162,17 @@ class CameraWidget(QWidget):
             self.show_error_popup(f"Unable to start camera stream:\n{e}")
             return False
 
-    def stop_stream(self):
+    def stop_stream(self, blocking=True):
         if self.stream_worker:
-            log.info(f"Stopping stream for Camera {self.cam_id}")
-            self.stream_worker.stop()
-            self.stream_worker.frameReady.disconnect(self.handle_frame)
-            self.stream_worker.connectionStatus.disconnect(self.update_connection_status)
+            log.info(f"Stopping stream for Camera {self.cam_id} (blocking={blocking})")
+            try:
+                self.stream_worker.frameReady.disconnect(self.handle_frame)
+                self.stream_worker.connectionStatus.disconnect(self.update_connection_status)
+            except (TypeError, RuntimeError):
+                pass  # already disconnected
+            self.stream_worker.stop(blocking=blocking)
             self.stream_worker = None
+            self._pending_frame = None
             self.is_streaming = False
             self.is_connected = False
             self.show_placeholder()
