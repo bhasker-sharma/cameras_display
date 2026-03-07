@@ -1,27 +1,22 @@
 # camera_app/ui/dialogs.py
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import (
-    QDialog, QLabel, QLineEdit, QComboBox, QPushButton,QTreeWidget,QTreeWidgetItem,QHeaderView,
-    QVBoxLayout, QGridLayout, QDialogButtonBox, QTableWidget, QTableWidgetItem, QCheckBox, QWidget, QHBoxLayout,
-    QPushButton, QVBoxLayout, QDialogButtonBox, QApplication,QMessageBox,QSizePolicy,QSlider,QStyle
+    QDialog, QLabel, QLineEdit, QComboBox, QPushButton,
+    QVBoxLayout, QDialogButtonBox, QTableWidget, QTableWidgetItem,
+    QWidget, QHBoxLayout, QApplication, QMessageBox, QFileDialog,
 )
-from PyQt5.QtCore import Qt,QTimer
-from PyQt5.QtGui import QFont, QImage, QPixmap
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtGui import QFont
 import os
-from ui.responsive import ScreenScaler
 from utils.logging import log
+from utils.paths import resource_path
 import json
 from datetime import datetime, timedelta
-from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import csv
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph,Image, Spacer
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT
-from datetime import datetime
 
 class CameraConfigDialog(QDialog):
     def __init__(self, camera_count, config_manager,controller = None, parent=None ):
@@ -201,6 +196,19 @@ class CameraConfigDialog(QDialog):
         btn.setStyleSheet(self.button_style(btn.isChecked()))
 
     def toggle_record_button(self, btn):
+        if btn.isChecked():  # user is trying to turn recording ON
+            if self.controller and not self.controller.config_mgr.get_recording_folder():
+                QMessageBox.warning(
+                    self,
+                    "Recording Path Not Configured",
+                    "Recording folder is not configured.\n\n"
+                    "Please configure a recording path first:\n"
+                    "Settings \u2192 Configure Recording Folder",
+                )
+                btn.setChecked(False)
+                btn.setText("OFF")
+                btn.setStyleSheet(self.button_style(False))
+                return
         btn.setText("ON" if btn.isChecked() else "OFF")
         btn.setStyleSheet(self.button_style(btn.isChecked()))
 
@@ -230,12 +238,23 @@ class CameraConfigDialog(QDialog):
         """
 
     def enable_all_cameras(self):
-        for btn in self.enable_buttons.values(): 
+        for btn in self.enable_buttons.values():
             btn.setChecked(True)
             self.toggle_button(btn)
 
+        if self.controller and not self.controller.config_mgr.get_recording_folder():
+            QMessageBox.warning(
+                self,
+                "Recording Path Not Configured",
+                "Camera streams have been enabled, but recording was NOT turned on.\n\n"
+                "Recording folder is not configured.\n"
+                "Please configure a recording path first:\n"
+                "Settings \u2192 Configure Recording Folder",
+            )
+            return  # skip enabling record buttons
+
         for btn in self.record_buttons.values():
-            btn.setChecked(True)   
+            btn.setChecked(True)
             self.toggle_record_button(btn)
 
     def disable_all_cameras(self):
@@ -340,7 +359,7 @@ class CameraConfigDialog(QDialog):
                 )
 
                 # --- Logo ---
-                logo_path = "assets/logo.png"
+                logo_path = resource_path("assets/logo.png")
                 if os.path.exists(logo_path):
                     logo = Image(logo_path, width=50, height=50)  # bigger logo
                 else:
@@ -477,7 +496,7 @@ class CameraCountDialog(QDialog):
                 color: white;
             }                
             """)
-        valid_counts = valid_camera_counts or [4, 8, 12, 16, 20, 24, 32, 40, 44, 48]
+        valid_counts = valid_camera_counts or [4, 8, 12, 16, 20, 24, 32, 50, 48, 56, 64]
         self.combo.addItems([str(c) for c in valid_counts])
         layout.addWidget(self.combo)
 

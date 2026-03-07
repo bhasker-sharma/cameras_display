@@ -1,12 +1,21 @@
-import json,os
+import json, os
 import datetime
 import subprocess
+import ctypes
 from utils.logging import Logger
 import re
 from PyQt5.QtCore import QDate, QTime
 from utils.subproc import win_no_window_kwargs
+from utils.paths import get_ffprobe_path, get_data_dir
 
 log = Logger.get_logger(name="Helper", log_file="pipeline1.log")
+
+def _set_hidden(path: str):
+    """Set Windows hidden file attribute so the file is invisible in Explorer."""
+    try:
+        ctypes.windll.kernel32.SetFileAttributesW(path, 0x2)  # FILE_ATTRIBUTE_HIDDEN
+    except Exception:
+        pass  # silently ignore on non-Windows or permission errors
 
 #this is used to save metadata for the recording used in core/camera_record_worker.py
 def save_metadata(path: str, start_time: datetime.datetime, duration_seconds:float = None, end_time: datetime.datetime = None):
@@ -21,6 +30,7 @@ def save_metadata(path: str, start_time: datetime.datetime, duration_seconds:flo
 
         with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
+        _set_hidden(path)
     except Exception as e:
         log.error(f"[Recorder] Failed to write metadata to {path}: {e}")
 
@@ -31,8 +41,10 @@ def sanitize_filename(name: str) -> str:
     return re.sub(r'[<>:"/\\|?*]', '_', name)
 
 #this is used to get the recording enabled cameras from the stream_config.json file
-def get_all_recorded_cameras(recordings_root="recordings"):
+def get_all_recorded_cameras(recordings_root=None):
     """Return a sorted list of all unique camera folder names in recordings."""
+    if recordings_root is None:
+        recordings_root = os.path.join(get_data_dir(), "recordings")
     cam_names = set()
 
     if not os.path.exists(recordings_root):
@@ -49,12 +61,14 @@ def get_all_recorded_cameras(recordings_root="recordings"):
 
     return sorted(cam_names)
 
-def find_recording_file_for_time_range(cam_name: str, date_str: str, start_time, end_time):
+def find_recording_file_for_time_range(cam_name: str, date_str: str, start_time, end_time, recordings_root=None):
     """
     Find the video file for a camera and date that contains the desired time range.
     Returns: (video_path, metadata_path, recording_start_datetime) or (None, None, None)
     """
-    folder_path = os.path.join("recordings", date_str, cam_name)
+    if recordings_root is None:
+        recordings_root = os.path.join(get_data_dir(), "recordings")
+    folder_path = os.path.join(recordings_root, date_str, cam_name)
     log.info(f"[Debug] Looking for video in: {folder_path}")
 
     if not os.path.exists(folder_path):
@@ -113,8 +127,10 @@ def find_recording_file_for_time_range(cam_name: str, date_str: str, start_time,
     log.info(f"[Debug] No matching video found in {folder_path}")
     return None, None, None
 
-def get_available_metadata_for_camera(cam_name, date_str):
-    folder_path = os.path.join("recordings", date_str, cam_name)
+def get_available_metadata_for_camera(cam_name, date_str, recordings_root=None):
+    if recordings_root is None:
+        recordings_root = os.path.join(get_data_dir(), "recordings")
+    folder_path = os.path.join(recordings_root, date_str, cam_name)
     
     if not os.path.exists(folder_path):
         log.warning(f"[Metadata Debug] Folder does not exist: {folder_path}")
@@ -143,36 +159,59 @@ def get_available_metadata_for_camera(cam_name, date_str):
 
 
 def _get_mp4_duration_seconds(video_path):
-    """Use ffprobe to get the duration of an MP4 file in seconds."""
-    try:
-        cmd = [
-            "ffprobe", "-v", "quiet",
-            "-print_format", "json",
-            "-show_format",
-            video_path
-        ]
-        result = subprocess.run(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            stdin=subprocess.DEVNULL,
-            **win_no_window_kwargs()
-        )
-        if result.returncode == 0:
+    """Use ffprobe to get the duration of an MP4 file in seconds.
+
+    Tries stream-level duration first (works for fragmented MP4 with empty_moov),
+    then falls back to format-level duration.
+    Returns None if both fail or return 0.
+    """
+    for extra_args in (
+        # First attempt: stream-level — reliable for fragmented MP4
+        ["-show_streams", "-select_streams", "v:0"],
+        # Second attempt: format-level — reliable for normal MP4
+        ["-show_format"],
+    ):
+        try:
+            cmd = [
+                get_ffprobe_path(), "-v", "quiet",
+                "-print_format", "json",
+            ] + extra_args + [video_path]
+            result = subprocess.run(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                stdin=subprocess.DEVNULL,
+                **win_no_window_kwargs()
+            )
+            if result.returncode != 0:
+                continue
             info = json.loads(result.stdout)
-            return float(info["format"]["duration"])
-    except Exception as e:
-        log.warning(f"[Metadata Cleanup] ffprobe failed for {video_path}: {e}")
+            # Stream-level result
+            streams = info.get("streams", [])
+            if streams:
+                d = float(streams[0].get("duration") or 0)
+                if d > 0:
+                    return d
+            # Format-level result
+            fmt = info.get("format", {})
+            if fmt:
+                d = float(fmt.get("duration") or 0)
+                if d > 0:
+                    return d
+        except Exception as e:
+            log.warning(f"[Metadata Cleanup] ffprobe attempt failed for {video_path}: {e}")
     return None
 
 
-def fix_orphaned_metadata(recordings_root="recordings"):
+def fix_orphaned_metadata(recordings_root=None):
     """
     Scan all metadata files and fix ones missing duration_seconds.
     This happens when the app crashes or is closed without stopping recordings.
     Calculates duration from the MP4 file using ffprobe.
     """
+    if recordings_root is None:
+        recordings_root = os.path.join(get_data_dir(), "recordings")
     if not os.path.exists(recordings_root):
         return
 
@@ -202,7 +241,21 @@ def fix_orphaned_metadata(recordings_root="recordings"):
                         continue
 
                     duration = _get_mp4_duration_seconds(video_path)
-                    if duration is None or duration <= 0:
+
+                    # Fallback for fragmented MP4 where ffprobe returns 0/None:
+                    # estimate from the file's last-modified time vs recorded start time.
+                    if not duration or duration <= 0:
+                        try:
+                            mtime = os.path.getmtime(video_path)
+                            mtime_dt = datetime.datetime.fromtimestamp(mtime)
+                            start_dt = datetime.datetime.fromisoformat(meta["start_time"])
+                            duration = (mtime_dt - start_dt).total_seconds()
+                            if duration > 0:
+                                log.info(f"[Metadata Cleanup] Using mtime fallback for {filename}: {duration:.1f}s")
+                        except Exception:
+                            pass
+
+                    if not duration or duration <= 0:
                         continue
 
                     start_time = datetime.datetime.fromisoformat(meta["start_time"])

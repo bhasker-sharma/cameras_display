@@ -72,7 +72,7 @@ class LoadingOverlay(QWidget):
         self.spinner = LoadingSpinner()
         layout.addWidget(self.spinner, 0, Qt.AlignCenter)
         
-        self.status_label = QLabel("Processing video clip...")
+        self.status_label = QLabel("Loading, please wait...")
         self.status_label.setStyleSheet("color: white; font-size: 14px; font-weight: bold;")
         self.status_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.status_label)
@@ -80,7 +80,7 @@ class LoadingOverlay(QWidget):
         self.setLayout(layout)
         self.hide()
         
-    def show_loading(self, message="Processing video clip..."):
+    def show_loading(self, message="Loading, please wait..."):
         self.status_label.setText(message)
         self.spinner.start_animation()
         self.show()
@@ -331,11 +331,11 @@ class MediaControls(QWidget):
 
 # ========== MAIN PLAYBACK DIALOG ==========
 class PlaybackDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, recording_folder=None, parent=None):
         super().__init__(parent)
 
         self.setWindowTitle("Playback Dialog")
-        
+
         # Add state tracking to prevent restart loops
         self.last_restart_time = 0
         self.restart_cooldown = 1.0  # 1 second cooldown between restarts
@@ -351,7 +351,7 @@ class PlaybackDialog(QDialog):
         self.setLayout(self.main_layout)
 
         # Control panel (left)
-        self.control_panel = ControlPanel()
+        self.control_panel = ControlPanel(recording_folder=recording_folder)
         self.main_layout.addWidget(self.control_panel, 1)
 
         # Preview panel (right)
@@ -359,7 +359,10 @@ class PlaybackDialog(QDialog):
         self.main_layout.addWidget(self.preview_panel, 3)
 
         # Playback worker
-        self.worker = CameraPlaybackWorker(self.preview_panel.get_video_frame())
+        self.worker = CameraPlaybackWorker(
+            self.preview_panel.get_video_frame(),
+            recording_folder=recording_folder,
+        )
 
         # Connect signals
         self.control_panel.preview_requested.connect(self.handle_preview)
@@ -367,7 +370,7 @@ class PlaybackDialog(QDialog):
         self.control_panel.info_requested.connect(self.handle_info)
         
         # Connect worker signals for loading animation
-        self.worker.ffmpeg_started.connect(lambda: self.preview_panel.show_loading("Extracting video clip..."))
+        self.worker.ffmpeg_started.connect(lambda: self.preview_panel.show_loading("Loading video clip..."))
         self.worker.ffmpeg_finished.connect(self.on_ffmpeg_finished)
         self.worker.video_loaded.connect(self.on_video_loaded)
         
@@ -384,7 +387,7 @@ class PlaybackDialog(QDialog):
 
     def on_video_loaded(self):
         """Called when video is loaded and ready to play"""
-        # Reset controls when new video is loaded
+        self.preview_panel.hide_loading()
         self.preview_panel.reset_controls()
 
     def toggle_play_pause(self):
@@ -494,6 +497,7 @@ class PlaybackDialog(QDialog):
         # Play the full video directly (works for both completed and ongoing
         # recordings since we use fragmented MP4 movflags)
         log.info(f"[UI Debug] Playing full video directly...")
+        self.preview_panel.show_loading("Opening video...")
         success, error = self.worker.play_full_video(
             self.control_panel.camera_dropdown.currentText(),
             self.control_panel.date_picker.date().toString("yyyy_MM_dd"),
@@ -501,8 +505,9 @@ class PlaybackDialog(QDialog):
         )
 
         if error:
+            self.preview_panel.hide_loading()
             QMessageBox.warning(self, "Playback Error", error)
-        
+
     def closeEvent(self, event):
         """Clean up VLC player and timers when dialog is closed."""
         self.preview_panel.media_controls.position_timer.stop()
@@ -562,10 +567,11 @@ class ControlPanel(QWidget):
     extract_requested = pyqtSignal()
     info_requested = pyqtSignal(str, str)
 
-    def __init__(self, parent=None):
+    def __init__(self, recording_folder=None, parent=None):
         super().__init__(parent)
 
-        self.recorded_cameras = get_all_recorded_cameras()
+        self.recording_folder = recording_folder
+        self.recorded_cameras = get_all_recorded_cameras(recordings_root=recording_folder)
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
@@ -648,7 +654,9 @@ class ControlPanel(QWidget):
                     continue
 
         # Backend call moved here
-        available_dates = CameraPlaybackWorker.get_available_recording_dates(cam_name)
+        available_dates = CameraPlaybackWorker.get_available_recording_dates(
+            cam_name, root=self.recording_folder
+        )
         for date in available_dates:
             calendar.setDateTextFormat(date, fmt_highlight)
 
@@ -681,7 +689,7 @@ class PreviewPanel(QWidget):
         if hasattr(self, 'loading_overlay'):
             self.loading_overlay.resize(self.size())
 
-    def show_loading(self, message="Processing video clip..."):
+    def show_loading(self, message="Loading, please wait..."):
         self.loading_overlay.show_loading(message)
         
     def hide_loading(self):

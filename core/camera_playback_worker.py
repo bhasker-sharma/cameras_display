@@ -8,8 +8,9 @@ from datetime import datetime, time
 from utils.helper import find_recording_file_for_time_range, get_available_metadata_for_camera
 from utils.logging import Logger
 import vlc
-from PyQt5.QtCore import QDate,pyqtSignal, QThread, QObject
+from PyQt5.QtCore import QDate, pyqtSignal, QThread, QObject
 from utils.subproc import win_no_window_kwargs
+from utils.paths import get_ffmpeg_path, get_data_dir
 
 
 log = Logger.get_logger(name="PlaybackWorker", log_file="pipeline1.log")
@@ -46,13 +47,14 @@ class CameraPlaybackWorker(QObject):
     ffmpeg_finished = pyqtSignal(bool, str)  # success, error_message
     video_loaded = pyqtSignal()  # New signal when video is loaded
     
-    def __init__(self, video_widget):
+    def __init__(self, video_widget, recording_folder=None):
         super().__init__()
         self.vlc_instance = vlc.Instance()
         self.player = self.vlc_instance.media_player_new()
         self.video_widget = video_widget  # PreviewPanel's video_frame
         self.preview_path = None
         self.preview_filename = None
+        self.recording_folder = recording_folder or os.path.join(get_data_dir(), "recordings")
 
         # Attach VLC output to UI widget
         self.player.set_hwnd(int(self.video_widget.winId()))
@@ -78,9 +80,9 @@ class CameraPlaybackWorker(QObject):
         Used for double-click preview from info table.
         """
         log.info(f"[Play Full] Request: {cam_name} @ {date_str}, start_time: {real_start_time}")
-        
+
         # Find the video file based on start time
-        folder_path = os.path.join("recordings", date_str, cam_name)
+        folder_path = os.path.join(self.recording_folder, date_str, cam_name)
         if not os.path.exists(folder_path):
             return False, f"Recording folder not found: {folder_path}"
         
@@ -118,12 +120,12 @@ class CameraPlaybackWorker(QObject):
         log.info(f"[Preview] Request: {cam_name} @ {date_str} from {start_time.toString()} to {end_time.toString()}")
 
         video_path, metadata_path, recording_start = find_recording_file_for_time_range(
-            cam_name, date_str, start_time, end_time
+            cam_name, date_str, start_time, end_time, recordings_root=self.recording_folder
         )
 
         if not video_path or not os.path.exists(metadata_path):
             log.warning("No matching video or metadata file found.")
-            get_available_metadata_for_camera(cam_name, date_str)
+            get_available_metadata_for_camera(cam_name, date_str, recordings_root=self.recording_folder)
             return False, "No recording found for selected time."
 
         try:
@@ -152,11 +154,12 @@ class CameraPlaybackWorker(QObject):
             user_start_str = start_time.toString("HH_mm_ss")
             user_end_str = end_time.toString("HH_mm_ss")
             self.preview_filename = f"{cam_name}_{date_str}_{user_start_str}_{user_end_str}.mp4"
-            self.preview_path = os.path.join("temp", self.preview_filename)
-            os.makedirs("temp", exist_ok=True)
+            _temp_dir = os.path.join(get_data_dir(), "temp")
+            os.makedirs(_temp_dir, exist_ok=True)
+            self.preview_path = os.path.join(_temp_dir, self.preview_filename)
 
             cmd = [
-                "ffmpeg", "-ss", str(offset_seconds), "-i", video_path,
+                get_ffmpeg_path(), "-ss", str(offset_seconds), "-i", video_path,
                 "-t", str(duration_seconds), "-c", "copy",
                 "-avoid_negative_ts", "make_zero",
                 self.preview_path
@@ -195,7 +198,7 @@ class CameraPlaybackWorker(QObject):
         return self.preview_filename or ""
 
     def get_metadata_for_display(self, cam_name, date_str):
-        folder_path = os.path.join("recordings", date_str, cam_name)
+        folder_path = os.path.join(self.recording_folder, date_str, cam_name)
         entries = []
 
         if not os.path.exists(folder_path):
@@ -232,10 +235,13 @@ class CameraPlaybackWorker(QObject):
         return entries
 
     @staticmethod
-    def get_available_recording_dates(cam_name, root="recordings"):
+    def get_available_recording_dates(cam_name, root=None):
         """
         Returns a list of QDate objects where recordings exist for this camera.
         """
+        if root is None:
+            root = os.path.join(get_data_dir(), "recordings")
+
         available_dates = []
 
         if not os.path.exists(root):

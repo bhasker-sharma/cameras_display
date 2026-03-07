@@ -90,33 +90,27 @@ class CameraWidget(QWidget):
         """Paint only the most recent frame, discarding any that arrived in between."""
         frame = self._pending_frame
         if frame is None or not self.isVisible():
+            if self.stream_worker:
+                self.stream_worker.frame_consumed = True
             return
         self._pending_frame = None  # consume it
 
         height, width, channel = frame.shape
         bytes_per_line = 3 * width
-        # GStreamer outputs RGB; .copy() ensures Qt owns the data
         q_img = QImage(frame.data, width, height, bytes_per_line, QImage.Format_RGB888).copy()
         pixmap = QPixmap.fromImage(q_img)
 
         content_size = self.content.size()
-        scaled_pixmap = pixmap.scaled(
+        self.content.setPixmap(pixmap.scaled(
             content_size.width(),
             content_size.height(),
-            Qt.KeepAspectRatio,#make it Qt.KeepAspectRatioByExpanding if you need to fit it to full screen.
-            Qt.SmoothTransformation
-        )
+            Qt.KeepAspectRatio,
+            Qt.FastTransformation
+        ))
 
-        if scaled_pixmap.width() > content_size.width() or scaled_pixmap.height() > content_size.height():
-            x = (scaled_pixmap.width() - content_size.width()) // 2
-            y = (scaled_pixmap.height() - content_size.height()) // 2
-            scaled_pixmap = scaled_pixmap.copy(
-                x, y,
-                min(content_size.width(), scaled_pixmap.width()),
-                min(content_size.height(), scaled_pixmap.height())
-            )
-
-        self.content.setPixmap(scaled_pixmap)
+        # Tell worker we're ready for the next frame
+        if self.stream_worker:
+            self.stream_worker.frame_consumed = True
 
     def update_connection_status(self, cam_id, connected):
         if cam_id == self.cam_id:

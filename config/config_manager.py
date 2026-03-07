@@ -3,8 +3,9 @@
 import os
 import json
 from utils.logging import log
+from utils.paths import get_data_dir
 
-CONFIG_FILE = "camera_config.json"
+CONFIG_FILE = os.path.join(get_data_dir(), "camera_config.json")
 
 class ConfigManager:
     def __init__(self, config_path=CONFIG_FILE):
@@ -32,4 +33,25 @@ class ConfigManager:
 
     def set_camera_count(self, count):
         self.config["camera_count"] = count
+        self.save_config()
+
+    def get_settings_key(self):
+        return self.config.get("settings_key", "admin@123")
+
+    def set_settings_key(self, key):
+        self.config["settings_key"] = key
+        self.save_config()
+
+    def get_recording_folder(self):
+        return self.config.get("recording_folder", None)
+
+    def set_recording_folder(self, path):
+        self.config["recording_folder"] = path
+        self.save_config()
+
+    def get_min_free_gb(self):
+        return self.config.get("min_free_gb", 50.0)
+
+    def set_min_free_gb(self, value: float):
+        self.config["min_free_gb"] = value
         self.save_config()

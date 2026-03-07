@@ -4,6 +4,7 @@ numpy==1.24.4
 opencv-python==4.11.0.86
 python-vlc==3.0.21203
 reportlab==4.4.1
+psutil==7.0.0
 
 # Build tools (for creating installer)
 pyinstaller==6.15.0

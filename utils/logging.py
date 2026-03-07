@@ -2,6 +2,7 @@
 
 import logging
 import os
+from utils.paths import get_data_dir
 
 class Logger:
     _loggers = {}  # Store loggers by name
@@ -11,8 +12,9 @@ class Logger:
         if name in cls._loggers:
             return cls._loggers[name]
 
-        os.makedirs("logs", exist_ok=True)
-        full_path = os.path.join("logs", log_file)
+        logs_dir = os.path.join(get_data_dir(), "logs")
+        os.makedirs(logs_dir, exist_ok=True)
+        full_path = os.path.join(logs_dir, log_file)
 
         logger = logging.getLogger(name)
         logger.setLevel(logging.DEBUG)

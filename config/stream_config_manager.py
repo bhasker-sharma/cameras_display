@@ -3,8 +3,9 @@
 import os
 import json
 from utils.logging import log
+from utils.paths import get_data_dir
 
-CAMERA_STREAM_FILE = "camera_streams.json"
+CAMERA_STREAM_FILE = os.path.join(get_data_dir(), "camera_streams.json")
 
 class CameraStreamConfigManager:
     def __init__(self, config_path=CAMERA_STREAM_FILE):

@@ -26,8 +26,6 @@ camera_app/
 
      
 
-https://chatgpt.com/share/6825e10a-0c08-8000-8359-b063c6002daa
-
 commands to make the enviornment and activate it 
 
 create:-   python -m venv env
@@ -55,3 +53,4 @@ main.py
             ├── CameraWidget 2
             ├── ...
             └── CameraWidget N
+.
